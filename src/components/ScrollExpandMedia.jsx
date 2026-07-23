@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 /**
- * ScrollExpandMedia component with Full Viewport expansion and Cinematic Storytelling scroll effects.
+ * ScrollExpandMedia component with Full Viewport expansion.
  */
 export default function ScrollExpandMedia({
   mediaType = 'video',
@@ -11,7 +11,7 @@ export default function ScrollExpandMedia({
   bgImageSrc,
   title = 'OCEAN VIEW',
   date = 'EST. 2026 • LUXURY RESORT',
-  scrollToExpand = 'SCROLL DOWN TO BEGIN STORY',
+  scrollToExpand = 'SCROLL DOWN TO EXPAND VILLA',
   textBlend = true,
   children,
 }) {
@@ -79,8 +79,7 @@ export default function ScrollExpandMedia({
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
-        // Smooth scroll progress step
-        const scrollDelta = e.deltaY * 0.0007;
+        const scrollDelta = e.deltaY * 0.0009;
         const newProgress = Math.min(
           Math.max(scrollProgress + scrollDelta, 0),
           1
@@ -113,7 +112,7 @@ export default function ScrollExpandMedia({
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
-        const scrollFactor = deltaY < 0 ? 0.006 : 0.004;
+        const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
         const scrollDelta = deltaY * scrollFactor;
         const newProgress = Math.min(
           Math.max(scrollProgress + scrollDelta, 0),
@@ -167,19 +166,7 @@ export default function ScrollExpandMedia({
 
   // Title text horizontal displacement
   const textTranslateX = scrollProgress * (isMobileState ? 200 : 180);
-
-  // Storytelling Opacities (Phases)
-  const isFullViewport = scrollProgress >= 0.7;
-
-  // Chapter 1: Story Overlay (Active around 0.40 - 0.75)
-  const ch1Opacity = scrollProgress >= 0.35 && scrollProgress < 0.75 
-    ? Math.min(1, (scrollProgress - 0.35) * 4) * (scrollProgress > 0.65 ? (0.75 - scrollProgress) * 10 : 1)
-    : 0;
-
-  // Chapter 2: Story Overlay (Active around 0.75 - 0.98)
-  const ch2Opacity = scrollProgress >= 0.75 && scrollProgress <= 0.98 
-    ? Math.min(1, (scrollProgress - 0.75) * 5) * (scrollProgress > 0.92 ? (0.98 - scrollProgress) * 12 : 1)
-    : 0;
+  const isFullViewport = scrollProgress >= 0.8;
 
   const firstWord = title ? title.split(' ')[0] : '';
   const restOfTitle = title ? title.split(' ').slice(1).join(' ') : '';
@@ -246,8 +233,8 @@ export default function ScrollExpandMedia({
                         title='Hero Video'
                       />
                       <motion.div
-                        className='absolute inset-0 bg-black/40 pointer-events-none'
-                        animate={{ opacity: 0.5 - scrollProgress * 0.2 }}
+                        className='absolute inset-0 bg-black/30 pointer-events-none'
+                        animate={{ opacity: 0.4 - scrollProgress * 0.2 }}
                       />
                     </div>
                   ) : (
@@ -266,8 +253,8 @@ export default function ScrollExpandMedia({
                         disableRemotePlayback
                       />
                       <motion.div
-                        className='absolute inset-0 bg-black/40 pointer-events-none'
-                        animate={{ opacity: 0.5 - scrollProgress * 0.2 }}
+                        className='absolute inset-0 bg-black/30 pointer-events-none'
+                        animate={{ opacity: 0.4 - scrollProgress * 0.2 }}
                       />
                     </div>
                   )
@@ -282,7 +269,7 @@ export default function ScrollExpandMedia({
                     />
                     <motion.div
                       className='absolute inset-0 bg-black/40'
-                      animate={{ opacity: 0.5 - scrollProgress * 0.2 }}
+                      animate={{ opacity: 0.4 - scrollProgress * 0.2 }}
                     />
                   </div>
                 )}
@@ -327,42 +314,6 @@ export default function ScrollExpandMedia({
                   {restOfTitle}
                 </motion.h2>
               </div>
-
-              {/* Storytelling Chapter I Overlay */}
-              <motion.div
-                className='absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-none'
-                style={{ opacity: ch1Opacity }}
-              >
-                <div className='max-w-3xl glass-panel p-8 md:p-12 rounded-3xl border border-amber-400/30 bg-black/40 backdrop-blur-md shadow-2xl'>
-                  <span className='text-amber-300 font-semibold tracking-[0.4em] uppercase text-xs mb-3 block'>
-                    CHAPTER I • THE COASTAL HAVEN
-                  </span>
-                  <h2 className='font-serif text-3xl md:text-5xl text-white font-normal leading-tight mb-4'>
-                    Where Sea & Sky Meet Pure Sanctuary
-                  </h2>
-                  <p className='text-slate-200 text-sm md:text-base leading-relaxed font-light max-w-xl mx-auto'>
-                    Sculpted into pristine coastal headlands, Ocean View Villa offers an architecturally renowned paradise with 180-degree sunset panoramas and bespoke butler luxury.
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Storytelling Chapter II Overlay */}
-              <motion.div
-                className='absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-none'
-                style={{ opacity: ch2Opacity }}
-              >
-                <div className='max-w-3xl glass-panel p-8 md:p-12 rounded-3xl border border-amber-400/30 bg-black/40 backdrop-blur-md shadow-2xl'>
-                  <span className='text-amber-300 font-semibold tracking-[0.4em] uppercase text-xs mb-3 block'>
-                    CHAPTER II • RESORT LIVING
-                  </span>
-                  <h2 className='font-serif text-3xl md:text-5xl text-white font-normal leading-tight mb-4'>
-                    Unrivaled Comfort & Private Infinity Plunges
-                  </h2>
-                  <p className='text-slate-200 text-sm md:text-base leading-relaxed font-light max-w-xl mx-auto'>
-                    Step into private infinity edge pools spilling into the ocean horizon, Michelin-crafted dining, and secluded white sand coral reefs.
-                  </p>
-                </div>
-              </motion.div>
 
             </div>
 
