@@ -25,6 +25,7 @@ export default function App() {
       <ScrollExpandMedia
         mediaType='video'
         mediaSrc='https://player.vimeo.com/external/535823482.hd.mp4?s=8be972960ed9307e5e485ce43b8a0c670c7473c9&profile_id=175'
+        bgImageSrc='/images/resort-hero-bg.jpg'
         title='OCEAN VIEW'
         date='EST. 2026 • LUXURY RESORT'
         scrollToExpand=''

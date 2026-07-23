@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 /**
- * ScrollExpandMedia component with Full Viewport expansion and continuous Video Loop.
+ * ScrollExpandMedia component with Full Viewport expansion, continuous Video Loop inside card, and Resort Background image outside.
  */
 export default function ScrollExpandMedia({
   mediaType = 'video',
   mediaSrc,
+  bgImageSrc = '/images/resort-hero-bg.jpg',
   title = 'OCEAN VIEW',
   date = 'EST. 2026 • LUXURY RESORT',
   scrollToExpand = '',
@@ -177,13 +178,22 @@ export default function ScrollExpandMedia({
       <section className='relative flex flex-col items-center justify-start min-h-[100dvh] bg-[#060b13]'>
         <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
           
-          {/* Ambient Dark Backdrop */}
+          {/* Ambient Outer Resort Background Image (Rendered behind video card) */}
           <motion.div
-            className='absolute inset-0 z-0 h-full bg-[#060b13]'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 - scrollProgress * 1.2 }}
+            className='absolute inset-0 z-0 h-full overflow-hidden'
+            initial={{ opacity: 1 }}
+            animate={{ opacity: Math.max(0, 1 - scrollProgress * 1.3) }}
             transition={{ duration: 0.1 }}
-          />
+          >
+            <img
+              src={bgImageSrc}
+              alt='Ocean View Villa Resort Background'
+              width={1920}
+              height={1080}
+              className='w-screen h-screen object-cover object-center scale-105'
+            />
+            <div className='absolute inset-0 bg-black/55 backdrop-blur-[2px]' />
+          </motion.div>
 
           <div className='w-full flex flex-col items-center justify-start relative z-10'>
             <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative overflow-hidden'>
@@ -197,7 +207,7 @@ export default function ScrollExpandMedia({
                   maxWidth: '100vw',
                   maxHeight: '100vh',
                   borderRadius: `${borderRadius}px`,
-                  boxShadow: isFullViewport ? 'none' : '0px 20px 60px rgba(0, 0, 0, 0.4)',
+                  boxShadow: isFullViewport ? 'none' : '0px 25px 70px rgba(0, 0, 0, 0.6)',
                 }}
               >
                 {mediaType === 'video' ? (
