@@ -35,10 +35,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-none ${
         scrolled
-          ? 'bg-[#FAF8F5]/90 backdrop-blur-md border-b border-amber-900/10 py-3.5 shadow-sm'
-          : 'bg-gradient-to-b from-black/60 to-transparent py-5'
+          ? 'bg-[#FAF8F5]/95 backdrop-blur-md py-3.5 shadow-sm'
+          : 'bg-gradient-to-b from-black/60 via-black/20 to-transparent py-5'
       }`}
     >
       <div className='max-w-7xl mx-auto px-6 flex items-center justify-between'>
@@ -109,22 +109,22 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className='md:hidden absolute top-full left-0 right-0 bg-[#FAF8F5]/98 backdrop-blur-xl border-b border-stone-200 py-6 px-8 flex flex-col gap-5 shadow-xl'>
+        <div className='md:hidden absolute top-full left-0 right-0 bg-[#FAF8F5]/98 backdrop-blur-xl py-6 px-8 flex flex-col gap-4 shadow-xl border-none'>
           <button
             onClick={() => scrollToSection('villas')}
-            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2 border-b border-stone-200'
+            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2'
           >
             Villas & Suites
           </button>
           <button
             onClick={() => scrollToSection('amenities')}
-            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2 border-b border-stone-200'
+            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2'
           >
             Experiences
           </button>
           <button
             onClick={() => scrollToSection('inquiry')}
-            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2 border-b border-stone-200'
+            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2'
           >
             Inquire
           </button>
