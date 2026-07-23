@@ -91,7 +91,7 @@ export default function Navbar() {
             onClick={() => scrollToSection('inquiry')}
             className='hover:text-amber-700 transition-colors cursor-pointer py-1'
           >
-            Inquire
+            Register Interest
           </button>
         </nav>
 
@@ -126,7 +126,7 @@ export default function Navbar() {
             onClick={() => scrollToSection('inquiry')}
             className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2'
           >
-            Inquire
+            Register Interest
           </button>
         </div>
       )}
