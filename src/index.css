@@ -45,6 +45,63 @@
   border-color: rgba(197, 155, 39, 0.3);
 }
 
+/* User-Requested Custom Arrow CTA Button & Hover Underline Animation (Sleek Compact Size) */
+.cta {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cta span {
+  padding-bottom: 4px;
+  letter-spacing: 2.5px;
+  font-size: 11px;
+  padding-right: 8px;
+  text-transform: uppercase;
+}
+
+.cta svg {
+  transform: translateX(-6px);
+  transition: all 0.3s ease;
+  fill: currentColor;
+}
+
+.cta:hover svg {
+  transform: translateX(0);
+}
+
+.cta:active svg {
+  transform: scale(0.9);
+}
+
+.hover-underline-animation {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.hover-underline-animation:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1.5px;
+  bottom: 0;
+  left: 0;
+  background-color: currentColor;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.cta:hover .hover-underline-animation:after,
+.cta:active .hover-underline-animation:after,
+.cta:focus .hover-underline-animation:after,
+button:hover .hover-underline-animation:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

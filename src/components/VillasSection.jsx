@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Bed, Bath, Maximize2, Users, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Bed, Bath, Maximize2, Users, CheckCircle2 } from 'lucide-react';
+import CtaButton from './CtaButton';
 
 export default function VillasSection({ onSelectVilla }) {
   const [activeTab, setActiveTab] = useState(0);
@@ -148,13 +149,13 @@ export default function VillasSection({ onSelectVilla }) {
               </ul>
             </div>
 
-            <button
-              onClick={() => onSelectVilla(activeVilla.name)}
-              className='w-full py-4 rounded-2xl bg-slate-900 text-amber-300 font-semibold text-xs tracking-widest uppercase hover:bg-slate-800 shadow-lg flex items-center justify-center gap-3 transition-all cursor-pointer'
-            >
-              <span>Inquire For Booking</span>
-              <ArrowRight className='w-4 h-4' />
-            </button>
+            <div className='pt-2'>
+              <CtaButton
+                label='Inquire For Booking'
+                onClick={() => onSelectVilla(activeVilla.name)}
+                className='w-full py-3.5 px-6 rounded-xl bg-slate-900 text-amber-300 hover:bg-slate-800 shadow-md justify-center font-medium'
+              />
+            </div>
           </div>
         </div>
       </div>

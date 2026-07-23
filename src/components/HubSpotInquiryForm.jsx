@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Send, CheckCircle2, AlertCircle, ShieldCheck, Sparkles, Loader2 } from 'lucide-react';
+import { CheckCircle2, AlertCircle, ShieldCheck, Sparkles, Loader2 } from 'lucide-react';
 import { HUBSPOT_CONFIG } from '../config/hubspot';
+import CtaButton from './CtaButton';
 
 export default function HubSpotInquiryForm({ selectedVilla = '' }) {
   const [formData, setFormData] = useState({
@@ -129,12 +130,12 @@ export default function HubSpotInquiryForm({ selectedVilla = '' }) {
               <p className='text-slate-600 text-sm leading-relaxed mb-8 font-light'>
                 Thank you for your interest in Ocean View Villa. Your request has been transmitted to our HubSpot CRM system. A senior villa ambassador will reach out to you within 2 hours.
               </p>
-              <button
+              <CtaButton
+                label='Submit Another Inquiry'
                 onClick={() => setStatus((prev) => ({ ...prev, success: false }))}
-                className='px-8 py-3.5 rounded-full bg-slate-900 text-amber-300 hover:bg-slate-800 text-xs font-semibold tracking-wider uppercase transition-all shadow-md'
-              >
-                Submit Another Inquiry
-              </button>
+                className='py-3.5 px-8 rounded-full bg-slate-900 text-amber-300 hover:bg-slate-800 shadow-md'
+                showArrow={false}
+              />
             </div>
           ) : (
             <form onSubmit={handleSubmit} className='flex flex-col gap-6 relative z-10'>
@@ -276,23 +277,23 @@ export default function HubSpotInquiryForm({ selectedVilla = '' }) {
               )}
 
               {/* Submit Button */}
-              <button
-                type='submit'
-                disabled={status.loading}
-                className='mt-4 w-full py-4 rounded-xl bg-slate-900 text-amber-300 font-semibold text-xs tracking-widest uppercase hover:bg-slate-800 shadow-xl flex items-center justify-center gap-3 transition-all cursor-pointer disabled:opacity-50'
-              >
+              <div className='mt-4 w-full flex justify-center'>
                 {status.loading ? (
-                  <>
+                  <button
+                    disabled
+                    className='w-full py-4 rounded-xl bg-slate-900 text-amber-300 font-semibold text-xs tracking-widest uppercase shadow-xl flex items-center justify-center gap-3 cursor-not-allowed opacity-70'
+                  >
                     <Loader2 className='w-5 h-5 animate-spin' />
                     <span>Connecting to HubSpot CRM...</span>
-                  </>
+                  </button>
                 ) : (
-                  <>
-                    <Send className='w-4 h-4' />
-                    <span>Submit HubSpot Inquiry</span>
-                  </>
+                  <CtaButton
+                    type='submit'
+                    label='Submit HubSpot Inquiry'
+                    className='w-full py-4 rounded-xl bg-slate-900 text-amber-300 hover:bg-slate-800 shadow-xl justify-center font-semibold'
+                  />
                 )}
-              </button>
+              </div>
 
               <div className='flex items-center justify-center gap-2 text-slate-500 text-[11px] mt-2 font-light'>
                 <ShieldCheck className='w-4 h-4 text-emerald-600' />

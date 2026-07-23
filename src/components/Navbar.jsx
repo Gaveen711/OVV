@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Waves, Menu, X } from 'lucide-react';
+import CtaButton from './CtaButton';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -69,30 +70,30 @@ export default function Navbar() {
           </div>
         </a>
 
-        {/* Desktop Nav Links */}
+        {/* Desktop Nav Links with Custom CTA Underline & Arrow UI */}
         <nav
-          className={`hidden md:flex items-center gap-10 text-xs tracking-[0.2em] font-medium uppercase ${
-            scrolled ? 'text-slate-700' : 'text-slate-200'
+          className={`hidden md:flex items-center gap-8 text-xs font-medium uppercase ${
+            scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-slate-100 hover:text-amber-300'
           }`}
         >
-          <button
+          <CtaButton
+            label='Villas & Suites'
             onClick={() => scrollToSection('villas')}
-            className='hover:text-amber-700 transition-all cursor-pointer py-1 hover:underline active:underline focus:underline underline-offset-8 decoration-amber-600 decoration-2'
-          >
-            Villas & Suites
-          </button>
-          <button
+            showArrow={false}
+            className={scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-slate-100 hover:text-amber-300'}
+          />
+          <CtaButton
+            label='Experiences'
             onClick={() => scrollToSection('amenities')}
-            className='hover:text-amber-700 transition-all cursor-pointer py-1 hover:underline active:underline focus:underline underline-offset-8 decoration-amber-600 decoration-2'
-          >
-            Experiences
-          </button>
-          <button
+            showArrow={false}
+            className={scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-slate-100 hover:text-amber-300'}
+          />
+          <CtaButton
+            label='Register Interest'
             onClick={() => scrollToSection('inquiry')}
-            className='hover:text-amber-700 transition-all cursor-pointer py-1 hover:underline active:underline focus:underline underline-offset-8 decoration-amber-600 decoration-2'
-          >
-            Register Interest
-          </button>
+            showArrow={true}
+            className={scrolled ? 'text-slate-900 hover:text-amber-700' : 'text-amber-200 hover:text-amber-300'}
+          />
         </nav>
 
         {/* Mobile Toggle */}
@@ -110,24 +111,24 @@ export default function Navbar() {
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className='md:hidden absolute top-full left-0 right-0 bg-[#FAF8F5]/98 backdrop-blur-xl py-6 px-8 flex flex-col gap-4 shadow-xl border-none'>
-          <button
+          <CtaButton
+            label='Villas & Suites'
             onClick={() => scrollToSection('villas')}
-            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2 hover:underline active:underline underline-offset-4 decoration-amber-600 decoration-2'
-          >
-            Villas & Suites
-          </button>
-          <button
+            showArrow={false}
+            className='text-slate-800 hover:text-amber-700 py-1'
+          />
+          <CtaButton
+            label='Experiences'
             onClick={() => scrollToSection('amenities')}
-            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2 hover:underline active:underline underline-offset-4 decoration-amber-600 decoration-2'
-          >
-            Experiences
-          </button>
-          <button
+            showArrow={false}
+            className='text-slate-800 hover:text-amber-700 py-1'
+          />
+          <CtaButton
+            label='Register Interest'
             onClick={() => scrollToSection('inquiry')}
-            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2 hover:underline active:underline underline-offset-4 decoration-amber-600 decoration-2'
-          >
-            Register Interest
-          </button>
+            showArrow={true}
+            className='text-slate-900 hover:text-amber-700 py-1 font-bold'
+          />
         </div>
       )}
     </header>
