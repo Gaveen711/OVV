@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 /**
- * ScrollExpandMedia component based on user provided structure.
- * Pinned wheel/touch scroll expands media container from centered state to full size while splitting title words outward.
+ * ScrollExpandMedia component with Full Viewport expansion and Cinematic Storytelling scroll effects.
  */
 export default function ScrollExpandMedia({
   mediaType = 'video',
@@ -11,8 +10,8 @@ export default function ScrollExpandMedia({
   posterSrc,
   bgImageSrc,
   title = 'OCEAN VIEW',
-  date = 'EST. 2026',
-  scrollToExpand = 'SCROLL TO EXPLORE VILLA',
+  date = 'EST. 2026 • LUXURY RESORT',
+  scrollToExpand = 'SCROLL DOWN TO BEGIN STORY',
   textBlend = true,
   children,
 }) {
@@ -21,6 +20,7 @@ export default function ScrollExpandMedia({
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isMobileState, setIsMobileState] = useState(false);
+  const [winSize, setWinSize] = useState({ width: 1400, height: 900 });
 
   const sectionRef = useRef(null);
 
@@ -29,6 +29,17 @@ export default function ScrollExpandMedia({
     setShowContent(false);
     setMediaFullyExpanded(false);
   }, [mediaType]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileState(window.innerWidth < 768);
+      setWinSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Listen for navigation clicks from Navbar or CTAs
   useEffect(() => {
@@ -63,12 +74,13 @@ export default function ScrollExpandMedia({
 
   useEffect(() => {
     const handleWheel = (e) => {
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
+      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 10) {
         setMediaFullyExpanded(false);
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
-        const scrollDelta = e.deltaY * 0.0009;
+        // Smooth scroll progress step
+        const scrollDelta = e.deltaY * 0.0007;
         const newProgress = Math.min(
           Math.max(scrollProgress + scrollDelta, 0),
           1
@@ -96,12 +108,12 @@ export default function ScrollExpandMedia({
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
 
-      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 5) {
+      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 10) {
         setMediaFullyExpanded(false);
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
-        const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
+        const scrollFactor = deltaY < 0 ? 0.006 : 0.004;
         const scrollDelta = deltaY * scrollFactor;
         const newProgress = Math.min(
           Math.max(scrollProgress + scrollDelta, 0),
@@ -145,20 +157,29 @@ export default function ScrollExpandMedia({
     };
   }, [scrollProgress, mediaFullyExpanded, touchStartY]);
 
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobileState(window.innerWidth < 768);
-    };
+  // Full viewport dimensions calculation
+  const targetWidth = winSize.width;
+  const targetHeight = winSize.height;
 
-    checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
+  const currentWidth = 320 + scrollProgress * (targetWidth - 320);
+  const currentHeight = 420 + scrollProgress * (targetHeight - 420);
+  const borderRadius = Math.max(0, Math.round(16 * (1 - scrollProgress * 1.5)));
 
-    return () => window.removeEventListener('resize', checkIfMobile);
-  }, []);
+  // Title text horizontal displacement
+  const textTranslateX = scrollProgress * (isMobileState ? 200 : 180);
 
-  const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
-  const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
-  const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
+  // Storytelling Opacities (Phases)
+  const isFullViewport = scrollProgress >= 0.7;
+
+  // Chapter 1: Story Overlay (Active around 0.40 - 0.75)
+  const ch1Opacity = scrollProgress >= 0.35 && scrollProgress < 0.75 
+    ? Math.min(1, (scrollProgress - 0.35) * 4) * (scrollProgress > 0.65 ? (0.75 - scrollProgress) * 10 : 1)
+    : 0;
+
+  // Chapter 2: Story Overlay (Active around 0.75 - 0.98)
+  const ch2Opacity = scrollProgress >= 0.75 && scrollProgress <= 0.98 
+    ? Math.min(1, (scrollProgress - 0.75) * 5) * (scrollProgress > 0.92 ? (0.98 - scrollProgress) * 12 : 1)
+    : 0;
 
   const firstWord = title ? title.split(' ')[0] : '';
   const restOfTitle = title ? title.split(' ').slice(1).join(' ') : '';
@@ -170,10 +191,12 @@ export default function ScrollExpandMedia({
     >
       <section className='relative flex flex-col items-center justify-start min-h-[100dvh]'>
         <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
+          
+          {/* Outer Ambient Background Image (Fades out as video fills screen) */}
           <motion.div
             className='absolute inset-0 z-0 h-full'
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 - scrollProgress }}
+            animate={{ opacity: 1 - scrollProgress * 1.2 }}
             transition={{ duration: 0.1 }}
           >
             <img
@@ -186,16 +209,19 @@ export default function ScrollExpandMedia({
             <div className='absolute inset-0 bg-black/40 backdrop-blur-[2px]' />
           </motion.div>
 
-          <div className='container mx-auto flex flex-col items-center justify-start relative z-10'>
-            <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative'>
+          <div className='w-full flex flex-col items-center justify-start relative z-10'>
+            <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative overflow-hidden'>
+              
+              {/* Expanding Video Media Box (Grows to 100vw x 100vh FULL VIEWPORT) */}
               <div
-                className='absolute z-0 top-[54%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none rounded-2xl overflow-hidden'
+                className='absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none overflow-hidden'
                 style={{
-                  width: `${mediaWidth}px`,
-                  height: `${mediaHeight}px`,
-                  maxWidth: '95vw',
-                  maxHeight: '76vh',
-                  boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.5)',
+                  width: `${currentWidth}px`,
+                  height: `${currentHeight}px`,
+                  maxWidth: '100vw',
+                  maxHeight: '100vh',
+                  borderRadius: `${borderRadius}px`,
+                  boxShadow: isFullViewport ? 'none' : '0px 20px 60px rgba(0, 0, 0, 0.4)',
                 }}
               >
                 {mediaType === 'video' ? (
@@ -213,22 +239,15 @@ export default function ScrollExpandMedia({
                             '?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&disablekb=1&modestbranding=1&playlist=' +
                             (mediaSrc.split('v=')[1] ? mediaSrc.split('v=')[1] : '')
                         }
-                        className='w-full h-full rounded-xl pointer-events-none scale-105'
+                        className='w-full h-full pointer-events-none scale-105'
                         frameBorder='0'
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                         allowFullScreen
                         title='Hero Video'
                       />
-                      <div
-                        className='absolute inset-0 z-10'
-                        style={{ pointerEvents: 'none' }}
-                      ></div>
-
                       <motion.div
-                        className='absolute inset-0 bg-black/30 rounded-xl pointer-events-none'
-                        initial={{ opacity: 0.7 }}
-                        animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
-                        transition={{ duration: 0.2 }}
+                        className='absolute inset-0 bg-black/40 pointer-events-none'
+                        animate={{ opacity: 0.5 - scrollProgress * 0.2 }}
                       />
                     </div>
                   ) : (
@@ -241,21 +260,14 @@ export default function ScrollExpandMedia({
                         loop
                         playsInline
                         preload='auto'
-                        className='w-full h-full object-cover rounded-xl'
+                        className='w-full h-full object-cover'
                         controls={false}
                         disablePictureInPicture
                         disableRemotePlayback
                       />
-                      <div
-                        className='absolute inset-0 z-10'
-                        style={{ pointerEvents: 'none' }}
-                      ></div>
-
                       <motion.div
-                        className='absolute inset-0 bg-black/30 rounded-xl'
-                        initial={{ opacity: 0.7 }}
-                        animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
-                        transition={{ duration: 0.2 }}
+                        className='absolute inset-0 bg-black/40 pointer-events-none'
+                        animate={{ opacity: 0.5 - scrollProgress * 0.2 }}
                       />
                     </div>
                   )
@@ -266,23 +278,21 @@ export default function ScrollExpandMedia({
                       alt={title || 'Media content'}
                       width={1280}
                       height={720}
-                      className='w-full h-full object-cover rounded-xl'
+                      className='w-full h-full object-cover'
                     />
-
                     <motion.div
-                      className='absolute inset-0 bg-black/50 rounded-xl'
-                      initial={{ opacity: 0.7 }}
-                      animate={{ opacity: 0.7 - scrollProgress * 0.3 }}
-                      transition={{ duration: 0.2 }}
+                      className='absolute inset-0 bg-black/40'
+                      animate={{ opacity: 0.5 - scrollProgress * 0.2 }}
                     />
                   </div>
                 )}
 
-                <div className='flex flex-col items-center text-center relative z-10 mt-4 transition-none pointer-events-none'>
+                {/* Subtitle / Scroll Prompt (Moves outward with title) */}
+                <div className='flex flex-col items-center text-center absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none'>
                   {date && (
                     <p
                       className='text-xs md:text-sm tracking-[0.3em] font-medium text-amber-200 uppercase mb-1 drop-shadow-md'
-                      style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                      style={{ opacity: Math.max(0, 1 - scrollProgress * 2.5) }}
                     >
                       {date}
                     </p>
@@ -290,7 +300,7 @@ export default function ScrollExpandMedia({
                   {scrollToExpand && (
                     <p
                       className='text-xs md:text-sm text-slate-200 font-light tracking-[0.2em] text-center drop-shadow-md'
-                      style={{ transform: `translateX(${textTranslateX}vw)` }}
+                      style={{ opacity: Math.max(0, 1 - scrollProgress * 2.5) }}
                     >
                       {scrollToExpand}
                     </p>
@@ -298,27 +308,67 @@ export default function ScrollExpandMedia({
                 </div>
               </div>
 
+              {/* Title Text Splitting Outward ("OCEAN" Left, "VIEW" Right) */}
               <div
-                className={`flex items-center justify-center text-center gap-2 md:gap-4 w-full relative z-10 transition-none flex-col ${textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
-                  }`}
+                className={`flex items-center justify-center text-center gap-2 md:gap-4 w-full relative z-10 transition-none flex-col ${
+                  textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
+                }`}
               >
                 <motion.h2
-                  className='text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif tracking-wider font-bold text-amber-100 transition-none uppercase drop-shadow-2xl'
+                  className='text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-amber-100 uppercase drop-shadow-2xl'
                   style={{ transform: `translateX(-${textTranslateX}vw)` }}
                 >
                   {firstWord}
                 </motion.h2>
                 <motion.h2
-                  className='text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif tracking-wider font-bold text-center text-amber-100 transition-none uppercase drop-shadow-2xl'
+                  className='text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-center text-amber-100 uppercase drop-shadow-2xl'
                   style={{ transform: `translateX(${textTranslateX}vw)` }}
                 >
                   {restOfTitle}
                 </motion.h2>
               </div>
+
+              {/* Storytelling Chapter I Overlay */}
+              <motion.div
+                className='absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-none'
+                style={{ opacity: ch1Opacity }}
+              >
+                <div className='max-w-3xl glass-panel p-8 md:p-12 rounded-3xl border border-amber-400/30 bg-black/40 backdrop-blur-md shadow-2xl'>
+                  <span className='text-amber-300 font-semibold tracking-[0.4em] uppercase text-xs mb-3 block'>
+                    CHAPTER I • THE COASTAL HAVEN
+                  </span>
+                  <h2 className='font-serif text-3xl md:text-5xl text-white font-normal leading-tight mb-4'>
+                    Where Sea & Sky Meet Pure Sanctuary
+                  </h2>
+                  <p className='text-slate-200 text-sm md:text-base leading-relaxed font-light max-w-xl mx-auto'>
+                    Sculpted into pristine coastal headlands, Ocean View Villa offers an architecturally renowned paradise with 180-degree sunset panoramas and bespoke butler luxury.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Storytelling Chapter II Overlay */}
+              <motion.div
+                className='absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-none'
+                style={{ opacity: ch2Opacity }}
+              >
+                <div className='max-w-3xl glass-panel p-8 md:p-12 rounded-3xl border border-amber-400/30 bg-black/40 backdrop-blur-md shadow-2xl'>
+                  <span className='text-amber-300 font-semibold tracking-[0.4em] uppercase text-xs mb-3 block'>
+                    CHAPTER II • RESORT LIVING
+                  </span>
+                  <h2 className='font-serif text-3xl md:text-5xl text-white font-normal leading-tight mb-4'>
+                    Unrivaled Comfort & Private Infinity Plunges
+                  </h2>
+                  <p className='text-slate-200 text-sm md:text-base leading-relaxed font-light max-w-xl mx-auto'>
+                    Step into private infinity edge pools spilling into the ocean horizon, Michelin-crafted dining, and secluded white sand coral reefs.
+                  </p>
+                </div>
+              </motion.div>
+
             </div>
 
+            {/* Seamless Transition into Next Website Sections */}
             <motion.section
-              className='flex flex-col w-full px-4 py-8 md:px-12 lg:py-16'
+              className='flex flex-col w-full'
               initial={{ opacity: 0 }}
               animate={{ opacity: showContent ? 1 : 0 }}
               transition={{ duration: 0.7 }}
