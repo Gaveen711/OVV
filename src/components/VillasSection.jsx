@@ -64,31 +64,31 @@ export default function VillasSection({ onSelectVilla }) {
   const activeVilla = villas[activeTab];
 
   return (
-    <section id='villas' className='py-20 md:py-32 bg-[#040810] text-slate-200 relative'>
+    <section id='villas' className='py-20 md:py-32 bg-[#FAF8F5] text-slate-800 relative'>
       <div className='max-w-7xl mx-auto px-6'>
         {/* Section Header */}
         <div className='flex flex-col md:flex-row md:items-end justify-between mb-16'>
           <div>
-            <span className='text-xs uppercase tracking-[0.3em] text-amber-400 font-medium'>Accommodations</span>
-            <h2 className='font-serif text-3xl md:text-5xl text-white mt-2 font-normal'>
+            <span className='text-xs uppercase tracking-[0.3em] text-amber-700 font-semibold'>Accommodations</span>
+            <h2 className='font-serif text-3xl md:text-5xl text-slate-900 mt-2 font-normal'>
               Exclusive Villas & <span className='gold-gradient-text italic'>Suites</span>
             </h2>
           </div>
-          <p className='text-slate-400 text-sm max-w-md mt-4 md:mt-0 font-light'>
+          <p className='text-slate-600 text-sm max-w-md mt-4 md:mt-0 font-light'>
             Each luxury residence is uniquely crafted with natural hardwood, local stone, and panoramic floor-to-ceiling glass doors opening onto private ocean vistas.
           </p>
         </div>
 
         {/* Villa Tabs */}
-        <div className='flex flex-wrap gap-3 mb-12 border-b border-slate-800 pb-4'>
+        <div className='flex flex-wrap gap-3 mb-12 border-b border-stone-200 pb-4'>
           {villas.map((villa, idx) => (
             <button
               key={villa.id}
               onClick={() => setActiveTab(idx)}
               className={`px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-all cursor-pointer ${
                 activeTab === idx
-                  ? 'bg-amber-400 text-black shadow-lg shadow-amber-400/20'
-                  : 'glass-card text-slate-300 hover:text-white hover:bg-slate-800'
+                  ? 'bg-amber-600 text-white shadow-md shadow-amber-600/20'
+                  : 'bg-white text-slate-600 border border-stone-200 hover:text-slate-900 hover:bg-stone-50'
               }`}
             >
               {villa.name}
@@ -97,42 +97,42 @@ export default function VillasSection({ onSelectVilla }) {
         </div>
 
         {/* Active Villa Detail Showcase */}
-        <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 items-center glass-panel rounded-3xl p-6 md:p-10 border border-amber-400/20'>
+        <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 items-center glass-panel rounded-3xl p-6 md:p-10 border border-amber-900/10 shadow-lg bg-white/90'>
           {/* Villa Image */}
-          <div className='lg:col-span-7 relative group rounded-2xl overflow-hidden shadow-2xl'>
+          <div className='lg:col-span-7 relative group rounded-2xl overflow-hidden shadow-xl'>
             <img
               src={activeVilla.image}
               alt={activeVilla.name}
               className='w-full h-[350px] md:h-[480px] object-cover group-hover:scale-105 transition-transform duration-700'
             />
-            <div className='absolute top-4 right-4 glass-panel px-4 py-2 rounded-full text-white text-xs font-semibold tracking-wider'>
-              <span className='gold-gradient-text text-sm font-bold'>{activeVilla.price}</span> / {activeVilla.period}
+            <div className='absolute top-4 right-4 bg-slate-900/90 backdrop-blur-md px-4 py-2 rounded-full text-white text-xs font-semibold tracking-wider shadow-lg'>
+              <span className='text-amber-300 text-sm font-bold'>{activeVilla.price}</span> / {activeVilla.period}
             </div>
           </div>
 
           {/* Villa Info */}
           <div className='lg:col-span-5 flex flex-col justify-between h-full'>
             <div>
-              <span className='text-xs uppercase tracking-widest text-amber-300 font-semibold'>{activeVilla.tagline}</span>
-              <h3 className='font-serif text-3xl md:text-4xl text-white mt-1 mb-4'>{activeVilla.name}</h3>
-              <p className='text-slate-300 text-sm leading-relaxed font-light mb-6'>{activeVilla.description}</p>
+              <span className='text-xs uppercase tracking-widest text-amber-700 font-semibold'>{activeVilla.tagline}</span>
+              <h3 className='font-serif text-3xl md:text-4xl text-slate-900 mt-1 mb-4'>{activeVilla.name}</h3>
+              <p className='text-slate-600 text-sm leading-relaxed font-light mb-6'>{activeVilla.description}</p>
 
               {/* Specs Grid */}
-              <div className='grid grid-cols-2 gap-4 mb-6 py-4 border-y border-slate-800'>
-                <div className='flex items-center gap-3 text-xs text-slate-300'>
-                  <Bed className='w-4 h-4 text-amber-400' />
+              <div className='grid grid-cols-2 gap-4 mb-6 py-4 border-y border-stone-200'>
+                <div className='flex items-center gap-3 text-xs text-slate-700 font-medium'>
+                  <Bed className='w-4 h-4 text-amber-700' />
                   <span>{activeVilla.specs.bedrooms} Bedrooms</span>
                 </div>
-                <div className='flex items-center gap-3 text-xs text-slate-300'>
-                  <Bath className='w-4 h-4 text-amber-400' />
+                <div className='flex items-center gap-3 text-xs text-slate-700 font-medium'>
+                  <Bath className='w-4 h-4 text-amber-700' />
                   <span>{activeVilla.specs.bathrooms} Bathrooms</span>
                 </div>
-                <div className='flex items-center gap-3 text-xs text-slate-300'>
-                  <Maximize2 className='w-4 h-4 text-amber-400' />
+                <div className='flex items-center gap-3 text-xs text-slate-700 font-medium'>
+                  <Maximize2 className='w-4 h-4 text-amber-700' />
                   <span>{activeVilla.specs.sqft}</span>
                 </div>
-                <div className='flex items-center gap-3 text-xs text-slate-300'>
-                  <Users className='w-4 h-4 text-amber-400' />
+                <div className='flex items-center gap-3 text-xs text-slate-700 font-medium'>
+                  <Users className='w-4 h-4 text-amber-700' />
                   <span>{activeVilla.specs.guests}</span>
                 </div>
               </div>
@@ -140,8 +140,8 @@ export default function VillasSection({ onSelectVilla }) {
               {/* Features list */}
               <ul className='flex flex-col gap-2.5 mb-8'>
                 {activeVilla.features.map((feature, fIdx) => (
-                  <li key={fIdx} className='flex items-center gap-2.5 text-xs text-slate-300'>
-                    <CheckCircle2 className='w-4 h-4 text-amber-400 shrink-0' />
+                  <li key={fIdx} className='flex items-center gap-2.5 text-xs text-slate-700'>
+                    <CheckCircle2 className='w-4 h-4 text-amber-600 shrink-0' />
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -150,7 +150,7 @@ export default function VillasSection({ onSelectVilla }) {
 
             <button
               onClick={() => onSelectVilla(activeVilla.name)}
-              className='w-full py-4 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 text-black font-semibold text-xs tracking-widest uppercase hover:brightness-110 shadow-xl shadow-amber-400/20 flex items-center justify-center gap-3 transition-all cursor-pointer'
+              className='w-full py-4 rounded-2xl bg-slate-900 text-amber-300 font-semibold text-xs tracking-widest uppercase hover:bg-slate-800 shadow-lg flex items-center justify-center gap-3 transition-all cursor-pointer'
             >
               <span>Inquire For Booking</span>
               <ArrowRight className='w-4 h-4' />

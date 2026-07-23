@@ -9,8 +9,8 @@
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
-    background-color: #060b13;
-    color: #f1f5f9;
+    background-color: #FAF8F5;
+    color: #1E293B;
   }
 
   h1, h2, h3, h4, .font-serif {
@@ -18,29 +18,31 @@
   }
 }
 
-/* Custom Utilities for Luxury Glassmorphism & Effects */
+/* Luxury Off-White Glassmorphism & Card Utilities */
 .glass-panel {
-  background: rgba(12, 21, 36, 0.65);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.18);
+  border: 1px solid rgba(197, 155, 39, 0.22);
+  box-shadow: 0 20px 45px -15px rgba(15, 23, 42, 0.06);
 }
 
 .glass-card {
-  background: rgba(18, 30, 49, 0.5);
+  background: #FFFFFF;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
 }
 
 .gold-gradient-text {
-  background: linear-gradient(135deg, #FCE082 0%, #D4AF37 50%, #997A15 100%);
+  background: linear-gradient(135deg, #B48A1E 0%, #C59B27 50%, #8C6A10 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gold-border {
-  border-color: rgba(212, 175, 55, 0.3);
+  border-color: rgba(197, 155, 39, 0.3);
 }
 
 /* Custom Scrollbar */
@@ -49,14 +51,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #060b13;
+  background: #FAF8F5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #94A3B8;
 }

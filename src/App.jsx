@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Navbar from './components/Navbar';
 import ScrollExpandMedia from './components/ScrollExpandMedia';
-import OverviewSection from './components/OverviewSection';
 import VillasSection from './components/VillasSection';
 import AmenitiesBento from './components/AmenitiesBento';
 import HubSpotInquiryForm from './components/HubSpotInquiryForm';
@@ -18,7 +17,7 @@ export default function App() {
   };
 
   return (
-    <div className='min-h-screen bg-[#060b13] text-slate-100 font-sans antialiased selection:bg-amber-400/30 selection:text-amber-200'>
+    <div className='min-h-screen bg-[#FAF8F5] text-slate-800 font-sans antialiased selection:bg-amber-500/20 selection:text-amber-900'>
       {/* Top Glass Navbar */}
       <Navbar />
 
@@ -34,7 +33,6 @@ export default function App() {
         textBlend={true}
       >
         {/* Main Website Sections */}
-        <OverviewSection />
         <VillasSection onSelectVilla={handleSelectVilla} />
         <AmenitiesBento />
         <HubSpotInquiryForm selectedVilla={selectedVilla} />
