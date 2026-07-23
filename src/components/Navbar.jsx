@@ -77,19 +77,19 @@ export default function Navbar() {
         >
           <button
             onClick={() => scrollToSection('villas')}
-            className='hover:text-amber-700 transition-colors cursor-pointer py-1'
+            className='hover:text-amber-700 transition-all cursor-pointer py-1 hover:underline active:underline focus:underline underline-offset-8 decoration-amber-600 decoration-2'
           >
             Villas & Suites
           </button>
           <button
             onClick={() => scrollToSection('amenities')}
-            className='hover:text-amber-700 transition-colors cursor-pointer py-1'
+            className='hover:text-amber-700 transition-all cursor-pointer py-1 hover:underline active:underline focus:underline underline-offset-8 decoration-amber-600 decoration-2'
           >
             Experiences
           </button>
           <button
             onClick={() => scrollToSection('inquiry')}
-            className='hover:text-amber-700 transition-colors cursor-pointer py-1'
+            className='hover:text-amber-700 transition-all cursor-pointer py-1 hover:underline active:underline focus:underline underline-offset-8 decoration-amber-600 decoration-2'
           >
             Register Interest
           </button>
@@ -112,19 +112,19 @@ export default function Navbar() {
         <div className='md:hidden absolute top-full left-0 right-0 bg-[#FAF8F5]/98 backdrop-blur-xl py-6 px-8 flex flex-col gap-4 shadow-xl border-none'>
           <button
             onClick={() => scrollToSection('villas')}
-            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2'
+            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2 hover:underline active:underline underline-offset-4 decoration-amber-600 decoration-2'
           >
             Villas & Suites
           </button>
           <button
             onClick={() => scrollToSection('amenities')}
-            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2'
+            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2 hover:underline active:underline underline-offset-4 decoration-amber-600 decoration-2'
           >
             Experiences
           </button>
           <button
             onClick={() => scrollToSection('inquiry')}
-            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2'
+            className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-800 hover:text-amber-700 py-2 hover:underline active:underline underline-offset-4 decoration-amber-600 decoration-2'
           >
             Register Interest
           </button>
