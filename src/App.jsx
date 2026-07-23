@@ -29,7 +29,7 @@ export default function App() {
         bgImageSrc='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80'
         title='OCEAN VIEW'
         date='EST. 2026 • LUXURY RESORT'
-        scrollToExpand='SCROLL DOWN TO EXPAND VILLA'
+        scrollToExpand=''
         textBlend={true}
       >
         {/* Main Website Sections */}

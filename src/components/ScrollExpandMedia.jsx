@@ -10,8 +10,8 @@ export default function ScrollExpandMedia({
   posterSrc,
   bgImageSrc,
   title = 'OCEAN VIEW',
-  date = 'EST. 2026 • LUXURY RESORT',
-  scrollToExpand = 'SCROLL DOWN TO EXPAND VILLA',
+  date = 'EST. 2026 • Luxury Villa',
+  scrollToExpand = '',
   textBlend = true,
   children,
 }) {
@@ -178,8 +178,8 @@ export default function ScrollExpandMedia({
     >
       <section className='relative flex flex-col items-center justify-start min-h-[100dvh]'>
         <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
-          
-          {/* Outer Ambient Background Image (Fades out as video fills screen) */}
+
+          {/* Outer Ambient Background Image */}
           <motion.div
             className='absolute inset-0 z-0 h-full'
             initial={{ opacity: 0 }}
@@ -198,8 +198,8 @@ export default function ScrollExpandMedia({
 
           <div className='w-full flex flex-col items-center justify-start relative z-10'>
             <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative overflow-hidden'>
-              
-              {/* Expanding Video Media Box (Grows to 100vw x 100vh FULL VIEWPORT) */}
+
+              {/* Expanding Video Media Box */}
               <div
                 className='absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none overflow-hidden'
                 style={{
@@ -274,11 +274,11 @@ export default function ScrollExpandMedia({
                   </div>
                 )}
 
-                {/* Subtitle / Scroll Prompt (Moves outward with title) */}
-                <div className='flex flex-col items-center text-center absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none'>
+                {/* Subtitle positioned cleanly at bottom of media box */}
+                <div className='flex flex-col items-center text-center absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none w-full px-4'>
                   {date && (
                     <p
-                      className='text-xs md:text-sm tracking-[0.3em] font-medium text-amber-200 uppercase mb-1 drop-shadow-md'
+                      className='text-xs md:text-sm tracking-[0.35em] font-semibold text-amber-200 uppercase drop-shadow-lg'
                       style={{ opacity: Math.max(0, 1 - scrollProgress * 2.5) }}
                     >
                       {date}
@@ -286,7 +286,7 @@ export default function ScrollExpandMedia({
                   )}
                   {scrollToExpand && (
                     <p
-                      className='text-xs md:text-sm text-slate-200 font-light tracking-[0.2em] text-center drop-shadow-md'
+                      className='text-xs md:text-sm text-slate-200 font-light tracking-[0.2em] text-center drop-shadow-md mt-1'
                       style={{ opacity: Math.max(0, 1 - scrollProgress * 2.5) }}
                     >
                       {scrollToExpand}
@@ -297,9 +297,8 @@ export default function ScrollExpandMedia({
 
               {/* Title Text Splitting Outward ("OCEAN" Left, "VIEW" Right) */}
               <div
-                className={`flex items-center justify-center text-center gap-2 md:gap-4 w-full relative z-10 transition-none flex-col ${
-                  textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
-                }`}
+                className={`flex items-center justify-center text-center gap-2 md:gap-4 w-full relative z-10 transition-none flex-col ${textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
+                  }`}
               >
                 <motion.h2
                   className='text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-amber-100 uppercase drop-shadow-2xl'
@@ -317,7 +316,7 @@ export default function ScrollExpandMedia({
 
             </div>
 
-            {/* Seamless Transition into Next Website Sections */}
+            {/* Transition into Next Website Sections */}
             <motion.section
               className='flex flex-col w-full'
               initial={{ opacity: 0 }}
