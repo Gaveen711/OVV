@@ -192,7 +192,7 @@ export default function ScrollExpandMedia({
               height={1080}
               className='w-screen h-screen object-cover object-center scale-105'
             />
-            <div className='absolute inset-0 bg-black/55 backdrop-blur-[2px]' />
+            <div className='absolute inset-0 bg-black/25' />
           </motion.div>
 
           <div className='w-full flex flex-col items-center justify-start relative z-10'>
