@@ -2,15 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 /**
- * ScrollExpandMedia component with Full Viewport expansion.
+ * ScrollExpandMedia component with Full Viewport expansion and continuous Video Loop.
  */
 export default function ScrollExpandMedia({
   mediaType = 'video',
   mediaSrc,
-  posterSrc,
-  bgImageSrc,
   title = 'OCEAN VIEW',
-  date = 'EST. 2026 • LUXURY VILLA',
+  date = 'EST. 2026 • LUXURY RESORT',
   scrollToExpand = '',
   textBlend = true,
   children,
@@ -176,32 +174,23 @@ export default function ScrollExpandMedia({
       ref={sectionRef}
       className='transition-colors duration-700 ease-in-out overflow-x-hidden'
     >
-      <section className='relative flex flex-col items-center justify-start min-h-[100dvh]'>
+      <section className='relative flex flex-col items-center justify-start min-h-[100dvh] bg-[#060b13]'>
         <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
-
-          {/* Outer Ambient Background Image */}
+          
+          {/* Ambient Dark Backdrop */}
           <motion.div
-            className='absolute inset-0 z-0 h-full'
+            className='absolute inset-0 z-0 h-full bg-[#060b13]'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 - scrollProgress * 1.2 }}
             transition={{ duration: 0.1 }}
-          >
-            <img
-              src={bgImageSrc}
-              alt='Background'
-              width={1920}
-              height={1080}
-              className='w-screen h-screen object-cover object-center'
-            />
-            <div className='absolute inset-0 bg-black/40 backdrop-blur-[2px]' />
-          </motion.div>
+          />
 
           <div className='w-full flex flex-col items-center justify-start relative z-10'>
             <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative overflow-hidden'>
-
+              
               {/* Expanding Video Media Box */}
               <div
-                className='absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none overflow-hidden'
+                className='absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none overflow-hidden bg-black'
                 style={{
                   width: `${currentWidth}px`,
                   height: `${currentHeight}px`,
@@ -241,7 +230,6 @@ export default function ScrollExpandMedia({
                     <div className='relative w-full h-full pointer-events-none'>
                       <video
                         src={mediaSrc}
-                        poster={posterSrc}
                         autoPlay
                         muted
                         loop
@@ -297,8 +285,9 @@ export default function ScrollExpandMedia({
 
               {/* Title Text Splitting Outward ("OCEAN" Left, "VIEW" Right) */}
               <div
-                className={`flex items-center justify-center text-center gap-2 md:gap-4 w-full relative z-10 transition-none flex-col ${textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
-                  }`}
+                className={`flex items-center justify-center text-center gap-2 md:gap-4 w-full relative z-10 transition-none flex-col ${
+                  textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
+                }`}
               >
                 <motion.h2
                   className='text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-amber-100 uppercase drop-shadow-2xl'
