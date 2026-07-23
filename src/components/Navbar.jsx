@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Anchor, Waves, Calendar, Menu, X, PhoneCall } from 'lucide-react';
+import { Waves, Menu, X } from 'lucide-react';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -20,10 +20,17 @@ export default function Navbar() {
 
   const scrollToSection = (id) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.dispatchEvent(
+      new CustomEvent('expand-and-scroll', { detail: { id } })
+    );
+  };
+
+  const scrollToTop = (e) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    window.dispatchEvent(
+      new CustomEvent('expand-and-scroll', { detail: { scrollToTop: true } })
+    );
   };
 
   return (
@@ -38,6 +45,7 @@ export default function Navbar() {
         {/* Brand Logo */}
         <a
           href='#'
+          onClick={scrollToTop}
           className='flex items-center gap-3 group'
         >
           <div className='w-10 h-10 rounded-full border border-amber-400/50 flex items-center justify-center bg-amber-400/10 group-hover:bg-amber-400/20 transition-all'>
@@ -53,44 +61,33 @@ export default function Navbar() {
           </div>
         </a>
 
-        {/* Desktop Nav Links */}
-        <nav className='hidden md:flex items-center gap-8 text-xs tracking-[0.2em] font-medium uppercase text-slate-300'>
+        {/* Desktop Nav Links (Clean Navigation without extra Button UI) */}
+        <nav className='hidden md:flex items-center gap-10 text-xs tracking-[0.2em] font-medium uppercase text-slate-300'>
           <button
             onClick={() => scrollToSection('overview')}
-            className='hover:text-amber-300 transition-colors cursor-pointer'
+            className='hover:text-amber-300 transition-colors cursor-pointer py-1'
           >
             Overview
           </button>
           <button
             onClick={() => scrollToSection('villas')}
-            className='hover:text-amber-300 transition-colors cursor-pointer'
+            className='hover:text-amber-300 transition-colors cursor-pointer py-1'
           >
             Villas & Suites
           </button>
           <button
             onClick={() => scrollToSection('amenities')}
-            className='hover:text-amber-300 transition-colors cursor-pointer'
+            className='hover:text-amber-300 transition-colors cursor-pointer py-1'
           >
             Experiences
           </button>
           <button
             onClick={() => scrollToSection('inquiry')}
-            className='hover:text-amber-300 transition-colors cursor-pointer'
+            className='hover:text-amber-300 transition-colors cursor-pointer py-1'
           >
             Inquire
           </button>
         </nav>
-
-        {/* CTA Button */}
-        <div className='hidden md:flex items-center gap-4'>
-          <button
-            onClick={() => scrollToSection('inquiry')}
-            className='flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold text-xs tracking-wider uppercase hover:brightness-110 shadow-lg shadow-amber-500/20 transition-all cursor-pointer'
-          >
-            <Calendar className='w-4 h-4' />
-            <span>Book Inquiry</span>
-          </button>
-        </div>
 
         {/* Mobile Toggle */}
         <button
@@ -128,12 +125,6 @@ export default function Navbar() {
             className='text-left text-sm tracking-[0.2em] font-medium uppercase text-slate-200 hover:text-amber-300 py-2 border-b border-slate-800'
           >
             Inquire
-          </button>
-          <button
-            onClick={() => scrollToSection('inquiry')}
-            className='mt-2 w-full py-3 rounded-xl bg-amber-500 text-black font-semibold text-xs tracking-wider uppercase text-center'
-          >
-            Reserve Your Sanctuary
           </button>
         </div>
       )}

@@ -12,10 +12,9 @@ export default function App() {
 
   const handleSelectVilla = (villaName) => {
     setSelectedVilla(villaName);
-    const inquirySection = document.getElementById('inquiry');
-    if (inquirySection) {
-      inquirySection.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.dispatchEvent(
+      new CustomEvent('expand-and-scroll', { detail: { id: 'inquiry' } })
+    );
   };
 
   return (
@@ -23,7 +22,7 @@ export default function App() {
       {/* Top Glass Navbar */}
       <Navbar />
 
-      {/* Hero Section with requested ScrollExpandMedia component */}
+      {/* Hero Section with ScrollExpandMedia component */}
       <ScrollExpandMedia
         mediaType='video'
         mediaSrc='https://player.vimeo.com/external/535823482.hd.mp4?s=8be972960ed9307e5e485ce43b8a0c670c7473c9&profile_id=175'
@@ -34,7 +33,7 @@ export default function App() {
         scrollToExpand='SCROLL DOWN TO EXPAND VILLA'
         textBlend={true}
       >
-        {/* Main Website Sections expanding inside/underneath hero scroll */}
+        {/* Main Website Sections */}
         <OverviewSection />
         <VillasSection onSelectVilla={handleSelectVilla} />
         <AmenitiesBento />

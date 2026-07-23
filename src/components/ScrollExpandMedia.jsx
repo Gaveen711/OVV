@@ -10,7 +10,7 @@ export default function ScrollExpandMedia({
   mediaSrc,
   posterSrc,
   bgImageSrc,
-  title = 'OVV',
+  title = 'OCEAN VIEW',
   date = 'EST. 2026',
   scrollToExpand = 'SCROLL TO EXPLORE VILLA',
   textBlend = true,
@@ -29,6 +29,37 @@ export default function ScrollExpandMedia({
     setShowContent(false);
     setMediaFullyExpanded(false);
   }, [mediaType]);
+
+  // Listen for navigation clicks from Navbar or CTAs
+  useEffect(() => {
+    const handleExpandAndScroll = (e) => {
+      const { id, scrollToTop } = e.detail || {};
+
+      if (scrollToTop) {
+        setScrollProgress(0);
+        setMediaFullyExpanded(false);
+        setShowContent(false);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      setScrollProgress(1);
+      setMediaFullyExpanded(true);
+      setShowContent(true);
+
+      if (id) {
+        setTimeout(() => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 150);
+      }
+    };
+
+    window.addEventListener('expand-and-scroll', handleExpandAndScroll);
+    return () => window.removeEventListener('expand-and-scroll', handleExpandAndScroll);
+  }, []);
 
   useEffect(() => {
     const handleWheel = (e) => {
