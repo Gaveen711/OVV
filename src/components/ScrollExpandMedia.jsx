@@ -10,7 +10,7 @@ export default function ScrollExpandMedia({
   posterSrc,
   bgImageSrc,
   title = 'OCEAN VIEW',
-  date = 'EST. 2026 • Luxury Villa',
+  date = 'EST. 2026 • LUXURY VILLA',
   scrollToExpand = '',
   textBlend = true,
   children,
