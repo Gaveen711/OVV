@@ -27,3 +27,5 @@ dist-ssr
 public/videos/
 *.mp4
 
+.vercel
+.env*
