@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 /**
- * ScrollExpandMedia component with Full Viewport expansion, continuous Video Loop inside card, and Resort Background image outside.
+ * ScrollExpandMedia component with Multi-Browser compatibility, Firefox wheel normalization, Safari video autoplay enforcement, and touch progress handling.
  */
 export default function ScrollExpandMedia({
   mediaType = 'video',
@@ -22,12 +22,26 @@ export default function ScrollExpandMedia({
   const [winSize, setWinSize] = useState({ width: 1400, height: 900 });
 
   const sectionRef = useRef(null);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     setScrollProgress(0);
     setShowContent(false);
     setMediaFullyExpanded(false);
   }, [mediaType]);
+
+  // Safari & WebKit programmatic video autoplay enforcement
+  useEffect(() => {
+    if (mediaType === 'video' && videoRef.current) {
+      videoRef.current.muted = true;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.warn('Cross-browser video autoplay deferred:', err);
+        });
+      }
+    }
+  }, [mediaSrc, mediaType]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -71,6 +85,7 @@ export default function ScrollExpandMedia({
     return () => window.removeEventListener('expand-and-scroll', handleExpandAndScroll);
   }, []);
 
+  // Firefox & Chrome wheel delta normalization and cross-browser touch events
   useEffect(() => {
     const handleWheel = (e) => {
       if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 10) {
@@ -78,7 +93,16 @@ export default function ScrollExpandMedia({
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
-        const scrollDelta = e.deltaY * 0.0009;
+        
+        // Firefox deltaMode normalization: 1 = DOM_DELTA_LINE, 2 = DOM_DELTA_PAGE
+        let rawDelta = e.deltaY;
+        if (e.deltaMode === 1) {
+          rawDelta *= 35;
+        } else if (e.deltaMode === 2) {
+          rawDelta *= 700;
+        }
+
+        const scrollDelta = rawDelta * 0.0008;
         const newProgress = Math.min(
           Math.max(scrollProgress + scrollDelta, 0),
           1
@@ -110,7 +134,7 @@ export default function ScrollExpandMedia({
         setMediaFullyExpanded(false);
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
-        e.preventDefault();
+        if (e.cancelable) e.preventDefault();
         const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
         const scrollDelta = deltaY * scrollFactor;
         const newProgress = Math.min(
@@ -134,24 +158,18 @@ export default function ScrollExpandMedia({
       setTouchStartY(0);
     };
 
-    const handleScroll = () => {
-      if (!mediaFullyExpanded) {
-        window.scrollTo(0, 0);
-      }
-    };
-
     window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('scroll', handleScroll);
     window.addEventListener('touchstart', handleTouchStart, { passive: false });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('touchcancel', handleTouchEnd);
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('touchcancel', handleTouchEnd);
     };
   }, [scrollProgress, mediaFullyExpanded, touchStartY]);
 
@@ -175,10 +193,10 @@ export default function ScrollExpandMedia({
       ref={sectionRef}
       className='transition-colors duration-700 ease-in-out overflow-x-hidden'
     >
-      <section className='relative flex flex-col items-center justify-start min-h-[100dvh] bg-[#060b13]'>
-        <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
+      <section className='relative flex flex-col items-center justify-start min-h-screen min-h-[100dvh] bg-[#060b13]'>
+        <div className='relative w-full flex flex-col items-center min-h-screen min-h-[100dvh]'>
           
-          {/* Ambient Outer Resort Background Image (Rendered behind video card) */}
+          {/* Ambient Outer Resort Background Image */}
           <motion.div
             className='absolute inset-0 z-0 h-full overflow-hidden'
             initial={{ opacity: 1 }}
@@ -196,7 +214,7 @@ export default function ScrollExpandMedia({
           </motion.div>
 
           <div className='w-full flex flex-col items-center justify-start relative z-10'>
-            <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative overflow-hidden'>
+            <div className='flex flex-col items-center justify-center w-full h-screen h-[100dvh] relative overflow-hidden isolate-layer'>
               
               {/* Expanding Video Media Box */}
               <div
@@ -239,17 +257,22 @@ export default function ScrollExpandMedia({
                   ) : (
                     <div className='relative w-full h-full pointer-events-none'>
                       <video
+                        ref={videoRef}
                         src={mediaSrc}
                         autoPlay
                         muted
                         loop
                         playsInline
+                        webkit-playsinline='true'
+                        x5-playsinline='true'
                         preload='auto'
                         className='w-full h-full object-cover'
                         controls={false}
                         disablePictureInPicture
                         disableRemotePlayback
-                      />
+                      >
+                        <source src={mediaSrc} type='video/mp4' />
+                      </video>
                       <motion.div
                         className='absolute inset-0 bg-black/30 pointer-events-none'
                         animate={{ opacity: 0.4 - scrollProgress * 0.2 }}
@@ -295,18 +318,18 @@ export default function ScrollExpandMedia({
 
               {/* Title Text Splitting Outward ("OCEAN" Left, "VIEW" Right) */}
               <div
-                className={`flex items-center justify-center text-center gap-2 md:gap-4 w-full relative z-10 transition-none flex-col ${
+                className={`flex items-center justify-center text-center gap-2 md:gap-4 w-full relative z-10 transition-none flex-col isolate-layer ${
                   textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
                 }`}
               >
                 <motion.h2
-                  className='text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-amber-100 uppercase drop-shadow-2xl'
+                  className='text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-amber-100 uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]'
                   style={{ transform: `translateX(-${textTranslateX}vw)` }}
                 >
                   {firstWord}
                 </motion.h2>
                 <motion.h2
-                  className='text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-center text-amber-100 uppercase drop-shadow-2xl'
+                  className='text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-center text-amber-100 uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]'
                   style={{ transform: `translateX(${textTranslateX}vw)` }}
                 >
                   {restOfTitle}

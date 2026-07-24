@@ -152,7 +152,7 @@ export default function HubSpotInquiryForm({ selectedVilla = '' }) {
                     value={formData.firstname}
                     onChange={handleChange}
                     placeholder='e.g., Alexander'
-                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-sm transition-all'
+                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-[16px] md:text-sm transition-all'
                   />
                 </div>
 
@@ -168,7 +168,7 @@ export default function HubSpotInquiryForm({ selectedVilla = '' }) {
                     value={formData.lastname}
                     onChange={handleChange}
                     placeholder='e.g., Wright'
-                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-sm transition-all'
+                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-[16px] md:text-sm transition-all'
                   />
                 </div>
               </div>
@@ -186,7 +186,7 @@ export default function HubSpotInquiryForm({ selectedVilla = '' }) {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder='alexander@domain.com'
-                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-sm transition-all'
+                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-[16px] md:text-sm transition-all'
                   />
                 </div>
 
@@ -202,7 +202,7 @@ export default function HubSpotInquiryForm({ selectedVilla = '' }) {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder='+1 (555) 019-2834'
-                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-sm transition-all'
+                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-[16px] md:text-sm transition-all'
                   />
                 </div>
               </div>
@@ -217,7 +217,7 @@ export default function HubSpotInquiryForm({ selectedVilla = '' }) {
                     name='villaPreference'
                     value={formData.villaPreference}
                     onChange={handleChange}
-                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-sm transition-all'
+                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-[16px] md:text-sm transition-all'
                   >
                     <option value='Presidential Ocean Villa'>Presidential Ocean Villa</option>
                     <option value='Sunset Penthouse Suite'>Sunset Penthouse Suite</option>
@@ -235,7 +235,7 @@ export default function HubSpotInquiryForm({ selectedVilla = '' }) {
                     name='checkIn'
                     value={formData.checkIn}
                     onChange={handleChange}
-                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-sm transition-all'
+                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-[16px] md:text-sm transition-all'
                   />
                 </div>
 
@@ -249,7 +249,7 @@ export default function HubSpotInquiryForm({ selectedVilla = '' }) {
                     name='checkOut'
                     value={formData.checkOut}
                     onChange={handleChange}
-                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-sm transition-all'
+                    className='w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-stone-300 focus:border-amber-600 focus:bg-white focus:outline-none text-slate-900 text-[16px] md:text-sm transition-all'
                   />
                 </div>
               </div>

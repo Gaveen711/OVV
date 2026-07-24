@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion';
-import { Compass, ShieldCheck, Sun, UtensilsCrossed, Sparkles } from 'lucide-react';
+import { Sun, UtensilsCrossed, Sparkles } from 'lucide-react';
 
 export default function OverviewSection() {
   const stats = [

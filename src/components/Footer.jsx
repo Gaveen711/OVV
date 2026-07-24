@@ -63,7 +63,6 @@ export default function Footer() {
 
       <div className='max-w-7xl mx-auto px-6 border-t border-stone-300/80 pt-8 flex flex-col md:flex-row justify-between items-center text-[11px] text-slate-500 font-light gap-4'>
         <p>© 2026 Ocean View Villa (OVV). All Rights Reserved.</p>
-        <p>HubSpot CRM Integration Enabled | Designed for Luxury Living</p>
       </div>
     </footer>
   );
