@@ -1,23 +1,18 @@
-import { useState } from 'react';
 import Navbar from './components/Navbar';
+import SmoothScroll from './components/SmoothScroll';
 import ScrollExpandMedia from './components/ScrollExpandMedia';
-import VillasSection from './components/VillasSection';
-import AmenitiesBento from './components/AmenitiesBento';
-import HubSpotInquiryForm from './components/HubSpotInquiryForm';
+import AboutVillas from './components/AboutVillas';
+import VillaScrollJourney from './components/VillaScrollJourney';
+import RegisterInterest from './components/RegisterInterest';
 import Footer from './components/Footer';
+import './components/VillaScrollStickyFix.css';
 
 export default function App() {
-  const [selectedVilla, setSelectedVilla] = useState('Presidential Ocean Villa');
-
-  const handleSelectVilla = (villaName) => {
-    setSelectedVilla(villaName);
-    window.dispatchEvent(
-      new CustomEvent('expand-and-scroll', { detail: { id: 'inquiry' } })
-    );
-  };
-
   return (
     <div className='min-h-screen bg-[#FAF8F5] text-slate-800 font-sans antialiased selection:bg-amber-500/20 selection:text-amber-900'>
+      {/* Site-wide inertial smooth scrolling */}
+      <SmoothScroll />
+
       {/* Top Glass Navbar */}
       <Navbar />
 
@@ -27,18 +22,15 @@ export default function App() {
         mediaSrc='https://player.vimeo.com/external/535823482.hd.mp4?s=8be972960ed9307e5e485ce43b8a0c670c7473c9&profile_id=175'
         bgImageSrc='/images/resort-hero-bg.jpg'
         title='OCEAN VIEW'
-        date='EST. 2026 • LUXURY RESORT'
         scrollToExpand=''
         textBlend={true}
       >
         {/* Main Website Sections */}
-        <VillasSection onSelectVilla={handleSelectVilla} />
-        <AmenitiesBento />
-        <HubSpotInquiryForm selectedVilla={selectedVilla} />
+        <AboutVillas />
+        <VillaScrollJourney />
+        <RegisterInterest />
+        <Footer />
       </ScrollExpandMedia>
-
-      {/* Luxury Footer */}
-      <Footer />
     </div>
   );
 }

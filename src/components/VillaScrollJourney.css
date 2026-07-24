@@ -1,0 +1,739 @@
+.villa-experience {
+  --journey-ink: #f6f1e9;
+  --journey-muted: #bac6cf;
+  --journey-dark: #090e12;
+  --journey-accent: #e7ab4d;
+  background: var(--journey-dark);
+  color: var(--journey-ink);
+}
+
+.villa-gallery {
+  position: relative;
+  background: var(--journey-dark);
+}
+
+.villa-gallery__title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------------------------------------------------------------- */
+/* Zoom parallax - seven perspectives scaling outward on scroll     */
+/* ---------------------------------------------------------------- */
+
+.villa-parallax {
+  position: relative;
+  height: 320vh;
+  height: 320dvh;
+  background: var(--journey-dark);
+}
+
+.villa-parallax__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 620px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--journey-dark);
+}
+
+.villa-parallax__layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.villa-parallax__frame {
+  position: relative;
+  width: 25vw;
+  height: 25vh;
+  margin: 0;
+  overflow: hidden;
+  background: #12191f;
+}
+
+.villa-parallax__frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.villa-parallax__layer--1 .villa-parallax__frame {
+  top: -30vh;
+  left: 5vw;
+  width: 35vw;
+  height: 30vh;
+}
+
+.villa-parallax__layer--2 .villa-parallax__frame {
+  top: -10vh;
+  left: -25vw;
+  width: 20vw;
+  height: 45vh;
+}
+
+.villa-parallax__layer--3 .villa-parallax__frame {
+  left: 27.5vw;
+  width: 25vw;
+  height: 25vh;
+}
+
+.villa-parallax__layer--4 .villa-parallax__frame {
+  top: 27.5vh;
+  left: 5vw;
+  width: 20vw;
+  height: 25vh;
+}
+
+.villa-parallax__layer--5 .villa-parallax__frame {
+  top: 27.5vh;
+  left: -22.5vw;
+  width: 30vw;
+  height: 25vh;
+}
+
+.villa-parallax__layer--6 .villa-parallax__frame {
+  top: 22.5vh;
+  left: 25vw;
+  width: 15vw;
+  height: 15vh;
+}
+
+.villa-parallax__guide,
+.villa-parallax__progress {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.villa-parallax__guide {
+  top: clamp(92px, 12vh, 132px);
+  left: clamp(24px, 6vw, 96px);
+  right: clamp(24px, 6vw, 96px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--journey-muted);
+  font-size: 0.64rem;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  text-shadow: 0 1px 8px rgba(1, 2, 3, 0.82);
+}
+
+.villa-parallax__guide p,
+.villa-parallax__guide span {
+  margin: 0;
+  padding: 4px 7px;
+  background: var(--journey-dark);
+}
+
+.villa-parallax__progress {
+  left: clamp(24px, 6vw, 96px);
+  right: clamp(24px, 6vw, 96px);
+  bottom: clamp(34px, 4.5vh, 54px);
+  height: 1px;
+  background: rgba(246, 241, 233, 0.18);
+}
+
+.villa-parallax__progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--journey-accent);
+  transform-origin: left center;
+}
+
+/* ---------------------------------------------------------------- */
+/* Vertical card stack - one villa image at a time on scroll        */
+/* ---------------------------------------------------------------- */
+
+.villa-stack {
+  position: relative;
+  background: var(--journey-dark);
+}
+
+.villa-stack__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 560px;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--journey-dark);
+}
+
+.villa-stack__sticky::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(70vw, 900px);
+  height: min(70vw, 900px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(246, 241, 233, 0.02);
+  filter: blur(64px);
+  pointer-events: none;
+}
+
+.villa-stack__guide {
+  position: absolute;
+  z-index: 10;
+  top: clamp(92px, 12vh, 132px);
+  left: clamp(24px, 6vw, 96px);
+  margin: 0;
+  color: var(--journey-muted);
+  font-size: 0.64rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.villa-stack__deck {
+  position: relative;
+  width: min(66vw, 1000px);
+  height: min(56vh, 600px);
+  perspective: 1200px;
+}
+
+.villa-stack__card {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.villa-stack__card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #12191f;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 1, 0.5);
+  transition: box-shadow 400ms ease;
+}
+
+.villa-stack__card-inner--current {
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 1, 0.65),
+    0 0 0 1px rgba(246, 241, 233, 0.06);
+}
+
+.villa-stack__card-inner img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.villa-stack__card-shade {
+  position: absolute;
+  inset: auto 0 0;
+  height: 34%;
+  background: linear-gradient(
+    to top,
+    rgba(1, 2, 3, 0.66),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.villa-stack__card-label {
+  position: absolute;
+  left: clamp(20px, 3vw, 36px);
+  bottom: clamp(18px, 3vh, 30px);
+  margin: 0;
+  color: var(--journey-ink);
+  font-size: 0.64rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.villa-stack__counter {
+  position: absolute;
+  z-index: 10;
+  left: clamp(24px, 6vw, 96px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--journey-muted);
+  pointer-events: none;
+}
+
+.villa-stack__counter span:first-child {
+  color: var(--journey-ink);
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.villa-stack__counter i {
+  width: 28px;
+  height: 1px;
+  background: rgba(246, 241, 233, 0.28);
+}
+
+.villa-stack__counter span:last-child {
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.villa-stack__dots {
+  position: absolute;
+  z-index: 10;
+  right: clamp(24px, 6vw, 96px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.villa-stack__dots button {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(246, 241, 233, 0.28);
+  cursor: pointer;
+  transition:
+    height 300ms ease,
+    background-color 300ms ease;
+}
+
+.villa-stack__dots button:hover {
+  background: rgba(246, 241, 233, 0.5);
+}
+
+.villa-stack__dots button.villa-stack__dot--active {
+  height: 22px;
+  background: var(--journey-accent);
+}
+
+.villa-stack__dots button:focus-visible {
+  outline: 2px solid var(--journey-accent);
+  outline-offset: 3px;
+}
+
+.villa-stack__hint {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  bottom: clamp(30px, 5vh, 52px);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--journey-muted);
+  pointer-events: none;
+}
+
+.villa-stack__hint span {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------- */
+/* Reduced-motion fallback - plain editorial grid                   */
+/* ---------------------------------------------------------------- */
+
+.villa-static {
+  padding: clamp(72px, 9vw, 136px) clamp(24px, 6vw, 96px);
+  background: var(--journey-dark);
+}
+
+.villa-static__grid {
+  width: min(100%, 1440px);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(12px, 1.5vw, 24px);
+}
+
+.villa-static__grid figure {
+  min-height: 250px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.villa-static__grid figure:nth-child(1) {
+  grid-column: span 7;
+  grid-row: span 2;
+}
+
+.villa-static__grid figure:nth-child(2),
+.villa-static__grid figure:nth-child(3) {
+  grid-column: span 5;
+}
+
+.villa-static__grid figure:nth-child(n + 4) {
+  grid-column: span 3;
+}
+
+.villa-static__grid img {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  object-fit: cover;
+}
+
+/* ---------------------------------------------------------------- */
+/* Proof + inquiry sections                                         */
+/* ---------------------------------------------------------------- */
+
+.villa-proof {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(420px, 0.9fr);
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #f2f6f9;
+  color: #0d151b;
+}
+
+.villa-proof__plan {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #dce2e6;
+}
+
+.villa-proof__plan img {
+  width: 100%;
+  height: 100%;
+  min-height: 640px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.villa-proof__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(64px, 9vw, 144px) clamp(32px, 7vw, 112px);
+}
+
+.villa-proof__lead {
+  margin: 0 0 28px;
+  color: #874e00;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.villa-proof__content h2 {
+  max-width: 10ch;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 5.2vw, 5.2rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.villa-proof__content > p:not(.villa-proof__lead) {
+  max-width: 58ch;
+  margin: 32px 0 52px;
+  color: #384149;
+  font-size: 0.98rem;
+  line-height: 1.8;
+}
+
+.villa-proof dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid #abb2b8;
+}
+
+.villa-proof dl div {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 4px 14px;
+  padding: 24px 16px 24px 0;
+  border-bottom: 1px solid #abb2b8;
+}
+
+.villa-proof dl div:nth-child(odd) {
+  margin-right: 20px;
+}
+
+.villa-proof dl svg {
+  grid-row: 1 / span 2;
+  width: 19px;
+  height: 19px;
+  margin-top: 2px;
+  color: #874e00;
+  stroke-width: 1.6;
+}
+
+.villa-proof dt {
+  color: #4f565d;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.villa-proof dd {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+}
+
+.villa-inquiry {
+  min-height: 78vh;
+  min-height: 78dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 96px 24px;
+  text-align: center;
+  background:
+    linear-gradient(rgba(1, 2, 3, 0.5), rgba(1, 2, 3, 0.76)),
+    url('/images/ovv/family-room.webp') center / cover no-repeat;
+  color: var(--journey-ink);
+}
+
+.villa-inquiry p {
+  margin: 0 0 32px;
+  color: var(--journey-muted);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.villa-inquiry h2 {
+  margin: 0 0 42px;
+  font-family: var(--font-serif);
+  font-size: clamp(4.4rem, 11vw, 6rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.villa-inquiry a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 52px;
+  padding: 0 22px;
+  border-bottom: 1px solid var(--journey-accent);
+  color: var(--journey-ink);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    color 220ms cubic-bezier(0.25, 1, 0.5, 1),
+    border-color 220ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.villa-inquiry a:hover {
+  color: var(--journey-accent);
+  border-color: var(--journey-ink);
+}
+
+.villa-inquiry a:focus-visible {
+  outline: 2px solid var(--journey-accent);
+  outline-offset: 4px;
+}
+
+.villa-inquiry a svg {
+  width: 18px;
+  height: 18px;
+}
+
+.villa-inquiry > span {
+  margin-top: 28px;
+  color: var(--journey-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+/* ---------------------------------------------------------------- */
+/* Responsive                                                       */
+/* ---------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .villa-parallax {
+    height: 280vh;
+    height: 280dvh;
+  }
+
+  .villa-parallax__layer--1 .villa-parallax__frame {
+    top: -28vh;
+    left: 12vw;
+    width: 46vw;
+    height: 22vh;
+  }
+
+  .villa-parallax__layer--2 .villa-parallax__frame {
+    top: -11vh;
+    left: -31vw;
+    width: 26vw;
+    height: 34vh;
+  }
+
+  .villa-parallax__layer--3 .villa-parallax__frame {
+    left: 32vw;
+    width: 28vw;
+    height: 24vh;
+  }
+
+  .villa-parallax__layer--4 .villa-parallax__frame {
+    top: 28vh;
+    left: 7vw;
+    width: 24vw;
+    height: 22vh;
+  }
+
+  .villa-parallax__layer--5 .villa-parallax__frame {
+    top: 28vh;
+    left: -28vw;
+    width: 42vw;
+    height: 20vh;
+  }
+
+  .villa-parallax__layer--6 .villa-parallax__frame {
+    top: 20vh;
+    left: 31vw;
+    width: 20vw;
+    height: 18vh;
+  }
+
+  .villa-stack__deck {
+    width: min(78vw, 900px);
+    height: min(50vh, 540px);
+  }
+
+  .villa-proof {
+    grid-template-columns: 1fr;
+  }
+
+  .villa-proof__plan img {
+    min-height: auto;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 620px) {
+  .villa-parallax {
+    height: 260vh;
+    height: 260dvh;
+  }
+
+  .villa-parallax__sticky {
+    min-height: 560px;
+  }
+
+  .villa-parallax__guide {
+    top: 92px;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .villa-parallax__guide span {
+    max-width: 12ch;
+    text-align: right;
+  }
+
+  .villa-parallax__progress {
+    bottom: 42px;
+  }
+
+  .villa-stack__sticky {
+    min-height: 520px;
+  }
+
+  .villa-stack__deck {
+    width: calc(100vw - 88px);
+    height: min(44vh, 420px);
+  }
+
+  .villa-stack__counter {
+    left: 16px;
+  }
+
+  .villa-stack__counter span:first-child {
+    font-size: 1.5rem;
+  }
+
+  .villa-stack__dots {
+    right: 14px;
+  }
+
+  .villa-static {
+    padding: 72px 24px;
+  }
+
+  .villa-static__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .villa-static__grid figure,
+  .villa-static__grid figure:nth-child(n) {
+    grid-column: 1;
+    min-height: 56vw;
+  }
+
+  .villa-proof__content {
+    padding: 72px 24px 88px;
+  }
+
+  .villa-proof__content h2 {
+    font-size: clamp(3rem, 13vw, 4rem);
+  }
+
+  .villa-proof dl {
+    grid-template-columns: 1fr;
+  }
+
+  .villa-proof dl div:nth-child(odd) {
+    margin-right: 0;
+  }
+
+  .villa-inquiry h2 {
+    font-size: clamp(4rem, 20vw, 5.4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .villa-inquiry a {
+    transition: none;
+  }
+}

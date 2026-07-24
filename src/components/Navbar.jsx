@@ -88,7 +88,6 @@ export default function Navbar() {
               scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-white hover:text-amber-300 drop-shadow-md'
             }`}
           />
-          
           {/* Highlighted CTA Pill for Register Interest */}
           <button
             onClick={() => scrollToSection('inquiry')}
