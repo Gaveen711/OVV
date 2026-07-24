@@ -337,13 +337,13 @@ export default function ScrollExpandMedia({
                 }`}
               >
                 <motion.span
-                  className='block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-amber-100 uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]'
+                  className='block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif tracking-wider font-bold text-amber-100 uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]'
                   style={{ transform: `translateX(-${textTranslateX}vw)` }}
                 >
                   {firstWord}
                 </motion.span>
                 <motion.span
-                  className='block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-center text-amber-100 uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]'
+                  className='block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif tracking-wider font-bold text-center text-amber-100 uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]'
                   style={{ transform: `translateX(${textTranslateX}vw)` }}
                 >
                   {restOfTitle}

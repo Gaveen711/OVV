@@ -26,4 +26,5 @@ dist-ssr
 # Media files
 public/videos/
 *.mp4
+.vercel
 

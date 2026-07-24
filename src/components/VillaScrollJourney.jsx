@@ -13,6 +13,7 @@ import {
   Expand,
   Waves,
 } from 'lucide-react';
+import LocationMap from './LocationMap';
 import './VillaScrollJourney.css';
 
 const villaImages = [
@@ -365,6 +366,8 @@ export default function VillaScrollJourney() {
           </dl>
         </div>
       </section>
+
+      <LocationMap />
 
       <section id='inquiry' className='villa-inquiry'>
         <p>Ocean View Villas / Uswetakeiyawa, Sri Lanka</p>

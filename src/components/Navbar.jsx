@@ -70,13 +70,13 @@ export default function Navbar() {
           </div>
         </a>
 
-        {/* Desktop Nav Links with Clear Legible Sizing & Perfect Alignment */}
-        <nav className='hidden md:flex items-center gap-8 lg:gap-10 text-sm font-semibold uppercase tracking-wider'>
+        {/* Desktop Nav Links — compact refined sizing */}
+        <nav className='hidden md:flex items-center gap-7 lg:gap-9'>
           <CtaButton
             label='Villas & Suites'
             onClick={() => scrollToSection('villas')}
             showArrow={false}
-            className={`text-sm font-semibold tracking-wider transition-colors ${
+            className={`cta-compact font-medium transition-colors ${
               scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-white hover:text-amber-300 drop-shadow-md'
             }`}
           />
@@ -84,22 +84,22 @@ export default function Navbar() {
             label='Experiences'
             onClick={() => scrollToSection('amenities')}
             showArrow={false}
-            className={`text-sm font-semibold tracking-wider transition-colors ${
+            className={`cta-compact font-medium transition-colors ${
               scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-white hover:text-amber-300 drop-shadow-md'
             }`}
           />
-          {/* Highlighted CTA Pill for Register Interest */}
+          {/* Refined outline CTA Pill for Register Interest */}
           <button
             onClick={() => scrollToSection('inquiry')}
-            className={`px-6 py-2.5 rounded-full text-xs font-bold tracking-[0.2em] uppercase transition-all shadow-md flex items-center gap-2.5 cursor-pointer ${
+            className={`group px-5 py-2 rounded-full border text-[10px] font-semibold tracking-[0.25em] uppercase transition-all duration-300 flex items-center gap-2 cursor-pointer ${
               scrolled
-                ? 'bg-slate-900 text-amber-300 hover:bg-amber-700 hover:text-white shadow-slate-900/10'
-                : 'bg-amber-600 text-white hover:bg-amber-500 shadow-amber-600/30'
+                ? 'border-slate-900/60 text-slate-900 hover:bg-slate-900 hover:border-slate-900 hover:text-amber-300'
+                : 'border-white/60 bg-white/10 text-white backdrop-blur-sm hover:bg-amber-600 hover:border-amber-600 shadow-lg shadow-black/10'
             }`}
           >
             <span>Register Interest</span>
             <svg
-              className='w-4 h-3 fill-current'
+              className='w-3.5 h-2.5 fill-current transition-transform duration-300 group-hover:translate-x-1'
               viewBox='0 0 46 16'
             >
               <path d='M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z' transform='translate(30)' />
@@ -136,10 +136,10 @@ export default function Navbar() {
           />
           <button
             onClick={() => scrollToSection('inquiry')}
-            className='w-full py-3.5 px-6 rounded-xl bg-slate-900 text-amber-300 font-bold text-xs tracking-[0.2em] uppercase shadow-lg flex items-center justify-center gap-2 mt-2'
+            className='w-full py-3 px-6 rounded-full border border-slate-900/70 text-slate-900 font-semibold text-[11px] tracking-[0.25em] uppercase flex items-center justify-center gap-2 mt-2 transition-colors hover:bg-slate-900 hover:text-amber-300'
           >
             <span>Register Interest</span>
-            <svg className='w-4 h-3 fill-current' viewBox='0 0 46 16'>
+            <svg className='w-3.5 h-2.5 fill-current' viewBox='0 0 46 16'>
               <path d='M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z' transform='translate(30)' />
             </svg>
           </button>
