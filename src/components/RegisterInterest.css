@@ -1,0 +1,361 @@
+.register-interest {
+  --ri-ink: #f6f1e9;
+  --ri-muted: #bac6cf;
+  --ri-dark: #090e12;
+  --ri-accent: #e7ab4d;
+  background: var(--ri-dark);
+  color: var(--ri-ink);
+  padding: clamp(88px, 12vh, 152px) clamp(24px, 6vw, 96px);
+}
+
+.register-interest__layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) minmax(0, 660px) 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  width: min(100%, 1440px);
+  margin-inline: auto;
+}
+
+.register-interest__rail {
+  display: flex;
+  align-items: center;
+  align-self: start;
+  justify-content: flex-end;
+  gap: 18px;
+  margin-top: clamp(96px, 14vh, 148px);
+  color: var(--ri-accent);
+}
+
+.register-interest__rail svg {
+  flex-shrink: 0;
+}
+
+.register-interest__rail p {
+  margin: 0;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.register-interest__body h2 {
+  margin: 0 0 clamp(40px, 6vh, 64px);
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 4.6vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.register-interest__body form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(26px, 4vh, 36px);
+}
+
+.register-interest__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 3vw, 48px);
+}
+
+.register-interest input[type='text'],
+.register-interest input[type='tel'],
+.register-interest input[type='email'],
+.register-interest select,
+.register-interest textarea {
+  width: 100%;
+  padding: 10px 2px 12px;
+  border: 0;
+  border-bottom: 1px solid rgba(246, 241, 233, 0.3);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ri-ink);
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 220ms ease;
+}
+
+.register-interest input::placeholder,
+.register-interest textarea::placeholder {
+  color: var(--ri-accent);
+  opacity: 1;
+}
+
+.register-interest input:focus,
+.register-interest select:focus,
+.register-interest textarea:focus {
+  outline: none;
+  border-bottom-color: var(--ri-accent);
+}
+
+.register-interest textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.register-interest__phone {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.register-interest__select {
+  position: relative;
+}
+
+.register-interest__select select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 30px;
+}
+
+/* Placeholder option shown in accent gold until a value is chosen */
+.register-interest__select select[data-empty] {
+  color: var(--ri-accent);
+}
+
+.register-interest__select select option {
+  background: var(--ri-dark);
+  color: var(--ri-ink);
+}
+
+.register-interest__select > svg {
+  position: absolute;
+  right: 4px;
+  bottom: 12px;
+  width: 16px;
+  height: 16px;
+  color: var(--ri-accent);
+  pointer-events: none;
+}
+
+.register-interest__select--dial {
+  flex: 0 0 118px;
+}
+
+.register-interest__phone input {
+  flex: 1;
+}
+
+.register-interest__whatsapp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 0;
+  color: var(--ri-accent);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.register-interest__whatsapp svg {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  color: #25d366;
+}
+
+.register-interest__whatsapp a {
+  color: var(--ri-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-interest__whatsapp a:hover {
+  color: var(--ri-accent);
+}
+
+.register-interest__check {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  font-size: 0.92rem;
+}
+
+.register-interest__check input {
+  appearance: none;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 1px solid rgba(246, 241, 233, 0.45);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease;
+}
+
+.register-interest__check input:checked {
+  border-color: var(--ri-accent);
+  background-color: var(--ri-accent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23131a24' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  background-size: 14px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.register-interest__check input:focus-visible {
+  outline: 2px solid var(--ri-accent);
+  outline-offset: 3px;
+}
+
+.register-interest__check a {
+  color: var(--ri-ink);
+  text-underline-offset: 4px;
+}
+
+.register-interest__check a:hover {
+  color: var(--ri-accent);
+}
+
+.register-interest__error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #f97770;
+  font-size: 0.85rem;
+}
+
+.register-interest__error svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.register-interest__submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  align-self: flex-start;
+  margin-top: clamp(12px, 2vh, 24px);
+  padding: 18px 30px;
+  border: 0;
+  background: var(--ri-accent);
+  color: #0b121a;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 220ms ease;
+}
+
+.register-interest__submit:hover {
+  background: #f4c26a;
+}
+
+.register-interest__submit:focus-visible {
+  outline: 2px solid var(--ri-ink);
+  outline-offset: 3px;
+}
+
+.register-interest__submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.register-interest__submit svg {
+  transition: transform 260ms ease;
+}
+
+.register-interest__submit:hover svg {
+  transform: translateX(6px);
+}
+
+.register-interest__spinner {
+  width: 18px;
+  height: 18px;
+  animation: ri-spin 1s linear infinite;
+}
+
+@keyframes ri-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.register-interest__success {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 48ch;
+}
+
+.register-interest__success > svg {
+  width: 40px;
+  height: 40px;
+  color: var(--ri-accent);
+}
+
+.register-interest__success h3 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.register-interest__success p {
+  margin: 0;
+  color: var(--ri-muted);
+  line-height: 1.7;
+}
+
+.register-interest__success button {
+  margin-top: 12px;
+  padding: 0 0 4px;
+  border: 0;
+  border-bottom: 1px solid var(--ri-accent);
+  background: none;
+  color: var(--ri-ink);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.register-interest__success button:hover {
+  color: var(--ri-accent);
+}
+
+@media (max-width: 1100px) {
+  .register-interest__layout {
+    grid-template-columns: minmax(0, 660px);
+    justify-content: center;
+  }
+
+  .register-interest__rail {
+    order: -1;
+    justify-content: flex-start;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .register-interest {
+    padding: 72px 24px 88px;
+  }
+
+  .register-interest__row {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .register-interest__submit {
+    align-self: stretch;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .register-interest__submit svg,
+  .register-interest__submit,
+  .register-interest__check input {
+    transition: none;
+  }
+
+  .register-interest__spinner {
+    animation-duration: 2s;
+  }
+}

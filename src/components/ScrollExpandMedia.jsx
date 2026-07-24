@@ -9,7 +9,7 @@ export default function ScrollExpandMedia({
   mediaSrc,
   bgImageSrc = '/images/resort-hero-bg.jpg',
   title = 'OCEAN VIEW',
-  date = 'EST. 2026 • LUXURY RESORT',
+  date = '',
   scrollToExpand = '',
   textBlend = true,
   children,
@@ -28,6 +28,15 @@ export default function ScrollExpandMedia({
     setShowContent(false);
     setMediaFullyExpanded(false);
   }, [mediaType]);
+
+  // Let the smooth-scroll layer know whether the page scroll is ours or the hero's
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent('hero-state', {
+        detail: { expanded: mediaFullyExpanded },
+      })
+    );
+  }, [mediaFullyExpanded]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -61,7 +70,11 @@ export default function ScrollExpandMedia({
         setTimeout(() => {
           const el = document.getElementById(id);
           if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
+            if (window.__lenis) {
+              window.__lenis.scrollTo(el, { duration: 1.4 });
+            } else {
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
           }
         }, 150);
       }
@@ -177,7 +190,7 @@ export default function ScrollExpandMedia({
     >
       <section className='relative flex flex-col items-center justify-start min-h-[100dvh] bg-[#060b13]'>
         <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
-          
+
           {/* Ambient Outer Resort Background Image (Rendered behind video card) */}
           <motion.div
             className='absolute inset-0 z-0 h-full overflow-hidden'
@@ -187,9 +200,11 @@ export default function ScrollExpandMedia({
           >
             <img
               src={bgImageSrc}
-              alt='Ocean View Villa Resort Background'
+              alt='Architectural render of the Ocean View Villas beachfront resort'
               width={1920}
               height={1080}
+              fetchPriority='high'
+              decoding='async'
               className='w-screen h-screen object-cover object-center scale-105'
             />
             <div className='absolute inset-0 bg-black/25' />
@@ -197,7 +212,7 @@ export default function ScrollExpandMedia({
 
           <div className='w-full flex flex-col items-center justify-start relative z-10'>
             <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative overflow-hidden'>
-              
+
               {/* Expanding Video Media Box */}
               <div
                 className='absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none overflow-hidden bg-black'
@@ -294,24 +309,23 @@ export default function ScrollExpandMedia({
               </div>
 
               {/* Title Text Splitting Outward ("OCEAN" Left, "VIEW" Right) */}
-              <div
-                className={`flex items-center justify-center text-center gap-2 md:gap-4 w-full relative z-10 transition-none flex-col ${
-                  textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
-                }`}
+              <h1
+                className={`flex items-center justify-center text-center gap-2 md:gap-4 w-full relative z-10 transition-none flex-col ${textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
+                  }`}
               >
-                <motion.h2
-                  className='text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-amber-100 uppercase drop-shadow-2xl'
+                <motion.span
+                  className='block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-amber-100 uppercase drop-shadow-2xl'
                   style={{ transform: `translateX(-${textTranslateX}vw)` }}
                 >
                   {firstWord}
-                </motion.h2>
-                <motion.h2
-                  className='text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-center text-amber-100 uppercase drop-shadow-2xl'
+                </motion.span>
+                <motion.span
+                  className='block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-serif tracking-wider font-bold text-center text-amber-100 uppercase drop-shadow-2xl'
                   style={{ transform: `translateX(${textTranslateX}vw)` }}
                 >
                   {restOfTitle}
-                </motion.h2>
-              </div>
+                </motion.span>
+              </h1>
 
             </div>
 

@@ -90,7 +90,7 @@ export default function Navbar() {
           />
           <CtaButton
             label='Register Interest'
-            onClick={() => scrollToSection('inquiry')}
+            onClick={() => scrollToSection('register')}
             showArrow={true}
             className={scrolled ? 'text-slate-900 hover:text-amber-700' : 'text-amber-200 hover:text-amber-300'}
           />
@@ -125,7 +125,7 @@ export default function Navbar() {
           />
           <CtaButton
             label='Register Interest'
-            onClick={() => scrollToSection('inquiry')}
+            onClick={() => scrollToSection('register')}
             showArrow={true}
             className='text-slate-900 hover:text-amber-700 py-1 font-bold'
           />
