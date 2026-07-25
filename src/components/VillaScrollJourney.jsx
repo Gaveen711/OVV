@@ -54,6 +54,12 @@ const villaImages = [
   },
 ];
 
+/* Card order for "The villa, room by room" - shuffle these numbers
+   to reorder the deck. 0 aerial, 1 plunge pool, 2 open living,
+   3 kitchen, 4 ocean suite, 5 balcony, 6 family room. */
+const stackOrder = [1, 6, 2, 3, 4, 5, 0];
+const stackImages = stackOrder.map((index) => villaImages[index]);
+
 /* Original zoom parallax - the collage of seven perspectives zooms
    outward as the visitor scrolls through the sticky sequence. */
 function ZoomParallax({ images }) {
@@ -320,7 +326,7 @@ export default function VillaScrollJourney() {
         ) : (
           <>
             <ZoomParallax images={villaImages} />
-            <VillaCardStack images={villaImages} />
+            <VillaCardStack images={stackImages} />
           </>
         )}
       </section>
