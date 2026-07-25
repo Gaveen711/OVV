@@ -1,6 +1,8 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
+  animate,
   motion,
+  useMotionValue,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
@@ -13,7 +15,6 @@ import {
   Expand,
   Waves,
 } from 'lucide-react';
-import LocationMap from './LocationMap';
 import './VillaScrollJourney.css';
 
 const villaImages = [
@@ -143,6 +144,431 @@ function getCardStyle(diff) {
   };
 }
 
+/* Gesture physics for the interactive cards. */
+const CARD_RETURN_SPRING = {
+  type: 'spring',
+  stiffness: 360,
+  damping: 32,
+  mass: 0.85,
+};
+const ZOOM_MAX = 4;
+const ZOOM_MIN = 0.82;
+const LOCKED_ZOOM = 2.25;
+
+const clampValue = (value, min, max) => Math.min(max, Math.max(min, value));
+
+/* Interactive card - grab and drag with a spring return, two-finger
+   pinch zoom anchored at the pinch midpoint, double-tap / double-click
+   to lock a zoom, and ctrl+wheel / trackpad pinch on desktop.
+   touch-action stays pan-y so vertical swipes keep scrolling the deck. */
+function InteractiveVillaCard({ image, diff, eager }) {
+  const innerRef = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const scale = useMotionValue(1);
+  const [engaged, setEngaged] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
+  const [settling, setSettling] = useState(false);
+  const zoomLock = useRef(false);
+  const settleTimer = useRef(null);
+  const wheelHandler = useRef(null);
+  const trackpadHandlers = useRef(null);
+  const gestureRef = useRef({
+    pointers: new Map(),
+    mode: null,
+    origin: { x: 0, y: 0 },
+    base: { x: 0, y: 0, scale: 1 },
+    center: { x: 0, y: 0 },
+    startDist: 1,
+    downTime: 0,
+    moved: false,
+    lastTap: { time: 0, x: 0, y: 0 },
+    lastToggle: 0,
+    trackpad: null,
+  });
+
+  const { zIndex: deckZIndex, ...deckMotion } = getCardStyle(diff);
+  /* The deck scales background cards down, so screen-space pointer
+     deltas are converted into the card's local space with this factor. */
+  const outerScale = deckMotion.scale || 1;
+  const active = engaged || zoomed || settling;
+
+  const stopMotion = () => {
+    x.stop();
+    y.stop();
+    scale.stop();
+  };
+
+  const measureCenter = () => {
+    const el = innerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    gestureRef.current.center = {
+      x: rect.left + rect.width / 2 - x.get() * outerScale,
+      y: rect.top + rect.height / 2 - y.get() * outerScale,
+    };
+  };
+
+  /* Offset that keeps the content point under `anchor` pinned to
+     `target` while the card scales from `fromScale` to `toScale`. */
+  const anchoredOffset = (anchor, target, base, fromScale, toScale) => {
+    const { center } = gestureRef.current;
+    const k = toScale / fromScale;
+    return {
+      x:
+        (target.x - center.x - k * (anchor.x - center.x - base.x * outerScale)) /
+        outerScale,
+      y:
+        (target.y - center.y - k * (anchor.y - center.y - base.y * outerScale)) /
+        outerScale,
+    };
+  };
+
+  const markSettling = () => {
+    setSettling(true);
+    if (settleTimer.current) clearTimeout(settleTimer.current);
+    settleTimer.current = setTimeout(() => setSettling(false), 700);
+  };
+
+  const springHome = (withVelocity) => {
+    markSettling();
+    animate(x, 0, {
+      ...CARD_RETURN_SPRING,
+      velocity: withVelocity ? x.getVelocity() : 0,
+    });
+    animate(y, 0, {
+      ...CARD_RETURN_SPRING,
+      velocity: withVelocity ? y.getVelocity() : 0,
+    });
+    animate(scale, 1, CARD_RETURN_SPRING);
+  };
+
+  const resetCard = (withVelocity = false) => {
+    zoomLock.current = false;
+    setZoomed(false);
+    springHome(withVelocity);
+  };
+
+  const toggleZoom = (px, py) => {
+    const g = gestureRef.current;
+    g.lastToggle = performance.now();
+    if (zoomLock.current) {
+      resetCard();
+      return;
+    }
+    stopMotion();
+    measureCenter();
+    zoomLock.current = true;
+    setZoomed(true);
+    const anchor = { x: px, y: py };
+    const next = anchoredOffset(
+      anchor,
+      anchor,
+      { x: x.get(), y: y.get() },
+      scale.get(),
+      LOCKED_ZOOM
+    );
+    animate(x, next.x, CARD_RETURN_SPRING);
+    animate(y, next.y, CARD_RETURN_SPRING);
+    animate(scale, LOCKED_ZOOM, CARD_RETURN_SPRING);
+  };
+
+  const onPointerDown = (e) => {
+    const g = gestureRef.current;
+    const el = innerRef.current;
+    if (!el) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (e.pointerType === 'mouse') e.preventDefault();
+    try {
+      el.setPointerCapture(e.pointerId);
+    } catch {
+      /* pointer already inactive */
+    }
+    stopMotion();
+    g.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    measureCenter();
+    if (g.pointers.size === 1) {
+      g.mode = 'drag';
+      g.origin = { x: e.clientX, y: e.clientY };
+      g.base = { x: x.get(), y: y.get(), scale: scale.get() };
+      g.moved = false;
+      g.downTime = performance.now();
+    } else if (g.pointers.size === 2) {
+      const [p1, p2] = [...g.pointers.values()];
+      g.mode = 'pinch';
+      g.origin = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
+      g.startDist = Math.max(1, Math.hypot(p2.x - p1.x, p2.y - p1.y));
+      g.base = { x: x.get(), y: y.get(), scale: scale.get() };
+      g.moved = true;
+    }
+    setEngaged(true);
+  };
+
+  const onPointerMove = (e) => {
+    const g = gestureRef.current;
+    if (!g.pointers.has(e.pointerId)) return;
+    g.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (g.mode === 'pinch' && g.pointers.size >= 2) {
+      const [p1, p2] = [...g.pointers.values()];
+      const mid = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
+      const distNow = Math.max(1, Math.hypot(p2.x - p1.x, p2.y - p1.y));
+      const nextScale = clampValue(
+        g.base.scale * (distNow / g.startDist),
+        ZOOM_MIN,
+        ZOOM_MAX
+      );
+      const next = anchoredOffset(g.origin, mid, g.base, g.base.scale, nextScale);
+      x.set(next.x);
+      y.set(next.y);
+      scale.set(nextScale);
+    } else if (g.mode === 'drag') {
+      const dx = e.clientX - g.origin.x;
+      const dy = e.clientY - g.origin.y;
+      if (!g.moved && Math.hypot(dx, dy) > 4) g.moved = true;
+      x.set(g.base.x + dx / outerScale);
+      y.set(g.base.y + dy / outerScale);
+    }
+  };
+
+  const onPointerEnd = (e) => {
+    const g = gestureRef.current;
+    if (!g.pointers.has(e.pointerId)) return;
+    g.pointers.delete(e.pointerId);
+
+    if (g.pointers.size === 1) {
+      /* Pinch collapsed to one finger - continue as a drag. */
+      const [p] = [...g.pointers.values()];
+      g.mode = 'drag';
+      g.origin = { x: p.x, y: p.y };
+      g.base = { x: x.get(), y: y.get(), scale: scale.get() };
+      return;
+    }
+    if (g.pointers.size > 0) return;
+
+    g.mode = null;
+    setEngaged(false);
+
+    /* Double-tap on touch toggles the zoom lock. */
+    if (e.pointerType === 'touch' && !g.moved && e.type === 'pointerup') {
+      const now = performance.now();
+      const quickTap = now - g.downTime < 350;
+      const prev = g.lastTap;
+      if (
+        quickTap &&
+        now - prev.time < 320 &&
+        Math.hypot(e.clientX - prev.x, e.clientY - prev.y) < 48
+      ) {
+        g.lastTap = { time: 0, x: 0, y: 0 };
+        toggleZoom(e.clientX, e.clientY);
+        return;
+      }
+      g.lastTap = quickTap
+        ? { time: now, x: e.clientX, y: e.clientY }
+        : { time: 0, x: 0, y: 0 };
+    }
+
+    if (zoomLock.current) {
+      const el = innerRef.current;
+      const s = scale.get();
+      if (s < 1.05 || !el) {
+        resetCard(true);
+        return;
+      }
+      /* Keep the zoom but snap the pan back over the card's slot. */
+      const maxX = ((s - 1) * el.offsetWidth) / 2;
+      const maxY = ((s - 1) * el.offsetHeight) / 2;
+      markSettling();
+      animate(x, clampValue(x.get(), -maxX, maxX), {
+        ...CARD_RETURN_SPRING,
+        velocity: x.getVelocity(),
+      });
+      animate(y, clampValue(y.get(), -maxY, maxY), {
+        ...CARD_RETURN_SPRING,
+        velocity: y.getVelocity(),
+      });
+      return;
+    }
+
+    springHome(true);
+  };
+
+  const onPointerLeave = (e) => {
+    if (e.pointerType === 'touch') return;
+    if (gestureRef.current.pointers.size > 0) return;
+    if (zoomLock.current) resetCard();
+  };
+
+  const onDoubleClick = (e) => {
+    /* Skip when the touch double-tap path already toggled. */
+    if (performance.now() - gestureRef.current.lastToggle < 700) return;
+    toggleZoom(e.clientX, e.clientY);
+  };
+
+  /* ctrl+wheel / trackpad pinch zoom - needs a non-passive listener. */
+  wheelHandler.current = (e) => {
+    if (!e.ctrlKey && !e.metaKey) return;
+    e.preventDefault();
+    e.stopPropagation();
+    stopMotion();
+    measureCenter();
+    const from = scale.get();
+    const step = e.deltaMode === 1 ? e.deltaY * 18 : e.deltaY;
+    const target = clampValue(from * Math.exp(-step * 0.0024), 1, ZOOM_MAX);
+    const anchor = { x: e.clientX, y: e.clientY };
+    const next = anchoredOffset(
+      anchor,
+      anchor,
+      { x: x.get(), y: y.get() },
+      from,
+      target
+    );
+    x.set(next.x);
+    y.set(next.y);
+    scale.set(target);
+    if (target > 1.02) {
+      if (!zoomLock.current) {
+        zoomLock.current = true;
+        setZoomed(true);
+      }
+    } else if (zoomLock.current) {
+      zoomLock.current = false;
+      setZoomed(false);
+      springHome(false);
+    }
+  };
+
+  /* Safari trackpad pinch fires gesture events instead of ctrl+wheel.
+     Skipped while a two-pointer pinch is active (iOS fires both). */
+  trackpadHandlers.current = {
+    start(e) {
+      const g = gestureRef.current;
+      if (g.pointers.size >= 2) return;
+      e.preventDefault();
+      stopMotion();
+      measureCenter();
+      g.trackpad = {
+        scale: scale.get(),
+        base: { x: x.get(), y: y.get() },
+        anchor: { x: e.clientX, y: e.clientY },
+      };
+    },
+    change(e) {
+      const g = gestureRef.current;
+      const t = g.trackpad;
+      if (!t || g.pointers.size >= 2) return;
+      e.preventDefault();
+      const target = clampValue(t.scale * e.scale, 1, ZOOM_MAX);
+      const next = anchoredOffset(t.anchor, t.anchor, t.base, t.scale, target);
+      x.set(next.x);
+      y.set(next.y);
+      scale.set(target);
+      if (target > 1.02 && !zoomLock.current) {
+        zoomLock.current = true;
+        setZoomed(true);
+      }
+    },
+    end(e) {
+      const g = gestureRef.current;
+      if (!g.trackpad) return;
+      e.preventDefault();
+      g.trackpad = null;
+      if (scale.get() <= 1.02) resetCard();
+    },
+  };
+
+  useEffect(() => {
+    const el = innerRef.current;
+    if (!el) return undefined;
+    const onWheel = (e) => wheelHandler.current?.(e);
+    el.addEventListener('wheel', onWheel, { passive: false });
+
+    const hasGestureEvents =
+      typeof window !== 'undefined' && 'GestureEvent' in window;
+    const onGestureStart = (e) => trackpadHandlers.current?.start(e);
+    const onGestureChange = (e) => trackpadHandlers.current?.change(e);
+    const onGestureEnd = (e) => trackpadHandlers.current?.end(e);
+    if (hasGestureEvents) {
+      el.addEventListener('gesturestart', onGestureStart);
+      el.addEventListener('gesturechange', onGestureChange);
+      el.addEventListener('gestureend', onGestureEnd);
+    }
+
+    return () => {
+      el.removeEventListener('wheel', onWheel);
+      if (hasGestureEvents) {
+        el.removeEventListener('gesturestart', onGestureStart);
+        el.removeEventListener('gesturechange', onGestureChange);
+        el.removeEventListener('gestureend', onGestureEnd);
+      }
+      if (settleTimer.current) clearTimeout(settleTimer.current);
+    };
+  }, []);
+
+  /* While a zoom is locked, let one finger pan the card instead of
+     scrolling the page. */
+  useEffect(() => {
+    const el = innerRef.current;
+    if (el) el.style.touchAction = zoomed ? 'none' : '';
+  }, [zoomed]);
+
+  /* Escape releases a locked zoom. */
+  useEffect(() => {
+    if (!zoomed) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') resetCard();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  });
+
+  /* When the deck flips to another card, spring this one home. */
+  const prevDiff = useRef(diff);
+  useEffect(() => {
+    if (prevDiff.current === diff) return;
+    prevDiff.current = diff;
+    if (gestureRef.current.pointers.size > 0) return;
+    if (zoomLock.current || x.get() !== 0 || y.get() !== 0 || scale.get() !== 1) {
+      resetCard();
+    }
+  });
+
+  return (
+    <motion.div
+      className='villa-stack__card'
+      style={{ zIndex: active ? 40 : deckZIndex }}
+      animate={{ ...deckMotion, opacity: active ? 1 : deckMotion.opacity }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30, mass: 1 }}
+    >
+      <motion.div
+        ref={innerRef}
+        className={`villa-stack__card-inner${
+          diff === 0 ? ' villa-stack__card-inner--current' : ''
+        }${active ? ' villa-stack__card-inner--active' : ''}`}
+        style={{ x, y, scale }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerEnd}
+        onPointerCancel={onPointerEnd}
+        onPointerLeave={onPointerLeave}
+        onDoubleClick={onDoubleClick}
+      >
+        <img
+          src={image.src}
+          alt={image.alt}
+          width='1600'
+          height='900'
+          loading={eager ? 'eager' : 'lazy'}
+          decoding='async'
+          draggable='false'
+        />
+        <div className='villa-stack__card-shade' aria-hidden='true' />
+        <p className='villa-stack__card-label'>{image.label}</p>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 function VillaCardStack({ images }) {
   const containerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -185,42 +611,13 @@ function VillaCardStack({ images }) {
           {images.map((image, index) => {
             const diff = index - currentIndex;
             if (Math.abs(diff) > 2) return null;
-            const style = getCardStyle(diff);
-            const isCurrent = diff === 0;
-
             return (
-              <motion.div
+              <InteractiveVillaCard
                 key={image.src}
-                className='villa-stack__card'
-                animate={style}
-                transition={{
-                  type: 'spring',
-                  stiffness: 300,
-                  damping: 30,
-                  mass: 1,
-                }}
-              >
-                <div
-                  className={`villa-stack__card-inner${
-                    isCurrent ? ' villa-stack__card-inner--current' : ''
-                  }`}
-                >
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    width='1600'
-                    height='900'
-                    loading={index < 2 ? 'eager' : 'lazy'}
-                    decoding='async'
-                    draggable='false'
-                  />
-                  <div
-                    className='villa-stack__card-shade'
-                    aria-hidden='true'
-                  />
-                  <p className='villa-stack__card-label'>{image.label}</p>
-                </div>
-              </motion.div>
+                image={image}
+                diff={diff}
+                eager={index < 2}
+              />
             );
           })}
         </div>
@@ -267,7 +664,7 @@ function VillaCardStack({ images }) {
           >
             <path d='M12 5v14M5 12l7-7 7 7' />
           </motion.svg>
-          <span>Scroll to browse</span>
+          <span>Scroll to browse · drag, pinch or double-tap a card</span>
           <motion.svg
             width='20'
             height='20'
@@ -372,8 +769,6 @@ export default function VillaScrollJourney() {
           </dl>
         </div>
       </section>
-
-      <LocationMap />
 
       <section id='inquiry' className='villa-inquiry'>
         <p>Ocean View Villas / Uswetakeiyawa, Sri Lanka</p>
