@@ -1,4 +1,5 @@
 import Navbar from './components/Navbar';
+import ScrollToTop from './components/ScrollToTop';
 import SmoothScroll from './components/SmoothScroll';
 import ScrollExpandMedia from './components/ScrollExpandMedia';
 import AboutVillas from './components/AboutVillas';
@@ -15,6 +16,9 @@ export default function App() {
 
       {/* Top Glass Navbar */}
       <Navbar />
+
+      {/* Minimal floating back-to-top control */}
+      <ScrollToTop />
 
       {/* Hero Section with ScrollExpandMedia component */}
       <ScrollExpandMedia

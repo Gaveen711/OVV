@@ -83,6 +83,14 @@
   transform: scale(0.9);
 }
 
+/* Compact navbar variant of the CTA link */
+.cta-compact span {
+  font-size: 11px;
+  letter-spacing: 2.2px;
+  padding-bottom: 3px;
+  padding-right: 6px;
+}
+
 .hover-underline-animation {
   position: relative;
   padding-bottom: 4px;

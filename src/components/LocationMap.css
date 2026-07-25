@@ -1,0 +1,378 @@
+.location-map {
+  --lm-ink: #f6f1e9;
+  --lm-muted: #bac6cf;
+  --lm-dark: #090e12;
+  --lm-accent: #e7ab4d;
+  background: var(--lm-dark);
+  color: var(--lm-ink);
+  padding: clamp(88px, 12vh, 152px) clamp(24px, 6vw, 96px);
+}
+
+.location-map__intro {
+  width: min(100%, 1420px);
+  margin: 0 auto clamp(40px, 6vh, 72px);
+}
+
+.location-map__label {
+  margin: 0 0 22px;
+  color: var(--lm-accent);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.location-map__label::before {
+  content: '';
+  display: inline-block;
+  width: clamp(42px, 5vw, 72px);
+  height: 1px;
+  margin-right: 18px;
+  vertical-align: middle;
+  background: currentColor;
+}
+
+.location-map h2 {
+  max-width: 16ch;
+  margin: 0 0 28px;
+  font-family: var(--font-serif);
+  font-size: clamp(2.7rem, 5.4vw, 4.6rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.location-map__copy {
+  max-width: 54ch;
+  margin: 0;
+  color: var(--lm-muted);
+  font-size: clamp(1rem, 1.15vw, 1.12rem);
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+
+/* ---------------------------------------------------------------- */
+/* Map card                                                         */
+/* ---------------------------------------------------------------- */
+
+.location-map__frame {
+  position: relative;
+  width: min(100%, 1420px);
+  margin-inline: auto;
+  overflow: hidden;
+  border: 1px solid rgba(246, 241, 233, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
+}
+
+.location-map__canvas {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: clamp(420px, 62vh, 660px);
+  background: #0b1016;
+  font-family: var(--font-sans);
+}
+
+/* Route selector chips (top-left, like a navigation app) */
+.location-map__chips {
+  position: absolute;
+  z-index: 10;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.location-map__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid rgba(246, 241, 233, 0.12);
+  border-radius: 12px;
+  background: rgba(13, 18, 24, 0.82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--lm-ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.location-map__chip svg {
+  width: 14px;
+  height: 14px;
+  color: var(--lm-muted);
+  transition: color 220ms ease;
+}
+
+.location-map__chip:hover {
+  border-color: rgba(246, 241, 233, 0.3);
+}
+
+.location-map__chip.is-active {
+  border-color: rgba(231, 171, 77, 0.55);
+  background: rgba(18, 24, 31, 0.94);
+}
+
+.location-map__chip.is-active svg {
+  color: var(--lm-accent);
+}
+
+.location-map__chip:focus-visible {
+  outline: 2px solid var(--lm-accent);
+  outline-offset: 2px;
+}
+
+.location-map__chip-badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--lm-accent);
+  color: #131a24;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------- */
+/* Markers                                                          */
+/* ---------------------------------------------------------------- */
+
+.lm-marker {
+  background: transparent;
+  border: none;
+}
+
+.lm-marker--airport .lm-marker__badge {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(246, 241, 233, 0.4);
+  border-radius: 50%;
+  background: #10161d;
+  color: var(--lm-ink, #f6f1e9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+}
+
+.lm-marker--airport svg {
+  width: 16px;
+  height: 16px;
+}
+
+.lm-marker--resort {
+  position: relative;
+}
+
+.lm-marker--resort .lm-marker__dot {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: #e7ab4d;
+  box-shadow:
+    0 0 0 2px rgba(9, 14, 18, 0.9),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.lm-marker--resort .lm-marker__pulse {
+  position: absolute;
+  inset: -7px;
+  border: 1.5px solid rgba(231, 171, 77, 0.7);
+  border-radius: 50%;
+  animation: lm-pulse 2.4s ease-out infinite;
+}
+
+@keyframes lm-pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+  70%,
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lm-marker--resort .lm-marker__pulse {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Leaflet chrome restyled for the dark card                        */
+/* ---------------------------------------------------------------- */
+
+.location-map .lm-tip {
+  padding: 4px 10px;
+  border: 1px solid rgba(246, 241, 233, 0.14);
+  border-radius: 8px;
+  background: rgba(13, 18, 24, 0.88);
+  color: var(--lm-ink, #f6f1e9);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.location-map .lm-tip::before {
+  display: none;
+}
+
+.location-map .lm-tip--label {
+  text-transform: uppercase;
+}
+
+.location-map .lm-tip--resort {
+  border-color: rgba(231, 171, 77, 0.5);
+  color: #e7ab4d;
+}
+
+/* Long airport label swaps for a short one on narrow screens */
+.lm-tip__short {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  .lm-tip__full {
+    display: none;
+  }
+
+  .lm-tip__short {
+    display: inline;
+  }
+}
+
+.location-map .leaflet-bar {
+  border: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.location-map .leaflet-bar a {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-bottom: 1px solid rgba(246, 241, 233, 0.1);
+  background: rgba(13, 18, 24, 0.9);
+  color: var(--lm-ink);
+}
+
+.location-map .leaflet-bar a:hover,
+.location-map .leaflet-bar a:focus {
+  background: rgba(24, 31, 40, 0.95);
+  color: var(--lm-accent);
+}
+
+.location-map .leaflet-bar a.leaflet-disabled {
+  background: rgba(13, 18, 24, 0.6);
+  color: rgba(246, 241, 233, 0.3);
+}
+
+.location-map .leaflet-control-attribution {
+  background: rgba(9, 14, 18, 0.72);
+  color: #9aa5b1;
+  font-size: 10px;
+}
+
+.location-map .leaflet-control-attribution a {
+  color: #b6c0ca;
+}
+
+.location-map .leaflet-container a.leaflet-control-attribution-toggle,
+.location-map .leaflet-container {
+  outline-color: var(--lm-accent);
+}
+
+/* ---------------------------------------------------------------- */
+/* Footer line                                                      */
+/* ---------------------------------------------------------------- */
+
+.location-map__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 28px;
+  width: min(100%, 1420px);
+  margin: 20px auto 0;
+}
+
+.location-map__foot p {
+  margin: 0;
+  color: var(--lm-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.location-map__foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--lm-accent);
+  color: var(--lm-ink);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    color 220ms ease,
+    border-color 220ms ease;
+}
+
+.location-map__foot a:hover {
+  color: var(--lm-accent);
+  border-color: var(--lm-ink);
+}
+
+.location-map__foot a:focus-visible {
+  outline: 2px solid var(--lm-accent);
+  outline-offset: 4px;
+}
+
+.location-map__foot a svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---------------------------------------------------------------- */
+/* Responsive                                                       */
+/* ---------------------------------------------------------------- */
+
+@media (max-width: 620px) {
+  .location-map {
+    padding-inline: 24px;
+  }
+
+  .location-map__canvas {
+    height: clamp(360px, 58vh, 520px);
+  }
+
+  .location-map__chips {
+    top: 12px;
+    left: 12px;
+  }
+
+  .location-map__chip {
+    padding: 8px 12px;
+    font-size: 0.72rem;
+  }
+
+  .location-map__foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
