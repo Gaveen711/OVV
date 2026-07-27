@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
 import SmoothScroll from './components/SmoothScroll';
@@ -24,10 +25,10 @@ export default function App() {
       <ScrollExpandMedia
         mediaType='video'
         mediaSrc={{
-          desktop: { webm: '/videos/hero-1080.webm', mp4: '/videos/hero-1080.mp4' },
-          mobile: { webm: '/videos/hero-720.webm', mp4: '/videos/hero-720.mp4' },
+          desktop: { webm: 'https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-1080.webm', mp4: 'https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-1080.mp4' },
+          mobile:  { webm: 'https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-720.webm',  mp4: 'https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-720.mp4' },
         }}
-        posterSrc='/images/hero-poster.jpg'
+        posterSrc='https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-poster.jpg'
         bgImageSrc='/images/resort-hero-bg.jpg'
         title='OCEAN VIEW'
         scrollToExpand=''
@@ -39,6 +40,7 @@ export default function App() {
         <RegisterInterest />
         <Footer />
       </ScrollExpandMedia>
+      <Analytics />
     </div>
   );
 }
