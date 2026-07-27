@@ -1,0 +1,7 @@
+# Large media files — served from Vercel Blob CDN, not bundled in the deploy
+public/videos/
+public/images/hero-poster.jpg
+media-source/
+
+# Local dev / encoding scripts
+scripts/encode-hero.mjs
