@@ -1,17 +1,27 @@
+import { Reveal, RevealGroup } from './Reveal';
+import BrandWordmark from './BrandWordmark';
+import { revealChild } from './motionTokens';
+import { motion } from 'framer-motion';
 import './Footer.css';
 
 export default function Footer() {
   return (
     <footer className='site-footer'>
-      <div className='site-footer__layout'>
-        <div className='site-footer__brand'>
-          <p className='site-footer__wordmark'>Ocean View</p>
+      <RevealGroup className='site-footer__layout' stagger={0.1}>
+        <motion.div className='site-footer__brand' variants={revealChild}>
+          <p className='site-footer__wordmark'>
+            <BrandWordmark accentClassName='site-footer__monogram' />
+          </p>
           <p className='site-footer__tagline'>
             Six beachfront residences in Uswetakeiyawa, Sri Lanka.
           </p>
-        </div>
+        </motion.div>
 
-        <nav className='site-footer__menu' aria-label='Footer'>
+        <motion.nav
+          className='site-footer__menu'
+          aria-label='Footer'
+          variants={revealChild}
+        >
           <h4>Explore</h4>
           <ul>
             <li>
@@ -27,9 +37,9 @@ export default function Footer() {
               <a href='/privacy-policy.html'>Privacy Policy</a>
             </li>
           </ul>
-        </nav>
+        </motion.nav>
 
-        <div className='site-footer__contact'>
+        <motion.div className='site-footer__contact' variants={revealChild}>
           <h4>Contact</h4>
           <ul>
             <li>Uswetakeiyawa, Sri Lanka</li>
@@ -42,12 +52,12 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-        </div>
-      </div>
+        </motion.div>
+      </RevealGroup>
 
-      <div className='site-footer__base'>
+      <Reveal className='site-footer__base' y={16} duration={0.7} delay={0.1}>
         <p>&copy; 2026 Ocean View Villas. All rights reserved.</p>
-      </div>
+      </Reveal>
     </footer>
   );
 }

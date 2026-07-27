@@ -15,6 +15,8 @@ import {
   Expand,
   Waves,
 } from 'lucide-react';
+import { Reveal, RevealGroup, RevealText } from './Reveal';
+import { revealChild } from './motionTokens';
 import './VillaScrollJourney.css';
 
 const villaImages = [
@@ -715,6 +717,8 @@ export default function VillaScrollJourney() {
         className='villa-gallery'
         aria-labelledby='villa-gallery-title'
       >
+        {/* Visually hidden (clipped to 1px) - it exists to label the section
+            for assistive tech, so there is nothing here to animate. */}
         <h2 id='villa-gallery-title' className='villa-gallery__title'>
           Seven views inside Ocean View Villas
         </h2>
@@ -729,55 +733,65 @@ export default function VillaScrollJourney() {
       </section>
 
       <section id='amenities' className='villa-proof'>
-        <div className='villa-proof__plan'>
+        <Reveal className='villa-proof__plan' y={34} duration={1}>
           <img
             src='/images/ovv/master-plan.webp'
             alt='Master plan showing the six Ocean View Villas on the beachfront site'
             loading='lazy'
             decoding='async'
           />
-        </div>
+        </Reveal>
         <div className='villa-proof__content'>
-          <p className='villa-proof__lead'>Six keys. One coastline.</p>
-          <h2>A beachfront collection made deliberately scarce.</h2>
-          <p>
+          <Reveal as='p' className='villa-proof__lead' y={16} duration={0.7}>
+            Six keys. One coastline.
+          </Reveal>
+          <RevealText delay={0.08}>
+            A beachfront collection made deliberately scarce.
+          </RevealText>
+          <Reveal as='p' delay={0.18}>
             Every residence combines private outdoor living with the scale and
             service spaces of a permanent home - positioned between Colombo and
             Negombo with the airport within easy reach.
-          </p>
-          <dl>
-            <div>
+          </Reveal>
+          <RevealGroup as='dl' delay={0.1} stagger={0.09}>
+            <motion.div variants={revealChild}>
               <BedDouble aria-hidden='true' />
               <dt>Bedrooms</dt>
               <dd>4 per villa</dd>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={revealChild}>
               <Expand aria-hidden='true' />
               <dt>Built area</dt>
               <dd>5,500 sq ft</dd>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={revealChild}>
               <Waves aria-hidden='true' />
               <dt>Outdoor living</dt>
               <dd>Pool + garden</dd>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={revealChild}>
               <CarFront aria-hidden='true' />
               <dt>Private parking</dt>
               <dd>2-car garage</dd>
-            </div>
-          </dl>
+            </motion.div>
+          </RevealGroup>
         </div>
       </section>
 
       <section id='inquiry' className='villa-inquiry'>
-        <p>Ocean View Villas / Uswetakeiyawa, Sri Lanka</p>
-        <h2>Own one of six.</h2>
-        <a href='#register'>
+        <Reveal as='p' y={16} duration={0.7}>
+          Ocean View Villas / Uswetakeiyawa, Sri Lanka
+        </Reveal>
+        <RevealText delay={0.08} stagger={0.07}>
+          Own one of six.
+        </RevealText>
+        <Reveal as='a' href='#register' delay={0.22}>
           Request the private presentation
           <ArrowUpRight aria-hidden='true' />
-        </a>
-        <span>+94 11 4 335 444</span>
+        </Reveal>
+        <Reveal as='span' delay={0.3} y={14} duration={0.7}>
+          +94 11 4 335 444
+        </Reveal>
       </section>
     </main>
   );

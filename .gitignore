@@ -26,6 +26,9 @@ dist-ssr
 # Media files
 # The 4K master stays local; only the web-ready hero encodes are committed,
 # otherwise Vercel (which deploys from git) ships a site with no hero video.
+# Screenshots from scripts/capture-scroll.mjs - regenerate, don't commit
+scroll-capture/
+
 media-source/
 public/videos/
 public/images/hero-poster.jpg

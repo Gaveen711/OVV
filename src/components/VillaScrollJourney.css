@@ -499,6 +499,21 @@
   gap: 4px 14px;
   padding: 24px 16px 24px 0;
   border-bottom: 1px solid #abb2b8;
+  transition: border-color 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.villa-proof dl div:hover {
+  border-bottom-color: var(--journey-accent, #874e00);
+}
+
+/* The icon carries the hover, not the whole row - a row-level lift would
+   fight the 1px rules that tie the grid together. */
+.villa-proof dl div svg {
+  transition: transform 380ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.villa-proof dl div:hover svg {
+  transform: translateY(-2px) scale(1.08);
 }
 
 .villa-proof dl div:nth-child(odd) {
@@ -590,6 +605,17 @@
 .villa-inquiry a svg {
   width: 18px;
   height: 18px;
+  transition: transform 380ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* The arrow points up-right, so it travels along its own diagonal. */
+.villa-inquiry a:hover svg,
+.villa-inquiry a:focus-visible svg {
+  transform: translate(3px, -3px);
+}
+
+.villa-inquiry a:active {
+  transform: scale(0.985);
 }
 
 .villa-inquiry > span {
@@ -747,7 +773,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .villa-inquiry a {
+  .villa-inquiry a,
+  .villa-inquiry a svg,
+  .villa-proof dl div,
+  .villa-proof dl div svg {
     transition: none;
+  }
+
+  .villa-inquiry a:hover svg,
+  .villa-inquiry a:focus-visible svg,
+  .villa-proof dl div:hover svg {
+    transform: none;
   }
 }

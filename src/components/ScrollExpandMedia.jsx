@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import './ScrollExpandMedia.css';
 
 /**
  * ScrollExpandMedia component with Multi-Browser compatibility, Firefox wheel normalization, Safari video autoplay enforcement, and touch progress handling.
@@ -34,6 +35,7 @@ export default function ScrollExpandMedia({
   posterSrc = '',
   bgImageSrc = '/images/resort-hero-bg.jpg',
   title = 'OCEAN VIEW',
+  titleAccent = '',
   date = '',
   scrollToExpand = '',
   textBlend = true,
@@ -259,6 +261,28 @@ export default function ScrollExpandMedia({
   const firstWord = title ? title.split(' ')[0] : '';
   const restOfTitle = title ? title.split(' ').slice(1).join(' ') : '';
 
+  /* Accent word ("VILLA") in the wordmark.
+     Present from the moment the page loads - it is part of the brand name, so
+     it is not gated behind a scroll gesture. What scroll drives is the motion:
+     as OCEAN and VIEW slide apart, the accent's letters lift on a stagger and
+     its tracking opens, so the wordmark expands with the frame instead of just
+     sitting there. It fades out with the rest as the video reaches full bleed.
+
+     Progress is derived straight from `scrollProgress` rather than per-letter
+     `useTransform` hooks - hooks cannot be called from inside a map, and the
+     value is already React state here, so plain arithmetic is both simpler and
+     one less subscription per letter. */
+  const accentLetters = titleAccent ? [...titleAccent] : [];
+  const letterDrift = (i) => {
+    const start = i * 0.05;
+    const t = (scrollProgress - start) / 0.5;
+    return Math.min(Math.max(t, 0), 1);
+  };
+  const accentTracking = 0.34 + scrollProgress * 0.3;
+  /* Fade spread over the last ~28% of the expand. Anything tighter lands
+     inside a couple of wheel notches and reads as a blink rather than a fade. */
+  const accentOpacity = Math.max(0, 1 - Math.max(0, scrollProgress - 0.72) / 0.28);
+
   return (
     <div
       ref={sectionRef}
@@ -415,7 +439,43 @@ export default function ScrollExpandMedia({
                 >
                   {restOfTitle}
                 </motion.span>
+
+                {/* Completes the heading's accessible name. The visible accent
+                    is rendered outside this element - see below. */}
+                {accentLetters.length > 0 && (
+                  <span className='sr-only'>{titleAccent}</span>
+                )}
               </h1>
+
+              {/* Accent word, deliberately OUTSIDE the h1.
+                  The heading carries `mix-blend-difference`, and a child cannot
+                  opt out of its parent's blend - the element composites as one
+                  group. Over bright footage that inverts this lighter, widely
+                  tracked word to near-black and it stops being readable, so it
+                  sits outside the blending context and keeps its own colour. */}
+              {accentLetters.length > 0 && (
+                <span
+                  aria-hidden='true'
+                  className='hero-accent relative z-10 block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-amber-100 uppercase drop-shadow-[0_2px_18px_rgba(0,0,0,0.95)]'
+                  style={{
+                    opacity: accentOpacity,
+                    letterSpacing: `${accentTracking}em`,
+                  }}
+                >
+                  {accentLetters.map((letter, i) => {
+                    const p = letterDrift(i);
+                    return (
+                      <span
+                        className='hero-accent__letter'
+                        key={`${letter}-${i}`}
+                        style={{ transform: `translateY(${-p * 10}px)` }}
+                      >
+                        {letter}
+                      </span>
+                    );
+                  })}
+                </span>
+              )}
 
             </div>
 

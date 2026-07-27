@@ -31,6 +31,7 @@ export default function App() {
         posterSrc='https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-poster.jpg'
         bgImageSrc='/images/resort-hero-bg.jpg'
         title='OCEAN VIEW'
+        titleAccent='VILLAS'
         scrollToExpand=''
         textBlend={true}
       >

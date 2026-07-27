@@ -1,0 +1,26 @@
+/* Masked word reveal.
+   Each word gets its own clipping box so words can still wrap naturally -
+   a single mask around the whole heading would break line wrapping. */
+.reveal-word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* Display headings here run a line-height below 1 (0.94 on the About
+     heading), which makes the inline-block content box shorter than the
+     glyphs - `overflow: hidden` would then shave ascenders and descenders.
+     Padding grows the clip box past the glyphs on both edges and the matching
+     negative margins keep the outer box, and so the line metrics, unchanged. */
+  padding-block: 0.18em;
+  margin-block: -0.18em;
+}
+
+.reveal-word {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Released once the entrance is done - a permanent will-change on every word
+   keeps dozens of throwaway compositor layers alive for the whole session. */
+.reveal-word[data-revealed='true'] {
+  will-change: auto;
+}

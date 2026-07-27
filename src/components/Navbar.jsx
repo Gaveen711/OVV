@@ -1,21 +1,30 @@
 import { useState, useEffect } from 'react';
-import { Waves, Menu, X } from 'lucide-react';
+import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
 import CtaButton from './CtaButton';
+import { EASE_UI } from './motionTokens';
+import BrandWordmark from './BrandWordmark';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
+  // Reading progress hairline. Spring-smoothed so it trails the scroll
+  // fractionally instead of snapping frame to frame.
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 140,
+    damping: 28,
+    restDelta: 0.001,
+  });
 
-    window.addEventListener('scroll', handleScroll);
+  useEffect(() => {
+    // Passive: a non-passive scroll listener forces the browser to wait on JS
+    // before it can commit the scroll, which shows up as stutter under Lenis.
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -43,31 +52,22 @@ export default function Navbar() {
       }`}
     >
       <div className='max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between'>
-        {/* Brand Logo */}
+        {/* Brand wordmark - plain type, no mark. Natural casing rather than
+            uppercase so the O/V/V initials read as the OVV monogram. */}
         <a
           href='#'
           onClick={scrollToTop}
-          className='flex items-center gap-3.5 group'
+          className={`group font-serif text-xl md:text-2xl tracking-[0.12em] transition-colors duration-300 ${
+            scrolled ? 'text-slate-900' : 'text-white drop-shadow-md'
+          }`}
         >
-          <div className='w-11 h-11 rounded-full border border-amber-600/40 flex items-center justify-center bg-amber-500/10 group-hover:bg-amber-500/20 transition-all shadow-sm'>
-            <Waves className={`w-5 h-5 transition-colors ${scrolled ? 'text-amber-700' : 'text-amber-300'}`} />
-          </div>
-          <div className='flex flex-col justify-center'>
-            <span
-              className={`font-serif text-2xl md:text-3xl tracking-[0.2em] font-bold uppercase transition-colors leading-tight ${
-                scrolled ? 'text-slate-900 group-hover:text-amber-700' : 'text-white group-hover:text-amber-200 drop-shadow-md'
-              }`}
-            >
-              OCEAN VIEW
-            </span>
-            <span
-              className={`text-[11px] tracking-[0.35em] uppercase font-semibold transition-colors ${
-                scrolled ? 'text-amber-700' : 'text-amber-300 drop-shadow'
-              }`}
-            >
-              VILLA & RESORT
-            </span>
-          </div>
+          <BrandWordmark
+            accentClassName={`transition-colors duration-300 ${
+              scrolled
+                ? 'text-amber-700 group-hover:text-amber-600'
+                : 'text-amber-300 group-hover:text-amber-200'
+            }`}
+          />
         </a>
 
         {/* Desktop Nav Links — compact refined sizing */}
@@ -91,7 +91,7 @@ export default function Navbar() {
           {/* Refined outline CTA Pill for Register Interest */}
           <button
             onClick={() => scrollToSection('inquiry')}
-            className={`group px-5 py-2 rounded-full border text-[10px] font-semibold tracking-[0.25em] uppercase transition-all duration-300 flex items-center gap-2 cursor-pointer ${
+            className={`group px-5 py-2 rounded-full border text-[10px] font-semibold tracking-[0.25em] uppercase transition-all duration-300 ease-out flex items-center gap-2 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] ${
               scrolled
                 ? 'border-slate-900/60 text-slate-900 hover:bg-slate-900 hover:border-slate-900 hover:text-amber-300'
                 : 'border-white/60 bg-white/10 text-white backdrop-blur-sm hover:bg-amber-600 hover:border-amber-600 shadow-lg shadow-black/10'
@@ -119,32 +119,49 @@ export default function Navbar() {
         </button>
       </div>
 
+      {/* Reading progress. Only once the nav has its solid background, so it
+          never floats over the hero as a stray line. */}
+      <motion.div
+        aria-hidden='true'
+        className='absolute bottom-0 left-0 right-0 h-px origin-left bg-gradient-to-r from-amber-600/70 via-amber-500 to-amber-300/70'
+        style={{ scaleX: progress, opacity: scrolled ? 1 : 0 }}
+        transition={{ opacity: { duration: 0.3 } }}
+      />
+
       {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className='md:hidden absolute top-full left-0 right-0 bg-[#FAF8F5]/98 backdrop-blur-2xl py-8 px-8 flex flex-col gap-5 shadow-2xl border-t border-stone-200/80 animate-in fade-in slide-in-from-top-4 duration-300'>
-          <CtaButton
-            label='Villas & Suites'
-            onClick={() => scrollToSection('villas')}
-            showArrow={false}
-            className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
-          />
-          <CtaButton
-            label='Experiences'
-            onClick={() => scrollToSection('amenities')}
-            showArrow={false}
-            className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
-          />
-          <button
-            onClick={() => scrollToSection('inquiry')}
-            className='w-full py-3 px-6 rounded-full border border-slate-900/70 text-slate-900 font-semibold text-[11px] tracking-[0.25em] uppercase flex items-center justify-center gap-2 mt-2 transition-colors hover:bg-slate-900 hover:text-amber-300'
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            className='md:hidden absolute top-full left-0 right-0 bg-[#FAF8F5]/98 backdrop-blur-2xl py-8 px-8 flex flex-col gap-5 shadow-2xl border-t border-stone-200/80 origin-top overflow-hidden'
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.42, ease: EASE_UI }}
           >
-            <span>Register Interest</span>
-            <svg className='w-3.5 h-2.5 fill-current' viewBox='0 0 46 16'>
-              <path d='M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z' transform='translate(30)' />
-            </svg>
-          </button>
-        </div>
-      )}
+            <CtaButton
+              label='Villas & Suites'
+              onClick={() => scrollToSection('villas')}
+              showArrow={false}
+              className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
+            />
+            <CtaButton
+              label='Experiences'
+              onClick={() => scrollToSection('amenities')}
+              showArrow={false}
+              className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
+            />
+            <button
+              onClick={() => scrollToSection('inquiry')}
+              className='w-full py-3 px-6 rounded-full border border-slate-900/70 text-slate-900 font-semibold text-[11px] tracking-[0.25em] uppercase flex items-center justify-center gap-2 mt-2 transition-all duration-300 hover:bg-slate-900 hover:text-amber-300 active:scale-[0.98]'
+            >
+              <span>Register Interest</span>
+              <svg className='w-3.5 h-2.5 fill-current' viewBox='0 0 46 16'>
+                <path d='M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z' transform='translate(30)' />
+              </svg>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

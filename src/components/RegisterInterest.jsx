@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AlertCircle, CheckCircle2, ChevronDown, Loader2 } from 'lucide-react';
 import { HUBSPOT_CONFIG } from '../config/hubspot';
+import { Reveal, RevealText } from './Reveal';
 import './RegisterInterest.css';
 
 const dialCodes = [
@@ -158,7 +159,7 @@ export default function RegisterInterest() {
       aria-labelledby='register-interest-title'
     >
       <div className='register-interest__layout'>
-        <aside className='register-interest__rail'>
+        <Reveal as='aside' className='register-interest__rail' y={18} duration={0.7}>
           <svg
             width='34'
             height='34'
@@ -182,10 +183,12 @@ export default function RegisterInterest() {
             />
           </svg>
           <p>For more information</p>
-        </aside>
+        </Reveal>
 
         <div className='register-interest__body'>
-          <h2 id='register-interest-title'>Register your interest</h2>
+          <RevealText id='register-interest-title'>
+            Register your interest
+          </RevealText>
 
           {status.success ? (
             <div className='register-interest__success' role='status'>

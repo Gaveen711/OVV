@@ -7,7 +7,10 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* No `scroll-behavior: smooth` here. Lenis sets the scroll position every
+       frame, and native smooth-scroll would then ease *toward* each of those
+       targets - a second easing layer on top of the first, which reads as lag.
+       The reduced-motion fallback below restores it for users without Lenis. */
     font-family: var(--font-sans);
     background-color: #FAF8F5;
     color: #1E293B;
@@ -21,6 +24,29 @@
 
   h1, h2, h3, h4, .font-serif {
     font-family: var(--font-serif);
+  }
+
+  /* Lenis is skipped entirely for these users, so hand scrolling back to the
+     browser and strip the entrance animations rather than leaving content
+     stuck at its pre-reveal opacity. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: smooth;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    /* Stops the scroll chain from bouncing the page behind Lenis. */
+    overscroll-behavior-y: none;
   }
 }
 
@@ -67,20 +93,31 @@
   font-size: 13px;
   padding-right: 8px;
   text-transform: uppercase;
+  transition: color 260ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .cta svg {
   transform: translateX(-6px);
-  transition: all 0.3s ease;
+  /* Same curve as the rest of the interaction layer - `all` also animated
+     `fill`, which has nothing to transition and only widened the property set
+     the compositor has to watch. */
+  transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
   fill: currentColor;
 }
 
-.cta:hover svg {
+.cta:hover svg,
+.cta:focus-visible svg {
   transform: translateX(0);
 }
 
 .cta:active svg {
-  transform: scale(0.9);
+  transform: translateX(0) scale(0.9);
+}
+
+.cta:focus-visible {
+  outline: 2px solid rgba(197, 155, 39, 0.8);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 /* Compact navbar variant of the CTA link */

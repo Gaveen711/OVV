@@ -24,7 +24,10 @@
 }
 
 .about-villas__label {
-  grid-column: 1 / 4;
+  /* Through column 4, not 3: the rule drawn by ::before eats ~90px of a
+     three-column track, which pushed "Villas" onto its own line under the
+     rule. The heading starts at column 5, so this still does not collide. */
+  grid-column: 1 / 5;
   align-self: end;
   margin: 0 0 0.55rem;
   color: var(--about-accent);
