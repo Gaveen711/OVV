@@ -24,8 +24,18 @@ dist-ssr
 *.sw?
 
 # Media files
-public/videos/
+# The 4K master stays local; only the web-ready hero encodes are committed,
+# otherwise Vercel (which deploys from git) ships a site with no hero video.
+media-source/
 *.mp4
+public/videos/*
+# Negations come last so they win over the two broad rules above. Note the dir
+# rule is `public/videos/*`, not `public/videos/` - git will not descend into an
+# ignored directory, so an ignored dir cannot have its contents un-ignored.
+!public/videos/hero-1080.mp4
+!public/videos/hero-720.mp4
+!public/videos/hero-1080.webm
+!public/videos/hero-720.webm
 .vercel
 
 .vercel

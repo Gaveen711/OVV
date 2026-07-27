@@ -4,9 +4,34 @@ import { motion } from 'framer-motion';
 /**
  * ScrollExpandMedia component with Multi-Browser compatibility, Firefox wheel normalization, Safari video autoplay enforcement, and touch progress handling.
  */
+/**
+ * Resolve the `<source>` list once, at mount. Picking the variant here rather
+ * than with `<source media=...>` avoids the browser fetching both renditions,
+ * and freezing it for the component's lifetime means a resize can never swap
+ * the src out from under a playing video.
+ */
+function resolveSources(mediaSrc) {
+  if (typeof mediaSrc === 'string') return [{ src: mediaSrc, type: 'video/mp4' }];
+  if (!mediaSrc) return [];
+
+  const isSmall =
+    typeof window !== 'undefined' &&
+    (window.matchMedia('(max-width: 768px)').matches || window.innerWidth < 768);
+  const set = (isSmall ? mediaSrc.mobile : mediaSrc.desktop) ?? mediaSrc.desktop ?? mediaSrc.mobile;
+  if (!set) return [];
+
+  // WebM first: Chrome/Firefox take the smaller VP9 file, Safari falls through
+  // to the MP4 without ever requesting the WebM.
+  return [
+    set.webm && { src: set.webm, type: 'video/webm' },
+    set.mp4 && { src: set.mp4, type: 'video/mp4' },
+  ].filter(Boolean);
+}
+
 export default function ScrollExpandMedia({
   mediaType = 'video',
   mediaSrc,
+  posterSrc = '',
   bgImageSrc = '/images/resort-hero-bg.jpg',
   title = 'OCEAN VIEW',
   date = '',
@@ -17,14 +42,29 @@ export default function ScrollExpandMedia({
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState(false);
-  const [touchStartY, setTouchStartY] = useState(0);
   const [isMobileState, setIsMobileState] = useState(false);
   const [winSize, setWinSize] = useState({ width: 1400, height: 900 });
+  const [videoSources] = useState(() =>
+    mediaType === 'video' ? resolveSources(mediaSrc) : []
+  );
 
   const sectionRef = useRef(null);
   const videoRef = useRef(null);
 
+  // Scroll progress is accumulated in a ref and flushed to state once per
+  // animation frame. Wheel/touch events fire far faster than the display
+  // refreshes, and every commit relayouts the media box, so throttling here is
+  // what keeps the expand smooth instead of stuttering.
+  const progressRef = useRef(0);
+  const rafRef = useRef(null);
+  const expandedRef = useRef(false);
+  const touchStartYRef = useRef(0);
+
+  const isYouTube = typeof mediaSrc === 'string' && mediaSrc.includes('youtube.com');
+
   useEffect(() => {
+    progressRef.current = 0;
+    expandedRef.current = false;
     setScrollProgress(0);
     setShowContent(false);
     setMediaFullyExpanded(false);
@@ -41,7 +81,9 @@ export default function ScrollExpandMedia({
         });
       }
     }
-  }, [mediaSrc, mediaType]);
+  }, [videoSources, mediaType]);
+
+  useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
 
   // Let the smooth-scroll layer know whether the page scroll is ours or the hero's
   useEffect(() => {
@@ -69,6 +111,8 @@ export default function ScrollExpandMedia({
       const { id, scrollToTop } = e.detail || {};
 
       if (scrollToTop) {
+        progressRef.current = 0;
+        expandedRef.current = false;
         setScrollProgress(0);
         setMediaFullyExpanded(false);
         setShowContent(false);
@@ -76,6 +120,8 @@ export default function ScrollExpandMedia({
         return;
       }
 
+      progressRef.current = 1;
+      expandedRef.current = true;
       setScrollProgress(1);
       setMediaFullyExpanded(true);
       setShowContent(true);
@@ -98,15 +144,53 @@ export default function ScrollExpandMedia({
     return () => window.removeEventListener('expand-and-scroll', handleExpandAndScroll);
   }, []);
 
-  // Firefox & Chrome wheel delta normalization and cross-browser touch events
+  // Firefox & Chrome wheel delta normalization and cross-browser touch events.
+  // Listeners attach once and read live values from refs, so a progress change
+  // never tears down and re-registers the whole event set mid-gesture.
   useEffect(() => {
+    const flush = () => {
+      rafRef.current = null;
+      const progress = progressRef.current;
+      setScrollProgress(progress);
+
+      if (progress >= 1) {
+        expandedRef.current = true;
+        setMediaFullyExpanded(true);
+        setShowContent(true);
+      } else if (progress < 0.75) {
+        setShowContent(false);
+      }
+    };
+
+    const commit = (delta) => {
+      progressRef.current = Math.min(Math.max(progressRef.current + delta, 0), 1);
+
+      // A hidden document never fires rAF, so a queued frame would strand the
+      // expand mid-gesture. Nothing is painting anyway - commit straight away.
+      if (document.visibilityState === 'hidden') {
+        if (rafRef.current !== null) {
+          cancelAnimationFrame(rafRef.current);
+        }
+        flush();
+        return;
+      }
+
+      if (rafRef.current !== null) return;
+      rafRef.current = requestAnimationFrame(flush);
+    };
+
+    const collapse = () => {
+      expandedRef.current = false;
+      setMediaFullyExpanded(false);
+    };
+
     const handleWheel = (e) => {
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 10) {
-        setMediaFullyExpanded(false);
+      if (expandedRef.current && e.deltaY < 0 && window.scrollY <= 10) {
+        collapse();
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
+      } else if (!expandedRef.current) {
         e.preventDefault();
-        
+
         // Firefox deltaMode normalization: 1 = DOM_DELTA_LINE, 2 = DOM_DELTA_PAGE
         let rawDelta = e.deltaY;
         if (e.deltaMode === 1) {
@@ -115,60 +199,34 @@ export default function ScrollExpandMedia({
           rawDelta *= 700;
         }
 
-        const scrollDelta = rawDelta * 0.0008;
-        const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
-          1
-        );
-        setScrollProgress(newProgress);
-
-        if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
-          setShowContent(true);
-        } else if (newProgress < 0.75) {
-          setShowContent(false);
-        }
+        commit(rawDelta * 0.0008);
       }
     };
 
     const handleTouchStart = (e) => {
       if (e.touches && e.touches[0]) {
-        setTouchStartY(e.touches[0].clientY);
+        touchStartYRef.current = e.touches[0].clientY;
       }
     };
 
     const handleTouchMove = (e) => {
-      if (!touchStartY || !e.touches || !e.touches[0]) return;
+      if (!touchStartYRef.current || !e.touches || !e.touches[0]) return;
 
       const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
+      const deltaY = touchStartYRef.current - touchY;
 
-      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 10) {
-        setMediaFullyExpanded(false);
+      if (expandedRef.current && deltaY < -20 && window.scrollY <= 10) {
+        collapse();
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
+      } else if (!expandedRef.current) {
         if (e.cancelable) e.preventDefault();
-        const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
-        const scrollDelta = deltaY * scrollFactor;
-        const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
-          1
-        );
-        setScrollProgress(newProgress);
-
-        if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
-          setShowContent(true);
-        } else if (newProgress < 0.75) {
-          setShowContent(false);
-        }
-
-        setTouchStartY(touchY);
+        commit(deltaY * (deltaY < 0 ? 0.008 : 0.005));
+        touchStartYRef.current = touchY;
       }
     };
 
     const handleTouchEnd = () => {
-      setTouchStartY(0);
+      touchStartYRef.current = 0;
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false });
@@ -184,7 +242,7 @@ export default function ScrollExpandMedia({
       window.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('touchcancel', handleTouchEnd);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+  }, []);
 
   // Full viewport dimensions calculation
   const targetWidth = winSize.width;
@@ -240,10 +298,14 @@ export default function ScrollExpandMedia({
                   maxHeight: '100vh',
                   borderRadius: `${borderRadius}px`,
                   boxShadow: isFullViewport ? 'none' : '0px 25px 70px rgba(0, 0, 0, 0.6)',
+                  // Keep the resizing box (and the video painting inside it) on
+                  // its own compositor layer for the whole expand.
+                  willChange: mediaFullyExpanded ? 'auto' : 'width, height',
+                  contain: 'paint',
                 }}
               >
                 {mediaType === 'video' ? (
-                  mediaSrc.includes('youtube.com') ? (
+                  isYouTube ? (
                     <div className='relative w-full h-full pointer-events-none'>
                       <iframe
                         width='100%'
@@ -272,7 +334,7 @@ export default function ScrollExpandMedia({
                     <div className='relative w-full h-full pointer-events-none'>
                       <video
                         ref={videoRef}
-                        src={mediaSrc}
+                        poster={posterSrc || undefined}
                         autoPlay
                         muted
                         loop
@@ -281,11 +343,16 @@ export default function ScrollExpandMedia({
                         x5-playsinline='true'
                         preload='auto'
                         className='w-full h-full object-cover'
+                        style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
                         controls={false}
                         disablePictureInPicture
                         disableRemotePlayback
                       >
-                        <source src={mediaSrc} type='video/mp4' />
+                        {/* No `src` attribute: it would win over these and the
+                            browser could never pick the smaller WebM. */}
+                        {videoSources.map(({ src, type }) => (
+                          <source key={src} src={src} type={type} />
+                        ))}
                       </video>
                       <motion.div
                         className='absolute inset-0 bg-black/30 pointer-events-none'

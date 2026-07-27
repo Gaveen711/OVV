@@ -23,7 +23,11 @@ export default function App() {
       {/* Hero Section with ScrollExpandMedia component */}
       <ScrollExpandMedia
         mediaType='video'
-        mediaSrc='https://player.vimeo.com/external/535823482.hd.mp4?s=8be972960ed9307e5e485ce43b8a0c670c7473c9&profile_id=175'
+        mediaSrc={{
+          desktop: { webm: '/videos/hero-1080.webm', mp4: '/videos/hero-1080.mp4' },
+          mobile: { webm: '/videos/hero-720.webm', mp4: '/videos/hero-720.mp4' },
+        }}
+        posterSrc='/images/hero-poster.jpg'
         bgImageSrc='/images/resort-hero-bg.jpg'
         title='OCEAN VIEW'
         scrollToExpand=''
