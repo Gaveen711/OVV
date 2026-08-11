@@ -21,10 +21,10 @@ export const HUBSPOT_CONFIG = {
   portalId: '246838185',
 
   // Your HubSpot Form GUID (e.g., 'a1b2c3d4-e5f6-7890-abcd-ef1234567890')
-  formGuid: '8d7e6f5a-4b3c-2d1e-0f9a-8b7c6d5e4f3a',
+  formGuid: '7179d12b-5093-4ef1-b8dc-82d173e36d65',
 
   // While true, failed/unconfigured submissions still show a success state so
   // the site can be tested before live HubSpot keys are attached.
   // Set to false in production so real errors are shown to visitors.
-  demoModeIfUnconfigured: true,
+  demoModeIfUnconfigured: false,
 };
