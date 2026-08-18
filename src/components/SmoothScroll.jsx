@@ -26,8 +26,10 @@ export default function SmoothScroll() {
       // `lerp` rather than duration+easing: a duration-based tween restarts on
       // every wheel tick, so continuous scrolling keeps re-easing from zero and
       // feels stepped. A constant lerp gives the single weighted glide that
-      // carries momentum through an uninterrupted gesture.
-      lerp: 0.095,
+      // carries momentum through an uninterrupted gesture. A lower lerp adds a
+      // touch more inertia so the page glides to rest instead of snapping - the
+      // weighted, unhurried deceleration that reads as "Apple-smooth".
+      lerp: 0.08,
       smoothWheel: true,
       wheelMultiplier: 1,
       // Touch is left entirely to the browser. iOS momentum scrolling is
