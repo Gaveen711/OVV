@@ -22,8 +22,8 @@ import './VillaScrollJourney.css';
 const villaImages = [
   {
     src: '/images/ovv/property-aerial.webp',
-    alt: 'Aerial view of Ocean View Villas between the shoreline and Uswetakeiyawa',
-    label: 'The shoreline from above',
+    alt: 'Open-plan living and dining spaces of an Ocean View Villa seen from the staircase above',
+    label: 'Living spaces from above',
   },
   {
     src: '/images/ovv/plunge-pool.webp',
@@ -32,7 +32,7 @@ const villaImages = [
   },
   {
     src: '/images/ovv/open-living.webp',
-    alt: 'Open-plan villa living and dining space beside the pool',
+    alt: 'Open-plan villa living room with lounge seating beside a sea-view window',
     label: 'Open-plan living',
   },
   {
@@ -42,25 +42,75 @@ const villaImages = [
   },
   {
     src: '/images/ovv/ocean-suite.webp',
-    alt: 'Ocean-facing bedroom with full-height glass doors',
+    alt: 'Ocean-facing master bedroom with full-height glass doors onto the sea',
     label: 'Ocean-facing suite',
   },
   {
     src: '/images/ovv/private-balcony.webp',
-    alt: 'Private balcony overlooking palms and the Indian Ocean',
+    alt: 'Private balcony seating framing the beach and the Indian Ocean',
     label: 'Private balcony',
   },
   {
     src: '/images/ovv/family-room.webp',
-    alt: 'Warm timber family room inside an Ocean View Villa',
-    label: 'Family room',
+    alt: 'Dining table beside the plunge pool with the ocean beyond',
+    label: 'Poolside dining',
+  },
+  {
+    src: '/images/ovv/suite-vaulted.webp',
+    alt: 'Master suite beneath a vaulted timber ceiling with a private lounge',
+    label: 'Vaulted master suite',
+  },
+  {
+    src: '/images/ovv/suite-mezzanine.webp',
+    alt: 'Double-height bedroom with a full-height window framing the sea',
+    label: 'Double-height suite',
+  },
+  {
+    src: '/images/ovv/suite-oceanfan.webp',
+    alt: 'Sea-view bedroom with slatted timber headboard and lounge seating',
+    label: 'Sea-view bedroom',
+  },
+  {
+    src: '/images/ovv/suite-study.webp',
+    alt: 'Bedroom study nook with a timber desk and cane chair',
+    label: 'Bedroom study',
+  },
+  {
+    src: '/images/ovv/bath-twin.webp',
+    alt: 'Twin backlit round mirrors above a stone vanity with brass fittings',
+    label: 'Twin stone vanity',
+  },
+  {
+    src: '/images/ovv/bath-stone.webp',
+    alt: 'Stone-clad bathroom with a backlit oval mirror and timber joinery',
+    label: 'Stone bathroom',
+  },
+  {
+    src: '/images/ovv/bath-shower.webp',
+    alt: 'Walk-in rain shower beside a stone vanity in a villa bathroom',
+    label: 'Walk-in shower',
+  },
+  {
+    src: '/images/ovv/sea-kitchen.webp',
+    alt: 'Kitchen island looking through the open living space to the ocean',
+    label: 'Kitchen, ocean view',
+  },
+  {
+    src: '/images/ovv/table-setting.webp',
+    alt: 'Round dining table dressed with a full place setting',
+    label: 'The dining table',
   },
 ];
 
-/* Card order for "The villa, room by room" - shuffle these numbers
-   to reorder the deck. 0 aerial, 1 plunge pool, 2 open living,
-   3 kitchen, 4 ocean suite, 5 balcony, 6 family room. */
-const stackOrder = [1, 6, 2, 3, 4, 5, 0];
+/* The zoom-parallax collage positions (0: Center, 1: Top-Right, 2: Left, 3: Mid-Right, 4: Bottom-Center, 5: Bottom-Left, 6: Bottom-Far-Right).
+   Rearrange the indices below to change which image appears in each position: */
+const heroOrder = [1, 0, 2, 3, 4, 5, 6];
+const heroImages = heroOrder.map((index) => villaImages[index]);
+
+/* Card order for "The villa, room by room" - a hand-picked shuffle of
+   all sixteen views so the deck alternates between living spaces,
+   suites and bathrooms as it flips. Indices map into villaImages. */
+const stackOrder = [0, 4, 11, 2, 7, 14, 5, 9, 13, 1, 8, 6, 15, 3, 10, 12];
 const stackImages = stackOrder.map((index) => villaImages[index]);
 
 /* Original zoom parallax - the collage of seven perspectives zooms
@@ -101,13 +151,16 @@ function ZoomParallax({ images }) {
             className={`villa-parallax__layer villa-parallax__layer--${index}`}
             style={{ scale: scales[index] }}
           >
+            {/* All seven frames load eagerly: they are few and now modestly
+                sized, and lazy-loading them inside the sticky zoom sequence let
+                later frames pop in blank mid-scroll. */}
             <figure className='villa-parallax__frame'>
               <img
                 src={image.src}
                 alt={image.alt}
                 width='1600'
                 height='900'
-                loading={index < 3 ? 'eager' : 'lazy'}
+                loading='eager'
                 decoding='async'
                 draggable='false'
               />
@@ -720,13 +773,13 @@ export default function VillaScrollJourney() {
         {/* Visually hidden (clipped to 1px) - it exists to label the section
             for assistive tech, so there is nothing here to animate. */}
         <h2 id='villa-gallery-title' className='villa-gallery__title'>
-          Seven views inside Ocean View Villas
+          Inside Ocean View Villas
         </h2>
         {reduceMotion ? (
           <StaticGallery images={villaImages} />
         ) : (
           <>
-            <ZoomParallax images={villaImages} />
+            <ZoomParallax images={heroImages} />
             <VillaCardStack images={stackImages} />
           </>
         )}
