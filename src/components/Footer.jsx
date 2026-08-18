@@ -47,8 +47,8 @@ export default function Footer() {
               <a href='tel:+94114335444'>+94 11 4 335 444</a>
             </li>
             <li>
-              <a href='mailto:hemantha@emeraldisle.lk'>
-                hemantha@emeraldisle.lk
+              <a href='mailto:deepakjs@yahoo.com'>
+                deepakjs@yahoo.com
               </a>
             </li>
           </ul>

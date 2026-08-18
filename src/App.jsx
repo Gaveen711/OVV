@@ -25,11 +25,11 @@ export default function App() {
       <ScrollExpandMedia
         mediaType='video'
         mediaSrc={{
-          desktop: { webm: 'https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-1080.webm', mp4: 'https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-1080.mp4' },
-          mobile:  { webm: 'https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-720.webm',  mp4: 'https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-720.mp4' },
+          desktop: { mp4: 'https://aer7yec0yxw9wovu.public.blob.vercel-storage.com/OVV%20final%20cut.mp4' },
+          mobile:  { mp4: 'https://aer7yec0yxw9wovu.public.blob.vercel-storage.com/OVV%20final%20cut.mp4' },
         }}
-        posterSrc='https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-poster.jpg'
-        bgImageSrc='/images/resort-hero-bg.jpg'
+        posterSrc='/images/resort-hero-bg.jpg'
+        bgImageSrc='/images/resort-hero-bg.webp'
         title='OCEAN VIEW'
         titleAccent='VILLAS'
         scrollToExpand=''
