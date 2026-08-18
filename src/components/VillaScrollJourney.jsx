@@ -47,8 +47,8 @@ const villaImages = [
   },
   {
     src: '/images/ovv/private-balcony.webp',
-    alt: 'Private balcony seating framing the beach and the Indian Ocean',
-    label: 'Private balcony',
+    alt: 'Aerial view of the Ocean View Villas beachfront and coastline',
+    label: 'The beachfront from above',
   },
   {
     src: '/images/ovv/family-room.webp',
