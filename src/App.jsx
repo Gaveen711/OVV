@@ -29,7 +29,7 @@ export default function App() {
           mobile:  { webm: 'https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-720.webm',  mp4: 'https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-720.mp4' },
         }}
         posterSrc='https://g1rmcaow57m1pqfx.public.blob.vercel-storage.com/hero/hero-poster.jpg'
-        bgImageSrc='/images/resort-hero-bg.jpg'
+        bgImageSrc='/images/resort-hero-bg.webp'
         title='OCEAN VIEW'
         titleAccent='VILLAS'
         scrollToExpand=''

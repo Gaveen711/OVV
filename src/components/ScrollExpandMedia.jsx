@@ -33,7 +33,7 @@ export default function ScrollExpandMedia({
   mediaType = 'video',
   mediaSrc,
   posterSrc = '',
-  bgImageSrc = '/images/resort-hero-bg.jpg',
+  bgImageSrc = '/images/resort-hero-bg.webp',
   title = 'OCEAN VIEW',
   titleAccent = '',
   date = '',
