@@ -28,7 +28,6 @@ export default function App() {
           desktop: { mp4: 'https://aer7yec0yxw9wovu.public.blob.vercel-storage.com/OVV%20final%20cut.mp4' },
           mobile:  { mp4: 'https://aer7yec0yxw9wovu.public.blob.vercel-storage.com/OVV%20final%20cut.mp4' },
         }}
-        posterSrc='/images/resort-hero-bg.jpg'
         bgImageSrc='/images/resort-hero-bg.webp'
         title='OCEAN VIEW'
         titleAccent='VILLAS'
