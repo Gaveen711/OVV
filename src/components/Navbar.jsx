@@ -30,17 +30,24 @@ export default function Navbar() {
 
   const scrollToSection = (id) => {
     setMobileMenuOpen(false);
-    window.dispatchEvent(
-      new CustomEvent('expand-and-scroll', { detail: { id } })
-    );
+    const el = document.getElementById(id);
+    if (el) {
+      if (window.__lenis) {
+        window.__lenis.scrollTo(el, { duration: 1.2 });
+      } else {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
   const scrollToTop = (e) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    window.dispatchEvent(
-      new CustomEvent('expand-and-scroll', { detail: { scrollToTop: true } })
-    );
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0, { duration: 1.2 });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -73,16 +80,16 @@ export default function Navbar() {
         {/* Desktop Nav Links — compact refined sizing */}
         <nav className='hidden md:flex items-center gap-7 lg:gap-9'>
           <CtaButton
-            label='Villas & Suites'
-            onClick={() => scrollToSection('villas')}
+            label='Overview'
+            onClick={() => scrollToSection('amenities')}
             showArrow={false}
             className={`cta-compact font-medium transition-colors ${
               scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-white hover:text-amber-300 drop-shadow-md'
             }`}
           />
           <CtaButton
-            label='Experiences'
-            onClick={() => scrollToSection('amenities')}
+            label='Villas'
+            onClick={() => scrollToSection('villas')}
             showArrow={false}
             className={`cta-compact font-medium transition-colors ${
               scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-white hover:text-amber-300 drop-shadow-md'
@@ -139,14 +146,14 @@ export default function Navbar() {
             transition={{ duration: 0.42, ease: EASE_UI }}
           >
             <CtaButton
-              label='Villas & Suites'
-              onClick={() => scrollToSection('villas')}
+              label='Overview'
+              onClick={() => scrollToSection('amenities')}
               showArrow={false}
               className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
             />
             <CtaButton
-              label='Experiences'
-              onClick={() => scrollToSection('amenities')}
+              label='Villas'
+              onClick={() => scrollToSection('villas')}
               showArrow={false}
               className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
             />

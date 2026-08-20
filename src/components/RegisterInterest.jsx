@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { AlertCircle, CheckCircle2, ChevronDown, Loader2 } from 'lucide-react';
+import {
+  AlertCircle,
+  CheckCircle2,
+  ChevronDown,
+  Loader2,
+  MessageCircleMore,
+} from 'lucide-react';
 import { HUBSPOT_CONFIG } from '../config/hubspot';
 import { Reveal, RevealText } from './Reveal';
 import './RegisterInterest.css';
@@ -160,28 +166,7 @@ export default function RegisterInterest() {
     >
       <div className='register-interest__layout'>
         <Reveal as='aside' className='register-interest__rail' y={18} duration={0.7}>
-          <svg
-            width='34'
-            height='34'
-            viewBox='0 0 34 34'
-            fill='none'
-            aria-hidden='true'
-          >
-            <rect
-              x='17'
-              y='2.2'
-              width='21'
-              height='21'
-              transform='rotate(45 17 2.2)'
-              stroke='currentColor'
-              strokeWidth='1.2'
-            />
-            <path
-              d='M7 17c6.5-5.5 13.5 5.5 20 0'
-              stroke='currentColor'
-              strokeWidth='1.2'
-            />
-          </svg>
+          <MessageCircleMore aria-hidden='true' />
           <p>For more information</p>
         </Reveal>
 

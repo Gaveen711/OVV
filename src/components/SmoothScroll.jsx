@@ -1,20 +1,13 @@
 import { useEffect } from 'react';
-import { cancelFrame, frame } from 'framer-motion';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 
 /**
  * Site-wide inertial smooth scrolling via Lenis.
  *
- * The hero (ScrollExpandMedia) owns the wheel until the video is fully
- * expanded, so Lenis stays stopped until the hero broadcasts `hero-state`
- * with { expanded: true }, and stops again if the hero collapses.
- *
- * Lenis is driven from Framer Motion's frame loop rather than its own
- * requestAnimationFrame. Two independent rAF loops means the scroll position
- * lands in one frame and every `useScroll`-driven transform reacts in the
- * next - a one-frame lag that reads as the parallax lagging behind the page.
- * Sharing a loop puts both on the same tick.
+ * Lenis owns the page scroll with one dedicated animation frame loop. Keeping
+ * this driver independent from component animation schedulers prevents the
+ * sticky gallery and the rest of the page from competing for frame timing.
  */
 export default function SmoothScroll() {
   useEffect(() => {
@@ -29,9 +22,9 @@ export default function SmoothScroll() {
       // carries momentum through an uninterrupted gesture. A lower lerp adds a
       // touch more inertia so the page glides to rest instead of snapping - the
       // weighted, unhurried deceleration that reads as "Apple-smooth".
-      lerp: 0.08,
+      lerp: 0.075,
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 0.9,
       // Touch is left entirely to the browser. iOS momentum scrolling is
       // tuned against the hardware and beats any JS approximation of it -
       // `syncTouch` would replace it with a rAF-driven imitation that drifts
@@ -39,25 +32,21 @@ export default function SmoothScroll() {
       // scroll-driven animations still track correctly on mobile.
       syncTouch: false,
       anchors: true,
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      autoRaf: false,
     });
     window.__lenis = lenis;
 
-    const update = (data) => lenis.raf(data.timestamp);
-    frame.update(update, true);
-
-    lenis.stop();
-    const onHeroState = (e) => {
-      if (e.detail?.expanded) {
-        lenis.start();
-      } else {
-        lenis.stop();
-      }
+    let rafId = 0;
+    const update = (time) => {
+      lenis.raf(time);
+      rafId = window.requestAnimationFrame(update);
     };
-    window.addEventListener('hero-state', onHeroState);
+    rafId = window.requestAnimationFrame(update);
 
     return () => {
-      cancelFrame(update);
-      window.removeEventListener('hero-state', onHeroState);
+      window.cancelAnimationFrame(rafId);
       lenis.destroy();
       delete window.__lenis;
     };

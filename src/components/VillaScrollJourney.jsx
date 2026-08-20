@@ -4,9 +4,7 @@ import {
   motion,
   useMotionValue,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
-  useTransform,
 } from 'framer-motion';
 import {
   ArrowUpRight,
@@ -17,6 +15,9 @@ import {
 } from 'lucide-react';
 import { Reveal, RevealGroup, RevealText } from './Reveal';
 import { revealChild } from './motionTokens';
+import AboutVillas from './AboutVillas';
+import VillaListings from './VillaListings';
+import CssImageStacking from './ui/css-image-stacking';
 import './VillaScrollJourney.css';
 
 const villaImages = [
@@ -102,79 +103,19 @@ const villaImages = [
   },
 ];
 
-/* The zoom-parallax collage positions (0: Center, 1: Top-Right, 2: Left, 3: Mid-Right, 4: Bottom-Center, 5: Bottom-Left, 6: Bottom-Far-Right).
-   Rearrange the indices below to change which image appears in each position: */
-const heroOrder = [1, 0, 2, 3, 4, 5, 6];
-const heroImages = heroOrder.map((index) => villaImages[index]);
+const galleryImages = [
+  villaImages[0],
+  villaImages[1],
+  villaImages[3],
+  villaImages[4],
+  villaImages[7],
+];
 
 /* Card order for "The villa, room by room" - a hand-picked shuffle of
    all sixteen views so the deck alternates between living spaces,
    suites and bathrooms as it flips. Indices map into villaImages. */
 const stackOrder = [0, 4, 11, 2, 7, 14, 5, 9, 13, 1, 8, 6, 15, 3, 10, 12];
 const stackImages = stackOrder.map((index) => villaImages[index]);
-
-/* Original zoom parallax - the collage of seven perspectives zooms
-   outward as the visitor scrolls through the sticky sequence. */
-function ZoomParallax({ images }) {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const scale4 = useTransform(scrollYProgress, [0, 1], [1, 4]);
-  const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5]);
-  const scale6 = useTransform(scrollYProgress, [0, 1], [1, 6]);
-  const scale8 = useTransform(scrollYProgress, [0, 1], [1, 8]);
-  const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9]);
-  const guideOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.12, 0.32],
-    [1, 1, 0]
-  );
-  const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9];
-
-  return (
-    <div ref={containerRef} className='villa-parallax'>
-      <div className='villa-parallax__sticky'>
-        <motion.div
-          className='villa-parallax__guide'
-          style={{ opacity: guideOpacity }}
-        >
-          <p>Ocean View Villas / Seven perspectives</p>
-          <span>Scroll to explore</span>
-        </motion.div>
-
-        {images.map((image, index) => (
-          <motion.div
-            key={image.src}
-            className={`villa-parallax__layer villa-parallax__layer--${index}`}
-            style={{ scale: scales[index] }}
-          >
-            {/* All seven frames load eagerly: they are few and now modestly
-                sized, and lazy-loading them inside the sticky zoom sequence let
-                later frames pop in blank mid-scroll. */}
-            <figure className='villa-parallax__frame'>
-              <img
-                src={image.src}
-                alt={image.alt}
-                width='1600'
-                height='900'
-                loading='eager'
-                decoding='async'
-                draggable='false'
-              />
-            </figure>
-          </motion.div>
-        ))}
-
-        <div className='villa-parallax__progress' aria-hidden='true'>
-          <motion.span style={{ scaleX: scrollYProgress }} />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* 3D vertical card stack - scrolling through the section flips the deck
    one villa image at a time, with dots and a counter for orientation. */
@@ -761,30 +702,8 @@ function StaticGallery({ images }) {
 }
 
 export default function VillaScrollJourney() {
-  const reduceMotion = useReducedMotion();
-
   return (
     <main className='villa-experience'>
-      <section
-        id='villas'
-        className='villa-gallery'
-        aria-labelledby='villa-gallery-title'
-      >
-        {/* Visually hidden (clipped to 1px) - it exists to label the section
-            for assistive tech, so there is nothing here to animate. */}
-        <h2 id='villa-gallery-title' className='villa-gallery__title'>
-          Inside Ocean View Villas
-        </h2>
-        {reduceMotion ? (
-          <StaticGallery images={villaImages} />
-        ) : (
-          <>
-            <ZoomParallax images={heroImages} />
-            <VillaCardStack images={stackImages} />
-          </>
-        )}
-      </section>
-
       <section id='amenities' className='villa-proof'>
         <Reveal className='villa-proof__plan' y={34} duration={1}>
           <img
@@ -830,6 +749,23 @@ export default function VillaScrollJourney() {
           </RevealGroup>
         </div>
       </section>
+
+      <section
+        id='villas'
+        className='villa-gallery'
+        aria-labelledby='villa-gallery-title'
+      >
+        {/* Visually hidden (clipped to 1px) - it exists to label the section
+            for assistive tech, so there is nothing here to animate. */}
+        <h2 id='villa-gallery-title' className='villa-gallery__title'>
+          Inside Ocean View Villas
+        </h2>
+        <CssImageStacking images={galleryImages} />
+      </section>
+
+      <AboutVillas />
+
+      <VillaListings />
 
       <section id='inquiry' className='villa-inquiry'>
         <Reveal as='p' y={16} duration={0.7}>

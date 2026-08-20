@@ -47,6 +47,13 @@
   body {
     /* Stops the scroll chain from bouncing the page behind Lenis. */
     overscroll-behavior-y: none;
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
+  #root {
+    overflow-x: hidden;
+    overflow-x: clip;
   }
 }
 

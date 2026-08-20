@@ -25,7 +25,7 @@ export default function Footer() {
           <h4>Explore</h4>
           <ul>
             <li>
-              <a href='#villas'>Villas &amp; Suites</a>
+              <a href='#villas'>Villas</a>
             </li>
             <li>
               <a href='#amenities'>Experiences</a>

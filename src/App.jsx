@@ -2,8 +2,7 @@ import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
 import SmoothScroll from './components/SmoothScroll';
-import ScrollExpandMedia from './components/ScrollExpandMedia';
-import AboutVillas from './components/AboutVillas';
+import HeroSection from './components/HeroSection';
 import VillaScrollJourney from './components/VillaScrollJourney';
 import RegisterInterest from './components/RegisterInterest';
 import Footer from './components/Footer';
@@ -21,25 +20,18 @@ export default function App() {
       {/* Minimal floating back-to-top control */}
       <ScrollToTop />
 
-      {/* Hero Section with ScrollExpandMedia component */}
-      <ScrollExpandMedia
-        mediaType='video'
-        mediaSrc={{
-          desktop: { mp4: 'https://aer7yec0yxw9wovu.public.blob.vercel-storage.com/OVV%20final%20cut.mp4' },
-          mobile:  { mp4: 'https://aer7yec0yxw9wovu.public.blob.vercel-storage.com/OVV%20final%20cut.mp4' },
-        }}
-        bgImageSrc='/images/resort-hero-bg.webp'
-        title='OCEAN VIEW'
-        titleAccent='VILLAS'
-        scrollToExpand=''
-        textBlend={true}
-      >
-        {/* Main Website Sections */}
-        <AboutVillas />
-        <VillaScrollJourney />
-        <RegisterInterest />
-        <Footer />
-      </ScrollExpandMedia>
+      {/* Hero Section with background image only */}
+      <HeroSection bgImageSrc='/images/resort-hero-bg.webp' />
+
+      {/* Experiences section (Master plan map) + Villas Gallery + Private Inquiry */}
+      <VillaScrollJourney />
+
+      {/* Register Interest Form Section */}
+      <RegisterInterest />
+
+      {/* Site Footer */}
+      <Footer />
+
       <Analytics />
     </div>
   );

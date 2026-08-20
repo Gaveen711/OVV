@@ -1,0 +1,193 @@
+.villa-listings {
+  --listing-ink: #0d151b;
+  --listing-muted: #58616b;
+  --listing-accent: #8a5c14;
+  background: #e8ecec;
+  color: var(--listing-ink);
+  padding: clamp(28px, 5vw, 72px) clamp(16px, 4vw, 64px);
+}
+
+.villa-listings__shell {
+  width: min(100%, 1500px);
+  margin-inline: auto;
+  padding: clamp(28px, 4vw, 62px);
+  border-radius: 26px;
+  background: #f9faf8;
+  box-shadow: 0 24px 60px rgba(13, 21, 27, 0.1);
+}
+
+.villa-listings__intro {
+  max-width: 660px;
+  margin-bottom: clamp(32px, 4vw, 54px);
+}
+
+.villa-listings__eyebrow,
+.villa-listing-card__label {
+  margin: 0 0 10px;
+  color: #798599;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.villa-listings h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 4.2vw, 4.6rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+.villa-listings__copy {
+  max-width: 54ch;
+  margin: 18px 0 0;
+  color: var(--listing-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.villa-listings__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 24px);
+}
+
+.villa-listing-card {
+  min-width: 0;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 26px rgba(13, 21, 27, 0.07);
+}
+
+.villa-listing-card__media {
+  position: relative;
+  height: clamp(210px, 22vw, 316px);
+  overflow: hidden;
+  background: #dce2e6;
+}
+
+.villa-listing-card__media > img:first-child {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.villa-listing-card__detail {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  width: 34%;
+  aspect-ratio: 1;
+  border: 3px solid rgba(249, 250, 248, 0.92);
+  object-fit: cover;
+  box-shadow: 0 12px 22px rgba(13, 21, 27, 0.24);
+}
+
+.villa-listing-card__body {
+  padding: 24px 24px 26px;
+}
+
+.villa-listing-card h3 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.7rem;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+.villa-listing-card__price {
+  margin: 12px 0 18px;
+  color: var(--listing-accent);
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.villa-listing-card__location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 22px;
+  color: var(--listing-muted);
+  font-size: 0.8rem;
+}
+
+.villa-listing-card__location svg {
+  width: 15px;
+  height: 15px;
+  color: var(--listing-accent);
+}
+
+.villa-listing-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid currentColor;
+  color: var(--listing-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 220ms ease, gap 220ms ease;
+}
+
+.villa-listing-card a svg {
+  width: 16px;
+  height: 16px;
+}
+
+.villa-listing-card:hover .villa-listing-card__media > img:first-child {
+  transform: scale(1.05);
+}
+
+.villa-listing-card a:hover,
+.villa-listing-card a:focus-visible {
+  gap: 14px;
+  color: var(--listing-accent);
+}
+
+.villa-listing-card a:focus-visible {
+  outline: 2px solid var(--listing-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1080px) {
+  .villa-listings__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .villa-listing-card__media {
+    height: clamp(240px, 34vw, 360px);
+  }
+}
+
+@media (max-width: 620px) {
+  .villa-listings {
+    padding: 16px 0;
+  }
+
+  .villa-listings__shell {
+    border-radius: 0;
+    padding: 64px 24px;
+  }
+
+  .villa-listings__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .villa-listing-card__media {
+    height: min(112vw, 390px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .villa-listing-card__media > img:first-child,
+  .villa-listing-card a {
+    transition: none;
+  }
+}
