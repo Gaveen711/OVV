@@ -15,13 +15,23 @@ const HERO_VIDEO_720 = '/videos/ovv-hero-720p.mp4';
 const HERO_POSTER = '/videos/ovv-hero-poster.webp';
 
 /* Phones get the 720p cut: 5.8MB against 14.8MB, on the connection least able
-   to afford it and the screen least able to show the difference. Resolved once,
-   before first paint, so the element never fetches one file and then the other. */
+   to afford it and the screen least able to show the difference. */
 const SMALL_SCREEN = '(max-width: 820px)';
 
-function pickSource() {
-  if (typeof window === 'undefined') return HERO_VIDEO_1080;
-  return window.matchMedia(SMALL_SCREEN).matches ? HERO_VIDEO_720 : HERO_VIDEO_1080;
+/* Both media queries are read during the first render rather than in an
+   effect. Resolving them afterwards meant the element mounted with no
+   `autoplay` and the wrong source, then had both swapped underneath it - the
+   browser had already begun loading by that point. */
+function initialState(videoSrc) {
+  if (typeof window === 'undefined') {
+    return { source: videoSrc ?? HERO_VIDEO_1080, motionOk: true };
+  }
+  return {
+    source:
+      videoSrc ??
+      (window.matchMedia(SMALL_SCREEN).matches ? HERO_VIDEO_720 : HERO_VIDEO_1080),
+    motionOk: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  };
 }
 
 /**
@@ -32,35 +42,55 @@ function pickSource() {
  */
 export default function HeroSection({ videoSrc }) {
   const videoRef = useRef(null);
-  const [source] = useState(() => videoSrc ?? pickSource());
-  const [motionOk, setMotionOk] = useState(false);
+  const [{ source, motionOk }] = useState(() => initialState(videoSrc));
 
-  useEffect(() => {
-    setMotionOk(!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  }, []);
+  /* React assigns `muted` as a DOM property and never writes the attribute.
+     Autoplay policies look for the attribute, so without this the browser
+     treats the video as unmuted, refuses to autoplay it, and the hero sits
+     frozen on the poster. Done in the ref callback so it lands before the
+     play() attempt below. */
+  const attachVideo = (el) => {
+    videoRef.current = el;
+    if (!el) return;
+    el.setAttribute('muted', '');
+    el.defaultMuted = true;
+    el.muted = true;
+  };
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !motionOk) return undefined;
 
-    // React sets `muted` as a DOM property, and some browsers check the
-    // attribute when deciding whether an autoplaying video counts as silent.
-    // Setting it directly keeps mobile Safari from blocking playback.
-    video.muted = true;
+    let cleanup = () => {};
 
-    if (!motionOk) return;
+    // Autoplay can still be refused - iOS Low Power Mode and data-saver modes
+    // block it regardless of muting. Rather than swallow that silently, wait
+    // for the first interaction and start on the back of it, which every
+    // autoplay policy accepts.
+    const resumeOnInteraction = () => {
+      video.play().catch(() => {});
+      cleanup();
+    };
 
-    // Autoplay can still be refused (low power mode, data saver). Nothing to
-    // handle beyond keeping the rejection from surfacing as an unhandled
-    // error - the poster frame stays on screen.
+    const events = ['pointerdown', 'touchstart', 'keydown', 'wheel'];
+    const arm = () => {
+      events.forEach((e) =>
+        window.addEventListener(e, resumeOnInteraction, { once: true, passive: true })
+      );
+      cleanup = () =>
+        events.forEach((e) => window.removeEventListener(e, resumeOnInteraction));
+    };
+
     const attempt = video.play();
-    if (attempt?.catch) attempt.catch(() => {});
+    if (attempt?.catch) attempt.catch(arm);
+
+    return () => cleanup();
   }, [motionOk]);
 
   return (
     <section className='relative w-full h-screen min-h-[100dvh] overflow-hidden bg-[#060b13]'>
       <video
-        ref={videoRef}
+        ref={attachVideo}
         src={source}
         poster={HERO_POSTER}
         autoPlay={motionOk}

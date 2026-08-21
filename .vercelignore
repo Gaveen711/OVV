@@ -1,5 +1,10 @@
-# Large media files — served from Vercel Blob CDN, not bundled in the deploy
-public/videos/
+# The hero encodes now ship with the deploy rather than coming from Blob
+# storage (the blob store returns 403), so public/videos/ must NOT be stripped
+# here - excluding it deleted the video from the deployment while leaving the
+# markup pointing at it, and the hero 404'd in production.
+#
+# Nothing extra leaks in by dropping it: .gitignore already keeps masters and
+# stray exports out of the repo, and Vercel only ever deploys what git tracks.
 public/images/hero-poster.jpg
 media-source/
 
