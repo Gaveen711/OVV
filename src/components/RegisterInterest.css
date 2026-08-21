@@ -138,33 +138,6 @@
   flex: 1;
 }
 
-.register-interest__whatsapp {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 4px 0 0;
-  color: var(--ri-accent);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.register-interest__whatsapp svg {
-  flex-shrink: 0;
-  width: 22px;
-  height: 22px;
-  color: #25d366;
-}
-
-.register-interest__whatsapp a {
-  color: var(--ri-ink);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.register-interest__whatsapp a:hover {
-  color: var(--ri-accent);
-}
-
 .register-interest__check {
   display: flex;
   align-items: center;

@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import { Reveal, RevealGroup } from './Reveal';
 import BrandWordmark from './BrandWordmark';
 import { revealChild } from './motionTokens';
@@ -5,6 +6,14 @@ import { motion } from 'framer-motion';
 import './Footer.css';
 
 export default function Footer() {
+  // The footer also renders on villa detail pages, where none of these sections
+  // exist. A bare `#villas` there just sets the hash and goes nowhere, so the
+  // links are pointed back at the landing page when we are off it. On the
+  // landing page they stay bare so Lenis keeps handling them as smooth
+  // in-page anchors rather than forcing a reload.
+  const { pathname } = useLocation();
+  const home = pathname === '/' ? '' : '/';
+
   return (
     <footer className='site-footer'>
       <RevealGroup className='site-footer__layout' stagger={0.1}>
@@ -25,13 +34,13 @@ export default function Footer() {
           <h4>Explore</h4>
           <ul>
             <li>
-              <a href='#villas'>Villas</a>
+              <a href={`${home}#villa-collection`}>Villas</a>
             </li>
             <li>
-              <a href='#amenities'>Experiences</a>
+              <a href={`${home}#amenities`}>Experiences</a>
             </li>
             <li>
-              <a href='#register'>Register Interest</a>
+              <a href={`${home}#register`}>Register Interest</a>
             </li>
             <li>
               <a href='/privacy-policy.html'>Privacy Policy</a>
