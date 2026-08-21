@@ -27,8 +27,8 @@
     <meta name="twitter:description" content="A private collection of six beachfront residences in Uswetakeiyawa, Sri Lanka - four en-suite bedrooms, private plunge pools and uninterrupted ocean views." />
     <meta name="twitter:image" content="https://www.oceanviewvillas.lk/images/resort-hero-bg.jpg" />
 
-    <!-- Performance: fetch the hero background before the bundle asks for it -->
-    <link rel="preload" as="image" href="/images/resort-hero-bg.jpg" fetchpriority="high" />
+    <!-- Performance: the hero poster is the first paint, so fetch it up front -->
+    <link rel="preload" as="image" href="/videos/ovv-hero-poster.webp" fetchpriority="high" />
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

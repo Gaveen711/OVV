@@ -38,6 +38,7 @@ public/images/hero-poster.jpg
 # name rather than un-ignoring public/videos/, so a fresh 4K master or a stray
 # export dropped in that folder still stays out of the repo.
 !public/videos/ovv-hero-1080p.mp4
+!public/videos/ovv-hero-720p.mp4
 .vercel
 
 .vercel

@@ -1,25 +1,38 @@
 import { useEffect, useRef, useState } from 'react';
 
 /* Served from the site's own /public rather than blob storage: the blob store
-   returns 403 ("Your store is blocked"), and this 1080p encode is 14.8MB
-   against the original 162MB, so it is cheap to ship with the deploy. */
-const HERO_VIDEO = '/videos/ovv-hero-1080p.mp4';
+   returns 403 ("Your store is blocked"), and these encodes are cheap enough to
+   ship with the deploy. Both are muxed with the moov atom ahead of the media
+   data, so a browser can start playing on the first chunk instead of waiting
+   for the whole file. */
+const HERO_VIDEO_1080 = '/videos/ovv-hero-1080p.mp4';
+const HERO_VIDEO_720 = '/videos/ovv-hero-720p.mp4';
+
+/* Frame zero of the film itself rather than a separate photograph, so the
+   handover from poster to video is invisible - the pixels are identical. At
+   ~85KB it paints almost immediately and covers the second or two the video
+   spends buffering, which would otherwise be bare background. */
+const HERO_POSTER = '/videos/ovv-hero-poster.webp';
+
+/* Phones get the 720p cut: 5.8MB against 14.8MB, on the connection least able
+   to afford it and the screen least able to show the difference. Resolved once,
+   before first paint, so the element never fetches one file and then the other. */
+const SMALL_SCREEN = '(max-width: 820px)';
+
+function pickSource() {
+  if (typeof window === 'undefined') return HERO_VIDEO_1080;
+  return window.matchMedia(SMALL_SCREEN).matches ? HERO_VIDEO_720 : HERO_VIDEO_1080;
+}
 
 /**
- * Full-bleed hero.
+ * Full-bleed hero - the film, over its own first frame.
  *
- * The still is not a fallback that gets swapped out - it is the first frame the
- * visitor sees, and it stays underneath the video for the whole sequence. The
- * film is streamed from blob storage and only fades in once it can actually
- * play, so a slow connection shows the photograph rather than a black rectangle,
- * and a stall mid-loop reveals the still instead of a gap.
+ * Reduced-motion visitors still get the video element, but paused on that
+ * first frame instead of looping, so the hero is never empty for them.
  */
-export default function HeroSection({
-  posterSrc = '/images/resort-hero-bg.webp',
-  videoSrc = HERO_VIDEO,
-}) {
+export default function HeroSection({ videoSrc }) {
   const videoRef = useRef(null);
-  const [videoReady, setVideoReady] = useState(false);
+  const [source] = useState(() => videoSrc ?? pickSource());
   const [motionOk, setMotionOk] = useState(false);
 
   useEffect(() => {
@@ -35,54 +48,30 @@ export default function HeroSection({
     // Setting it directly keeps mobile Safari from blocking playback.
     video.muted = true;
 
-    // A cached video can be ready before React attaches onCanPlay, and the
-    // event never fires again - so the fade-in has to be triggered from the
-    // current readyState too, or the film plays invisibly under the still.
-    if (video.readyState >= 3) setVideoReady(true);
+    if (!motionOk) return;
 
-    // Autoplay can still be refused (low power mode, data saver). The still
-    // underneath is already the designed state, so a refusal needs no handling
-    // beyond not letting the rejection surface as an unhandled error.
+    // Autoplay can still be refused (low power mode, data saver). Nothing to
+    // handle beyond keeping the rejection from surfacing as an unhandled
+    // error - the poster frame stays on screen.
     const attempt = video.play();
     if (attempt?.catch) attempt.catch(() => {});
   }, [motionOk]);
 
   return (
     <section className='relative w-full h-screen min-h-[100dvh] overflow-hidden bg-[#060b13]'>
-      <img
-        src={posterSrc}
-        alt='Architectural render of the Ocean View Villas beachfront resort'
-        width={1920}
-        height={1080}
-        fetchPriority='high'
-        decoding='async'
+      <video
+        ref={videoRef}
+        src={source}
+        poster={HERO_POSTER}
+        autoPlay={motionOk}
+        loop={motionOk}
+        muted
+        playsInline
+        preload='auto'
+        aria-label='Ocean View Villas, filmed on the beachfront in Uswetakeiyawa'
+        tabIndex={-1}
         className='absolute inset-0 w-full h-full object-cover object-center scale-105'
       />
-
-      {/* The fade is an inline style, not an `opacity-0`/`opacity-100` pair:
-          those would be built from a template literal, and the utility only
-          lands in the stylesheet if the build happens to scan that exact
-          string - which it did not, leaving the film playing invisibly. */}
-      {motionOk ? (
-        <video
-          ref={videoRef}
-          src={videoSrc}
-          poster={posterSrc}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload='metadata'
-          aria-hidden='true'
-          tabIndex={-1}
-          onCanPlay={() => setVideoReady(true)}
-          className='absolute inset-0 w-full h-full object-cover object-center scale-105'
-          style={{
-            opacity: videoReady ? 1 : 0,
-            transition: 'opacity 900ms ease-out',
-          }}
-        />
-      ) : null}
 
       <div className='absolute inset-0 bg-black/25' />
     </section>
