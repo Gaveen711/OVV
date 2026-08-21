@@ -1,8 +1,19 @@
 {
   "rewrites": [
     {
-      "source": "/((?!api/|images/|icons\\.svg|favicon\\.svg|robots\\.txt|sitemap\\.xml|privacy-policy\\.html|assets/).*)",
+      "source": "/((?!api/|images/|videos/|icons\\.svg|favicon\\.svg|robots\\.txt|sitemap\\.xml|privacy-policy\\.html|assets/).*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/videos/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }

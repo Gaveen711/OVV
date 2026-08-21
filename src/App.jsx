@@ -23,8 +23,8 @@ export default function App() {
       {/* Minimal floating back-to-top control */}
       <ScrollToTop />
 
-      {/* Hero Section with background image only */}
-      <HeroSection bgImageSrc='/images/resort-hero-bg.webp' />
+      {/* Hero Section - looping film over the still it falls back to */}
+      <HeroSection posterSrc='/images/resort-hero-bg.webp' />
 
       {/* Experiences section (Master plan map) + Villas Gallery + Private Inquiry */}
       <VillaScrollJourney />

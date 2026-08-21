@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
-import { ArrowUpRight, BedDouble, CarFront, Expand, Waves } from 'lucide-react';
+import { ArrowUpRight, BedDouble, Expand, Palmtree, Waves } from 'lucide-react';
 import { Reveal, RevealGroup, RevealText } from './Reveal';
 import { revealChild } from './motionTokens';
 import AboutVillas from './AboutVillas';
+import Experiences from './Experiences';
 import VillaListings from './VillaListings';
 import CssImageStacking from './ui/css-image-stacking';
 import './VillaScrollJourney.css';
@@ -134,7 +135,7 @@ export default function VillaScrollJourney() {
             <motion.div variants={revealChild}>
               <BedDouble aria-hidden='true' />
               <dt>Bedrooms</dt>
-              <dd>4 per villa</dd>
+              <dd>Four en-suite</dd>
             </motion.div>
             <motion.div variants={revealChild}>
               <Expand aria-hidden='true' />
@@ -147,13 +148,15 @@ export default function VillaScrollJourney() {
               <dd>Pool + garden</dd>
             </motion.div>
             <motion.div variants={revealChild}>
-              <CarFront aria-hidden='true' />
-              <dt>Private parking</dt>
-              <dd>2-car garage</dd>
+              <Palmtree aria-hidden='true' />
+              <dt>Beachfront</dt>
+              <dd>Garden to the shore</dd>
             </motion.div>
           </RevealGroup>
         </div>
       </section>
+
+      <VillaListings />
 
       <section
         id='villas'
@@ -170,7 +173,7 @@ export default function VillaScrollJourney() {
 
       <AboutVillas />
 
-      <VillaListings />
+      <Experiences />
 
       <section id='inquiry' className='villa-inquiry'>
         <Reveal as='p' y={16} duration={0.7}>

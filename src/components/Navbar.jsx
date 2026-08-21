@@ -95,6 +95,14 @@ export default function Navbar() {
               scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-white hover:text-amber-300 drop-shadow-md'
             }`}
           />
+          <CtaButton
+            label='Experiences'
+            onClick={() => scrollToSection('experiences')}
+            showArrow={false}
+            className={`cta-compact font-medium transition-colors ${
+              scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-white hover:text-amber-300 drop-shadow-md'
+            }`}
+          />
           {/* Refined outline CTA Pill for Register Interest */}
           <button
             onClick={() => scrollToSection('inquiry')}
@@ -154,6 +162,12 @@ export default function Navbar() {
             <CtaButton
               label='Villas'
               onClick={() => scrollToSection('villas')}
+              showArrow={false}
+              className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
+            />
+            <CtaButton
+              label='Experiences'
+              onClick={() => scrollToSection('experiences')}
               showArrow={false}
               className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
             />

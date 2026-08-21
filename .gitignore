@@ -30,10 +30,14 @@ dist-ssr
 scroll-capture/
 
 media-source/
-public/videos/
 public/images/hero-poster.jpg
 *.mp4
 *.webm
+
+# ...with the single exception of the encode the hero actually loads. Listed by
+# name rather than un-ignoring public/videos/, so a fresh 4K master or a stray
+# export dropped in that folder still stays out of the repo.
+!public/videos/ovv-hero-1080p.mp4
 .vercel
 
 .vercel

@@ -18,7 +18,7 @@ const FIRST_FLOOR_FEATURES = [
   'Bedroom 1 with toilet',
   'Bedroom 2 with toilet',
   'Bedroom 1 + 2 shared balcony',
-  'Master suite (bedroom, closet, large toilet) with balcony',
+  'Premium suite (bedroom, closet, large toilet) with balcony',
   'Family room',
   'Laundry with balcony',
 ];
@@ -203,7 +203,10 @@ export const villas = [
     ],
   },
 ].map((villa) => {
-  const plans = PLAN_SETS[villa.planType];
+  // PLAN_SETS is authored bottom-up, the order the building is drawn in. The
+  // page presents it top-down - First Floor first, Lower Ground last - so the
+  // reversal happens once here rather than being baked into every plan set.
+  const plans = [...PLAN_SETS[villa.planType]].reverse();
   return {
     ...villa,
     plans,
