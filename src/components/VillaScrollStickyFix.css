@@ -1,8 +1,0 @@
-/* The existing hero shell only needs horizontal clipping. `hidden` creates a
-   scroll container on the other axis and prevents the parallax stage from
-   sticking while the visitor moves through the sequence. */
-div.transition-colors.overflow-x-hidden:has(.villa-experience) {
-  overflow-x: hidden;
-  overflow-x: clip;
-  overflow-y: visible;
-}
