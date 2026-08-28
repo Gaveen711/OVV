@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# TODO: replace www.oceanviewvillas.lk with the real production domain before launch
-Sitemap: https://www.oceanviewvillas.lk/sitemap.xml
+Sitemap: https://www.ovvlanka.com/sitemap.xml
