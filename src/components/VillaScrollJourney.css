@@ -1,8 +1,8 @@
 .villa-experience {
-  --journey-ink: #f6f1e9;
-  --journey-muted: #bac6cf;
-  --journey-dark: #090e12;
-  --journey-accent: #e7ab4d;
+  --journey-ink: #CAF0F8;
+  --journey-muted: #ADE8F4;
+  --journey-dark: #03045E;
+  --journey-accent: #DFC184;
   background: var(--journey-dark);
   color: var(--journey-ink);
 }
@@ -41,15 +41,15 @@
   grid-template-columns: minmax(0, 1.1fr) minmax(420px, 0.9fr);
   min-height: 100vh;
   min-height: 100dvh;
-  background: #f2f6f9;
-  color: #0d151b;
+  background: #FAF8F5;
+  color: #000000;
 }
 
 .villa-proof__plan {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #dce2e6;
+  background: #CAF0F8;
 }
 
 .villa-proof__plan img {
@@ -69,7 +69,7 @@
 
 .villa-proof__lead {
   margin: 0 0 28px;
-  color: #874e00;
+  color: #023E8A;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -90,7 +90,7 @@
 .villa-proof__content > p:not(.villa-proof__lead) {
   max-width: 58ch;
   margin: 32px 0 52px;
-  color: #384149;
+  color: #666666;
   font-size: 0.98rem;
   line-height: 1.8;
 }
@@ -100,7 +100,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 0;
   margin: 0;
-  border-top: 1px solid #abb2b8;
+  border-top: 1px solid #dce5eb;
 }
 
 .villa-proof dl div {
@@ -108,12 +108,12 @@
   grid-template-columns: 26px 1fr;
   gap: 4px 14px;
   padding: 24px 16px 24px 0;
-  border-bottom: 1px solid #abb2b8;
+  border-bottom: 1px solid #dce5eb;
   transition: border-color 320ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .villa-proof dl div:hover {
-  border-bottom-color: var(--journey-accent, #874e00);
+  border-bottom-color: var(--journey-accent, #023E8A);
 }
 
 /* The icon carries the hover, not the whole row - a row-level lift would
@@ -135,15 +135,16 @@
   width: 19px;
   height: 19px;
   margin-top: 2px;
-  color: #874e00;
+  color: #023E8A;
   stroke-width: 1.6;
 }
 
 .villa-proof dt {
-  color: #4f565d;
+  color: #644436;
   font-size: 0.68rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 .villa-proof dd {
@@ -162,17 +163,18 @@
   padding: 96px 24px;
   text-align: center;
   background:
-    linear-gradient(rgba(1, 2, 3, 0.5), rgba(1, 2, 3, 0.76)),
+    linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.72)),
     url('/images/ovv/family-room.webp') center / cover no-repeat;
-  color: var(--journey-ink);
+  color: #FFFFFF;
 }
 
 .villa-inquiry p {
   margin: 0 0 32px;
-  color: var(--journey-muted);
+  color: #FFFFFF;
   font-size: 0.64rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
 .villa-inquiry h2 {
@@ -182,6 +184,8 @@
   font-weight: 400;
   letter-spacing: -0.04em;
   line-height: 0.9;
+  color: #FFFFFF;
+  text-shadow: 0 3px 24px rgba(0, 0, 0, 0.8);
 }
 
 .villa-inquiry a {
@@ -190,21 +194,27 @@
   justify-content: center;
   gap: 16px;
   min-height: 52px;
-  padding: 0 22px;
+  padding: 0 24px;
   border-bottom: 1px solid var(--journey-accent);
-  color: var(--journey-ink);
+  color: #FFFFFF;
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-decoration: none;
   text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  border-radius: 999px;
   transition:
     color 220ms cubic-bezier(0.25, 1, 0.5, 1),
-    border-color 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    border-color 220ms cubic-bezier(0.25, 1, 0.5, 1),
+    background 220ms ease;
 }
 
 .villa-inquiry a:hover {
   color: var(--journey-accent);
-  border-color: var(--journey-ink);
+  border-color: #FFFFFF;
+  background: rgba(0, 0, 0, 0.55);
 }
 
 .villa-inquiry a:focus-visible {
@@ -230,9 +240,10 @@
 
 .villa-inquiry > span {
   margin-top: 28px;
-  color: var(--journey-muted);
+  color: #FFFFFF;
   font-size: 0.75rem;
   letter-spacing: 0.08em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
 /* ---------------------------------------------------------------- */

@@ -1,10 +1,10 @@
 .villa-detail {
-  --vd-ink: #0d151b;
-  --vd-muted: #58616b;
-  --vd-accent: #8a5c14;
-  --vd-line: #e2e5e4;
+  --vd-ink: #000000;
+  --vd-muted: #666666;
+  --vd-accent: #023E8A;
+  --vd-line: #dce5eb;
   --vd-surface: #ffffff;
-  background: #f4f2ee;
+  background: #FAF8F5;
   color: var(--vd-ink);
   min-height: 100vh;
 }
@@ -32,7 +32,7 @@
 }
 
 .villa-detail__brand-accent {
-  color: var(--vd-accent);
+  color: #644436;
 }
 
 .villa-detail__back {
@@ -69,7 +69,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 18px;
-  color: #8b939b;
+  color: #666666;
   font-size: 0.72rem;
   letter-spacing: 0.04em;
 }
@@ -136,7 +136,7 @@
   position: relative;
   overflow: hidden;
   border-radius: 18px;
-  background: #dce2e6;
+  background: #CAF0F8;
   aspect-ratio: 16 / 11;
 }
 
@@ -157,7 +157,7 @@
   border: none;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 6px 18px rgba(13, 21, 27, 0.2);
+  box-shadow: 0 6px 18px rgba(2, 62, 138, 0.2);
   color: var(--vd-ink);
   cursor: pointer;
   transition: background 200ms ease, scale 200ms ease;
@@ -192,7 +192,7 @@
   border: none;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 6px 18px rgba(13, 21, 27, 0.2);
+  box-shadow: 0 6px 18px rgba(2, 62, 138, 0.2);
   color: var(--vd-ink);
   font-size: 0.72rem;
   font-weight: 700;
@@ -212,8 +212,8 @@
   margin: 0;
   padding: 7px 13px;
   border-radius: 999px;
-  background: rgba(13, 21, 27, 0.62);
-  color: #fff;
+  background: rgba(3, 4, 94, 0.75);
+  color: #CAF0F8;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -230,7 +230,7 @@
   padding: 0;
   border: none;
   border-radius: 14px;
-  background: #dce2e6;
+  background: #CAF0F8;
   cursor: pointer;
 }
 
@@ -263,7 +263,7 @@
   padding: 0;
   border: 2px solid transparent;
   border-radius: 10px;
-  background: #dce2e6;
+  background: #CAF0F8;
   cursor: pointer;
   opacity: 0.62;
   transition: opacity 200ms ease, border-color 200ms ease;
@@ -401,8 +401,8 @@
 }
 
 .villa-detail__plan-tab.is-active {
-  border-color: var(--vd-ink);
-  background: var(--vd-ink);
+  border-color: var(--vd-accent);
+  background: var(--vd-accent);
   color: #fff;
 }
 
@@ -433,8 +433,8 @@
   gap: 8px;
   padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(13, 21, 27, 0.78);
-  color: #fff;
+  background: rgba(3, 4, 94, 0.8);
+  color: #CAF0F8;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -542,7 +542,7 @@
   gap: 12px;
   padding: 15px 20px;
   border-radius: 12px;
-  background: var(--vd-ink);
+  background: var(--vd-accent);
   color: #fff;
   font-size: 0.76rem;
   font-weight: 700;
@@ -553,7 +553,7 @@
 }
 
 .villa-detail__cta:hover {
-  background: var(--vd-accent);
+  background: #644436;
 }
 
 .villa-detail__cta svg {
@@ -563,7 +563,7 @@
 
 .villa-detail__price-note {
   margin: 14px 0 0;
-  color: #8b939b;
+  color: #666666;
   font-size: 0.74rem;
   line-height: 1.6;
 }
@@ -576,7 +576,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #798599;
+  color: #644436;
 }
 
 .villa-detail__help a {
@@ -642,7 +642,7 @@
   display: grid;
   place-items: center;
   padding: clamp(16px, 4vw, 56px);
-  background: rgba(9, 14, 18, 0.92);
+  background: rgba(3, 4, 94, 0.94);
   cursor: zoom-out;
 }
 

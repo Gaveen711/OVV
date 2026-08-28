@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { Reveal, RevealGroup } from './Reveal';
-import BrandWordmark from './BrandWordmark';
+import BrandLogo from './BrandLogo';
 import { revealChild } from './motionTokens';
 import { motion } from 'framer-motion';
 import './Footer.css';
@@ -18,9 +18,14 @@ export default function Footer() {
     <footer className='site-footer'>
       <RevealGroup className='site-footer__layout' stagger={0.1}>
         <motion.div className='site-footer__brand' variants={revealChild}>
-          <p className='site-footer__wordmark'>
-            <BrandWordmark accentClassName='site-footer__monogram' />
-          </p>
+          <div className='mb-5'>
+            <BrandLogo
+              theme='dark'
+              variant='full'
+              markClassName='h-10 md:h-12 w-auto'
+              textClassName='text-white tracking-[0.28em] text-[8px] md:text-[9.5px]'
+            />
+          </div>
           <p className='site-footer__tagline'>
             Six beachfront residences in Uswetakeiyawa, Sri Lanka.
           </p>

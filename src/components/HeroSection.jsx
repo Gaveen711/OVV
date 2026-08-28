@@ -88,7 +88,7 @@ export default function HeroSection({ videoSrc }) {
   }, [motionOk]);
 
   return (
-    <section className='relative w-full h-screen min-h-[100dvh] overflow-hidden bg-[#060b13]'>
+    <section className='relative w-full h-screen min-h-[100dvh] overflow-hidden bg-[#03045E]'>
       <video
         ref={attachVideo}
         src={source}

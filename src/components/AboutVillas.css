@@ -1,8 +1,8 @@
 .about-villas {
-  --about-bg: #051522;
-  --about-ink: #f7f5ee;
-  --about-muted: #c1ccd5;
-  --about-accent: #d9a856;
+  --about-bg: #8F6048;
+  --about-ink: #FFFFFF;
+  --about-muted: #F5EAE4;
+  --about-accent: #DFC184;
   min-height: 88vh;
   min-height: 88dvh;
   display: grid;
@@ -58,6 +58,7 @@
   letter-spacing: -0.035em;
   line-height: 0.94;
   text-wrap: balance;
+  color: #FFFFFF;
 }
 
 .about-villas__copy {
@@ -84,7 +85,7 @@
   align-items: center;
   gap: 14px;
   margin: 0;
-  color: rgba(247, 245, 238, 0.68);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -93,7 +94,7 @@
 .about-villas__location span {
   width: 26px;
   height: 1px;
-  background: rgba(247, 245, 238, 0.34);
+  background: rgba(223, 193, 132, 0.6);
 }
 
 @media (max-width: 900px) {

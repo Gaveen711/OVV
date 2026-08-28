@@ -114,7 +114,7 @@ export default function Experiences() {
         <Reveal as='p' className='experiences__lead' delay={0.18}>
           The villas sit on the Colombo&ndash;Negombo corridor, with the airport and
           the capital on either side of the front door. Between them is a working
-          coastline &mdash; a lagoon, a marsh, a fish market and a colonial town that
+          coastline a lagoon, a marsh, a fish market and a colonial town that
           have been here far longer than the road.
         </Reveal>
       </div>

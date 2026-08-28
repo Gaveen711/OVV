@@ -14,7 +14,7 @@ import {
   Ruler,
   X,
 } from 'lucide-react';
-import BrandWordmark from '../components/BrandWordmark';
+import BrandLogo from '../components/BrandLogo';
 import Footer from '../components/Footer';
 import { getVilla, villas } from '../data/villas';
 import './VillaDetail.css';
@@ -71,8 +71,13 @@ export default function VillaDetail() {
   return (
     <div className='villa-detail'>
       <header className='villa-detail__bar'>
-        <Link to='/' className='villa-detail__brand'>
-          <BrandWordmark accentClassName='villa-detail__brand-accent' />
+        <Link to='/' className='villa-detail__brand flex items-center' aria-label='Ocean View Villas'>
+          <BrandLogo
+            theme='light'
+            variant='full'
+            markClassName='h-7 md:h-8 w-auto'
+            textClassName='text-black'
+          />
         </Link>
         <a href='/#villa-collection' className='villa-detail__back'>
           <ArrowLeft aria-hidden='true' />

@@ -32,7 +32,7 @@ export default function ScrollToTop() {
       type='button'
       onClick={handleClick}
       aria-label='Back to top'
-      className={`fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-[calc(1.5rem+env(safe-area-inset-right))] md:bottom-[calc(2rem+env(safe-area-inset-bottom))] md:right-[calc(2rem+env(safe-area-inset-right))] z-40 w-10 h-10 rounded-full border border-white/25 bg-slate-950/40 text-stone-100 backdrop-blur-md flex items-center justify-center cursor-pointer transition-all duration-300 hover:border-amber-400/70 hover:text-amber-300 focus-visible:outline-2 focus-visible:outline-amber-400 ${
+      className={`fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-[calc(1.5rem+env(safe-area-inset-right))] md:bottom-[calc(2rem+env(safe-area-inset-bottom))] md:right-[calc(2rem+env(safe-area-inset-right))] z-40 w-10 h-10 rounded-full border border-white/25 bg-[#03045E]/70 text-[#CAF0F8] backdrop-blur-md flex items-center justify-center cursor-pointer transition-all duration-300 hover:border-[#DFC184] hover:text-[#DFC184] focus-visible:outline-2 focus-visible:outline-[#023E8A] ${
         visible
           ? 'visible opacity-100 translate-y-0'
           : 'invisible opacity-0 translate-y-3 pointer-events-none'

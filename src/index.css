@@ -4,6 +4,33 @@
   :root {
     --font-serif: 'Cormorant Garamond', Georgia, serif;
     --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+
+    /* Primary Brand Colours */
+    --color-deep-ocean-blue: #023E8A;
+    --color-black: #000000;
+    --color-stone-grey: #666666;
+    --color-driftwood-brown: #644436;
+
+    /* Secondary Brand Colours */
+    --color-sandy-tan: #DFC184;
+    --color-weathered-wood: #8F6048;
+    --color-light-aqua: #48CAE4;
+    --color-powder-blue: #ADE8F4;
+    --color-ice-blue: #CAF0F8;
+    --color-sky-blue: #0096C7;
+    --color-medium-blue: #0077B6;
+    --color-royal-blue: #023E8A;
+    --color-midnight-blue: #03045E;
+
+    /* Brand System Tokens */
+    --brand-primary: var(--color-deep-ocean-blue);
+    --brand-dark: var(--color-midnight-blue);
+    --brand-neutral: var(--color-stone-grey);
+    --brand-wood: var(--color-driftwood-brown);
+    --brand-wood-light: var(--color-weathered-wood);
+    --brand-sand: var(--color-sandy-tan);
+    --brand-accent: var(--color-sandy-tan);
+    --brand-surface-tint: var(--color-ice-blue);
   }
 
   html {
@@ -13,13 +40,13 @@
        The reduced-motion fallback below restores it for users without Lenis. */
     font-family: var(--font-sans);
     background-color: #FAF8F5;
-    color: #1E293B;
+    color: #000000;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
     scrollbar-width: thin;
-    scrollbar-color: #CBD5E1 #FAF8F5;
+    scrollbar-color: #0096C7 #FAF8F5;
   }
 
   h1, h2, h3, h4, .font-serif {
@@ -94,7 +121,7 @@
 }
 
 .cta:focus-visible {
-  outline: 2px solid rgba(197, 155, 39, 0.8);
+  outline: 2px solid rgba(223, 193, 132, 0.9);
   outline-offset: 4px;
   border-radius: 2px;
 }
@@ -143,12 +170,12 @@ button:hover .hover-underline-animation:after {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #0096C7;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #023E8A;
 }
 
 /* Cross-Browser Form Controls & Date Inputs */

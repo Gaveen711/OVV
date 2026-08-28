@@ -2,11 +2,11 @@
    runs light deliberately - it is the breath between them, and it keeps the
    corridor content from reading as more villa marketing. */
 .experiences {
-  --exp-bg: #f1eee7;
-  --exp-ink: #14181b;
-  --exp-muted: #5d5950;
-  --exp-accent: #8a6a14;
-  --exp-line: #d8d2c6;
+  --exp-bg: #FAF8F5;
+  --exp-ink: #000000;
+  --exp-muted: #666666;
+  --exp-accent: #023E8A;
+  --exp-line: #dce5eb;
   /* Reveal timing. One curve and one duration shared by every moving part of
      a card, so the image, scrim and copy arrive as a single gesture. */
   --exp-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -85,7 +85,7 @@
   overflow: hidden;
   border-radius: 3px;
   cursor: pointer;
-  background: #0b1013;
+  background: #03045E;
   transition:
     transform var(--exp-speed) var(--exp-ease),
     box-shadow var(--exp-speed) var(--exp-ease);
@@ -118,9 +118,9 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(6, 12, 15, 0.86) 0%,
-    rgba(6, 12, 15, 0.52) 34%,
-    rgba(6, 12, 15, 0.08) 72%
+    rgba(3, 4, 94, 0.88) 0%,
+    rgba(3, 4, 94, 0.52) 34%,
+    rgba(3, 4, 94, 0.08) 72%
   );
   transition: opacity var(--exp-speed) var(--exp-ease);
 }
@@ -132,12 +132,12 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: clamp(20px, 2vw, 28px);
-  color: #f6f3ec;
+  color: #CAF0F8;
 }
 
 .experiences__kind {
   margin: 0;
-  color: #e3bb63;
+  color: #DFC184;
   font-size: 0.63rem;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -151,7 +151,7 @@
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -0.01em;
-  color: #fffdf8;
+  color: #FFFFFF;
 }
 
 /* The hidden half. Height is animated via grid-template-rows so the card does
@@ -176,13 +176,13 @@
 }
 
 .experiences__copy {
-  color: #ddd8cf;
+  color: #ADE8F4;
   font-size: 0.92rem;
   line-height: 1.68;
 }
 
 .experiences__credit {
-  color: #9a948a;
+  color: #CAF0F8;
   font-size: 0.66rem;
   letter-spacing: 0.04em;
 }
@@ -195,7 +195,7 @@
 
 .experiences__credit a:hover,
 .experiences__credit a:focus-visible {
-  color: #e3bb63;
+  color: #48CAE4;
 }
 
 /* ---- revealed ----
@@ -221,9 +221,9 @@
   opacity: 1;
   background: linear-gradient(
     to top,
-    rgba(6, 12, 15, 0.93) 0%,
-    rgba(6, 12, 15, 0.82) 55%,
-    rgba(6, 12, 15, 0.62) 100%
+    rgba(3, 4, 94, 0.94) 0%,
+    rgba(3, 4, 94, 0.82) 55%,
+    rgba(3, 4, 94, 0.62) 100%
   );
 }
 

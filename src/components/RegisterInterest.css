@@ -1,11 +1,14 @@
 .register-interest {
-  --ri-ink: #f6f1e9;
-  --ri-muted: #bac6cf;
-  --ri-dark: #090e12;
-  --ri-accent: #e7ab4d;
-  background: var(--ri-dark);
+  --ri-ink: #000000;
+  --ri-muted: #666666;
+  --ri-bg: #F0F7FA;
+  --ri-accent: #644436;
+  --ri-accent-gold: #DFC184;
+  --ri-primary: #023E8A;
+  background: var(--ri-bg);
   color: var(--ri-ink);
   padding: clamp(88px, 12vh, 152px) clamp(24px, 6vw, 96px);
+  border-top: 1px solid #dce8ef;
 }
 
 .register-interest__layout {
@@ -45,6 +48,7 @@
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.05;
+  color: #000000;
 }
 
 .register-interest__body form {
@@ -67,7 +71,7 @@
   width: 100%;
   padding: 10px 2px 12px;
   border: 0;
-  border-bottom: 1px solid rgba(246, 241, 233, 0.3);
+  border-bottom: 1px solid #b8ccd8;
   border-radius: 0;
   background: transparent;
   color: var(--ri-ink);
@@ -79,14 +83,14 @@
 .register-interest input::placeholder,
 .register-interest textarea::placeholder {
   color: var(--ri-accent);
-  opacity: 1;
+  opacity: 0.85;
 }
 
 .register-interest input:focus,
 .register-interest select:focus,
 .register-interest textarea:focus {
   outline: none;
-  border-bottom-color: var(--ri-accent);
+  border-bottom-color: var(--ri-primary);
 }
 
 .register-interest textarea {
@@ -110,14 +114,14 @@
   padding-right: 30px;
 }
 
-/* Placeholder option shown in accent gold until a value is chosen */
+/* Placeholder option shown in accent timber until a value is chosen */
 .register-interest__select select[data-empty] {
   color: var(--ri-accent);
 }
 
 .register-interest__select select option {
-  background: var(--ri-dark);
-  color: var(--ri-ink);
+  background: #FFFFFF;
+  color: #000000;
 }
 
 .register-interest__select > svg {
@@ -144,6 +148,7 @@
   gap: 16px;
   cursor: pointer;
   font-size: 0.92rem;
+  color: #222222;
 }
 
 .register-interest__check input {
@@ -152,7 +157,7 @@
   width: 22px;
   height: 22px;
   margin: 0;
-  border: 1px solid rgba(246, 241, 233, 0.45);
+  border: 1px solid #9bb2c2;
   background: transparent;
   cursor: pointer;
   transition:
@@ -161,21 +166,21 @@
 }
 
 .register-interest__check input:checked {
-  border-color: var(--ri-accent);
-  background-color: var(--ri-accent);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23131a24' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  border-color: var(--ri-primary);
+  background-color: var(--ri-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
   background-size: 14px;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .register-interest__check input:focus-visible {
-  outline: 2px solid var(--ri-accent);
+  outline: 2px solid var(--ri-primary);
   outline-offset: 3px;
 }
 
 .register-interest__check a {
-  color: var(--ri-ink);
+  color: var(--ri-primary);
   text-underline-offset: 4px;
 }
 
@@ -188,7 +193,7 @@
   align-items: center;
   gap: 10px;
   margin: 0;
-  color: #f97770;
+  color: #d93829;
   font-size: 0.85rem;
 }
 
@@ -204,22 +209,25 @@
   gap: 16px;
   align-self: flex-start;
   margin-top: clamp(12px, 2vh, 24px);
-  padding: 18px 30px;
+  padding: 18px 32px;
   border: 0;
-  background: var(--ri-accent);
-  color: #0b121a;
+  background: var(--ri-accent-gold);
+  color: #000000;
   font: inherit;
+  font-weight: 700;
   font-size: 0.95rem;
+  letter-spacing: 0.05em;
   cursor: pointer;
-  transition: background-color 220ms ease;
+  transition: background-color 220ms ease, color 220ms ease;
 }
 
 .register-interest__submit:hover {
-  background: #f4c26a;
+  background: #000000;
+  color: #FFFFFF;
 }
 
 .register-interest__submit:focus-visible {
-  outline: 2px solid var(--ri-ink);
+  outline: 2px solid var(--ri-primary);
   outline-offset: 3px;
 }
 
@@ -259,7 +267,7 @@
 .register-interest__success > svg {
   width: 40px;
   height: 40px;
-  color: var(--ri-accent);
+  color: var(--ri-primary);
 }
 
 .register-interest__success h3 {
@@ -267,6 +275,7 @@
   font-family: var(--font-serif);
   font-size: 1.6rem;
   font-weight: 400;
+  color: #000000;
 }
 
 .register-interest__success p {
@@ -279,7 +288,7 @@
   margin-top: 12px;
   padding: 0 0 4px;
   border: 0;
-  border-bottom: 1px solid var(--ri-accent);
+  border-bottom: 1px solid var(--ri-primary);
   background: none;
   color: var(--ri-ink);
   font-size: 0.78rem;
@@ -289,7 +298,7 @@
 }
 
 .register-interest__success button:hover {
-  color: var(--ri-accent);
+  color: var(--ri-primary);
 }
 
 @media (max-width: 1100px) {

@@ -10,7 +10,7 @@ import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className='min-h-screen bg-[#FAF8F5] text-slate-800 font-sans antialiased selection:bg-amber-500/20 selection:text-amber-900'>
+    <div className='min-h-screen bg-[#FAF8F5] text-black font-sans antialiased selection:bg-[#023E8A]/20 selection:text-[#023E8A]'>
       {/* Site-wide inertial smooth scrolling */}
       <SmoothScroll />
 

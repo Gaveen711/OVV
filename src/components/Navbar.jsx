@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import CtaButton from './CtaButton';
 import { EASE_UI } from './motionTokens';
-import BrandWordmark from './BrandWordmark';
+import BrandLogo from './BrandLogo';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -59,21 +59,18 @@ export default function Navbar() {
       }`}
     >
       <div className='max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between'>
-        {/* Brand wordmark - plain type, no mark. Natural casing rather than
-            uppercase so the O/V/V initials read as the OVV monogram. */}
+        {/* Official Brand Logo */}
         <a
           href='#'
           onClick={scrollToTop}
-          className={`group font-serif text-xl md:text-2xl tracking-[0.12em] transition-colors duration-300 ${
-            scrolled ? 'text-slate-900' : 'text-white drop-shadow-md'
-          }`}
+          className='group flex items-center transition-transform duration-300 hover:scale-[1.02]'
+          aria-label='Ocean View Villas'
         >
-          <BrandWordmark
-            accentClassName={`transition-colors duration-300 ${
-              scrolled
-                ? 'text-amber-700 group-hover:text-amber-600'
-                : 'text-amber-300 group-hover:text-amber-200'
-            }`}
+          <BrandLogo
+            theme={scrolled ? 'light' : 'dark'}
+            variant='full'
+            markClassName='h-7 md:h-8 w-auto'
+            textClassName={scrolled ? 'text-black' : 'text-white drop-shadow-md'}
           />
         </a>
 
@@ -84,7 +81,7 @@ export default function Navbar() {
             onClick={() => scrollToSection('amenities')}
             showArrow={false}
             className={`cta-compact font-medium transition-colors ${
-              scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-white hover:text-amber-300 drop-shadow-md'
+              scrolled ? 'text-black hover:text-[#023E8A]' : 'text-white hover:text-[#DFC184] drop-shadow-md'
             }`}
           />
           <CtaButton
@@ -92,7 +89,7 @@ export default function Navbar() {
             onClick={() => scrollToSection('villas')}
             showArrow={false}
             className={`cta-compact font-medium transition-colors ${
-              scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-white hover:text-amber-300 drop-shadow-md'
+              scrolled ? 'text-black hover:text-[#023E8A]' : 'text-white hover:text-[#DFC184] drop-shadow-md'
             }`}
           />
           <CtaButton
@@ -100,7 +97,7 @@ export default function Navbar() {
             onClick={() => scrollToSection('experiences')}
             showArrow={false}
             className={`cta-compact font-medium transition-colors ${
-              scrolled ? 'text-slate-800 hover:text-amber-700' : 'text-white hover:text-amber-300 drop-shadow-md'
+              scrolled ? 'text-black hover:text-[#023E8A]' : 'text-white hover:text-[#DFC184] drop-shadow-md'
             }`}
           />
           {/* Refined outline CTA Pill for Register Interest */}
@@ -108,8 +105,8 @@ export default function Navbar() {
             onClick={() => scrollToSection('inquiry')}
             className={`group px-5 py-2 rounded-full border text-[10px] font-semibold tracking-[0.25em] uppercase transition-all duration-300 ease-out flex items-center gap-2 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] ${
               scrolled
-                ? 'border-slate-900/60 text-slate-900 hover:bg-slate-900 hover:border-slate-900 hover:text-amber-300'
-                : 'border-white/60 bg-white/10 text-white backdrop-blur-sm hover:bg-amber-600 hover:border-amber-600 shadow-lg shadow-black/10'
+                ? 'border-[#023E8A] text-[#023E8A] hover:bg-[#023E8A] hover:text-[#CAF0F8]'
+                : 'border-white/60 bg-white/10 text-white backdrop-blur-sm hover:bg-[#023E8A] hover:border-[#023E8A] hover:text-[#DFC184] shadow-lg shadow-black/10'
             }`}
           >
             <span>Register Interest</span>
@@ -126,7 +123,7 @@ export default function Navbar() {
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className={`md:hidden p-2 rounded-xl focus:outline-none transition-colors ${
-            scrolled ? 'text-slate-900 hover:text-amber-700' : 'text-white hover:text-amber-300'
+            scrolled ? 'text-black hover:text-[#023E8A]' : 'text-white hover:text-[#DFC184]'
           }`}
           aria-label='Toggle menu'
         >
@@ -138,7 +135,7 @@ export default function Navbar() {
           never floats over the hero as a stray line. */}
       <motion.div
         aria-hidden='true'
-        className='absolute bottom-0 left-0 right-0 h-px origin-left bg-gradient-to-r from-amber-600/70 via-amber-500 to-amber-300/70'
+        className='absolute bottom-0 left-0 right-0 h-px origin-left bg-gradient-to-r from-[#023E8A] via-[#0096C7] to-[#DFC184]'
         style={{ scaleX: progress, opacity: scrolled ? 1 : 0 }}
         transition={{ opacity: { duration: 0.3 } }}
       />
@@ -157,23 +154,23 @@ export default function Navbar() {
               label='Overview'
               onClick={() => scrollToSection('amenities')}
               showArrow={false}
-              className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
+              className='text-base font-semibold text-black hover:text-[#023E8A] py-1.5'
             />
             <CtaButton
               label='Villas'
               onClick={() => scrollToSection('villas')}
               showArrow={false}
-              className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
+              className='text-base font-semibold text-black hover:text-[#023E8A] py-1.5'
             />
             <CtaButton
               label='Experiences'
               onClick={() => scrollToSection('experiences')}
               showArrow={false}
-              className='text-base font-semibold text-slate-800 hover:text-amber-700 py-1.5'
+              className='text-base font-semibold text-black hover:text-[#023E8A] py-1.5'
             />
             <button
               onClick={() => scrollToSection('inquiry')}
-              className='w-full py-3 px-6 rounded-full border border-slate-900/70 text-slate-900 font-semibold text-[11px] tracking-[0.25em] uppercase flex items-center justify-center gap-2 mt-2 transition-all duration-300 hover:bg-slate-900 hover:text-amber-300 active:scale-[0.98]'
+              className='w-full py-3 px-6 rounded-full border border-[#023E8A] text-[#023E8A] font-semibold text-[11px] tracking-[0.25em] uppercase flex items-center justify-center gap-2 mt-2 transition-all duration-300 hover:bg-[#023E8A] hover:text-[#CAF0F8] active:scale-[0.98]'
             >
               <span>Register Interest</span>
               <svg className='w-3.5 h-2.5 fill-current' viewBox='0 0 46 16'>
