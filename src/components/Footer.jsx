@@ -42,9 +42,6 @@ export default function Footer() {
               <a href={`${home}#villa-collection`}>Villas</a>
             </li>
             <li>
-              <a href={`${home}#experiences`}>Experiences</a>
-            </li>
-            <li>
               <a href={`${home}#register`}>Register Interest</a>
             </li>
             <li>

@@ -26,7 +26,7 @@ export default function App() {
       {/* Hero Section - the looping film, full bleed */}
       <HeroSection />
 
-      {/* Experiences section (Master plan map) + Villas Gallery + Private Inquiry */}
+      {/* Villas gallery and private inquiry */}
       <VillaScrollJourney />
 
       {/* Register Interest Form Section */}

@@ -86,15 +86,15 @@ export default function Navbar() {
           />
           <CtaButton
             label='Villas'
-            onClick={() => scrollToSection('villas')}
+            onClick={() => scrollToSection('villa-collection')}
             showArrow={false}
             className={`cta-compact font-medium transition-colors ${
               scrolled ? 'text-black hover:text-[#023E8A]' : 'text-white hover:text-[#DFC184] drop-shadow-md'
             }`}
           />
           <CtaButton
-            label='Experiences'
-            onClick={() => scrollToSection('experiences')}
+            label='Gallery'
+            onClick={() => scrollToSection('villas')}
             showArrow={false}
             className={`cta-compact font-medium transition-colors ${
               scrolled ? 'text-black hover:text-[#023E8A]' : 'text-white hover:text-[#DFC184] drop-shadow-md'
@@ -158,13 +158,13 @@ export default function Navbar() {
             />
             <CtaButton
               label='Villas'
-              onClick={() => scrollToSection('villas')}
+              onClick={() => scrollToSection('villa-collection')}
               showArrow={false}
               className='text-base font-semibold text-black hover:text-[#023E8A] py-1.5'
             />
             <CtaButton
-              label='Experiences'
-              onClick={() => scrollToSection('experiences')}
+              label='Gallery'
+              onClick={() => scrollToSection('villas')}
               showArrow={false}
               className='text-base font-semibold text-black hover:text-[#023E8A] py-1.5'
             />
