@@ -3,6 +3,7 @@ import { ArrowUpRight, BedDouble, Expand, Palmtree, Waves } from 'lucide-react';
 import { Reveal, RevealGroup, RevealText } from './Reveal';
 import { revealChild } from './motionTokens';
 import AboutVillas from './AboutVillas';
+import Experiences from './Experiences';
 import VillaListings from './VillaListings';
 import CssImageStacking from './ui/css-image-stacking';
 import './VillaScrollJourney.css';
@@ -171,6 +172,8 @@ export default function VillaScrollJourney() {
       </section>
 
       <AboutVillas />
+
+      <Experiences />
 
       <section id='inquiry' className='villa-inquiry'>
         <Reveal as='p' y={16} duration={0.7}>
