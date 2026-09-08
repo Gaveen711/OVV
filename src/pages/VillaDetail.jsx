@@ -369,7 +369,7 @@ export default function VillaDetail() {
 
             <div className='villa-detail__help'>
               <h2>Need help with this listing?</h2>
-              <a href='mailto:deepakjs@yahoo.com'>deepakjs@yahoo.com</a>
+              <a href='mailto:sales@ovvlanka.com'>sales@ovvlanka.com</a>
               <a href='tel:+94114335444'>+94 11 4 335 444</a>
             </div>
 
