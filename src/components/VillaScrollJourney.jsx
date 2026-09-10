@@ -134,13 +134,13 @@ export default function VillaScrollJourney() {
           <RevealGroup as='dl' delay={0.1} stagger={0.09}>
             <motion.div variants={revealChild}>
               <BedDouble aria-hidden='true' />
-              <dt>Bedrooms</dt>
-              <dd>Four en-suite</dd>
+              <dt>Bedrooms & bathrooms</dt>
+              <dd>4 bedrooms · 4 bathrooms</dd>
             </motion.div>
             <motion.div variants={revealChild}>
               <Expand aria-hidden='true' />
               <dt>Built area</dt>
-              <dd>5,500 sq ft</dd>
+              <dd>5,447–5,553 sq ft</dd>
             </motion.div>
             <motion.div variants={revealChild}>
               <Waves aria-hidden='true' />

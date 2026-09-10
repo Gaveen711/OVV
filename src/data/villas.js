@@ -1,6 +1,5 @@
-// Source of truth: OVV Brochure (Villa Plan pages, B.U.A schedule, Key Features).
-// The brochure defines three layouts - Type A, B and C. Type 04 is offered on the
-// Type C layout, so it shares that plan set.
+// Floor plans and areas: Floor Plans.pdf, pages 3-14 (T1-T4).
+// T1: Unit 1; T2: Units 2 and 4; T3: Units 3 and 5; T4: Unit 6.
 
 const UPPER_GROUND_FEATURES = [
   'Dining space + living room',
@@ -42,63 +41,83 @@ const LOWER_GROUND_BC = [
 ];
 
 const PLAN_SETS = {
-  A: [
+  T1: [
     {
       name: 'Lower Ground Floor',
-      sqft: 1685,
-      image: '/images/ovv/plans/type-a-lower-ground.webp',
+      sqft: 1683,
+      image: '/images/ovv/plans/t1-lower-ground.webp',
       features: LOWER_GROUND_A,
     },
     {
       name: 'Upper Ground Floor',
-      sqft: 2050,
-      image: '/images/ovv/plans/type-a-upper-ground.webp',
+      sqft: 2048,
+      image: '/images/ovv/plans/t1-upper-ground.webp',
       features: UPPER_GROUND_FEATURES,
     },
     {
       name: 'First Floor',
-      sqft: 1715,
-      image: '/images/ovv/plans/type-a-first.webp',
+      sqft: 1716,
+      image: '/images/ovv/plans/t1-first.webp',
       features: FIRST_FLOOR_FEATURES,
     },
   ],
-  B: [
+  T2: [
     {
       name: 'Lower Ground Floor',
-      sqft: 1685,
-      image: '/images/ovv/plans/type-b-lower-ground.webp',
+      sqft: 1684,
+      image: '/images/ovv/plans/t2-lower-ground.webp',
       features: LOWER_GROUND_BC,
     },
     {
       name: 'Upper Ground Floor',
-      sqft: 2050,
-      image: '/images/ovv/plans/type-b-upper-ground.webp',
+      sqft: 2048,
+      image: '/images/ovv/plans/t2-upper-ground.webp',
       features: UPPER_GROUND_FEATURES,
     },
     {
       name: 'First Floor',
-      sqft: 1740,
-      image: '/images/ovv/plans/type-b-first.webp',
+      sqft: 1738,
+      image: '/images/ovv/plans/t2-first.webp',
       features: FIRST_FLOOR_FEATURES,
     },
   ],
-  C: [
+  T3: [
     {
       name: 'Lower Ground Floor',
-      sqft: 1685,
-      image: '/images/ovv/plans/type-c-lower-ground.webp',
+      sqft: 1733,
+      image: '/images/ovv/plans/t3-lower-ground.webp',
       features: LOWER_GROUND_BC,
     },
     {
       name: 'Upper Ground Floor',
-      sqft: 2050,
-      image: '/images/ovv/plans/type-c-upper-ground.webp',
+      sqft: 2074,
+      image: '/images/ovv/plans/t3-upper-ground.webp',
       features: UPPER_GROUND_FEATURES,
     },
     {
       name: 'First Floor',
-      sqft: 1840,
-      image: '/images/ovv/plans/type-c-first.webp',
+      sqft: 1736,
+      image: '/images/ovv/plans/t3-first.webp',
+      features: FIRST_FLOOR_FEATURES,
+    },
+  ],
+  T4: [
+    {
+      name: 'Lower Ground Floor',
+      sqft: 1684,
+      image: '/images/ovv/plans/t4-lower-ground.webp',
+      features: LOWER_GROUND_BC,
+    },
+    {
+      name: 'Upper Ground Floor',
+      sqft: 2027,
+      image: '/images/ovv/plans/t4-upper-ground.webp',
+      features: [],
+    },
+    {
+      name: 'First Floor',
+      sqft: 1842,
+      image: '/images/ovv/plans/t4-first.webp',
       features: FIRST_FLOOR_FEATURES,
     },
   ],
@@ -138,10 +157,10 @@ export const villas = [
     ...SHARED,
     slug: 'type-01',
     name: 'Type 01',
-    planType: 'A',
+    planType: 'T1',
     tagline: 'Corner residence with a side walkway approach.',
     summary:
-      'Type 01 is laid out on the brochure Type A plan. Its lower ground level opens through a secure foyer served by a private side walkway, giving the villa a discreet second approach alongside the two-car garage. Above it, the upper ground floor carries the full-width living and dining volume out to the plunge pool and private garden, while the first floor holds a second master suite, two en-suite bedrooms and a family room.',
+      'Type 01 follows the T1 layout for Unit 1, with 5,447 sq. ft. across three levels. The lower ground floor provides 1,683 sq. ft., the upper ground floor 2,048 sq. ft., and the first floor 1,716 sq. ft.',
     gallery: [
       { src: '/images/ovv/ocean-suite.webp', alt: 'Ocean-facing master suite in Type 01' },
       { src: '/images/ovv/suite-vaulted.webp', alt: 'Vaulted bedroom in Type 01' },
@@ -155,10 +174,10 @@ export const villas = [
     ...SHARED,
     slug: 'type-02',
     name: 'Type 02',
-    planType: 'B',
+    planType: 'T2',
     tagline: 'Sheltered entrance with a full domestic yard.',
     summary:
-      'Type 02 follows the brochure Type B plan. The lower ground level trades the side walkway for a sheltered entrance, a dedicated domestic yard and a separate domestic toilet, keeping service circulation entirely apart from the family route. The upper ground floor is identical to the rest of the collection, and the first floor gains additional area over Type 01 across its bedrooms and family room.',
+      'Type 02 follows the T2 layout used for Units 2 and 4, with 5,470 sq. ft. across three levels. The lower ground floor provides 1,684 sq. ft., the upper ground floor 2,048 sq. ft., and the first floor 1,738 sq. ft.',
     gallery: [
       { src: '/images/ovv/open-living.webp', alt: 'Open-plan living room in Type 02' },
       { src: '/images/ovv/kitchen.webp', alt: 'Kitchen and dining detail in Type 02' },
@@ -172,10 +191,10 @@ export const villas = [
     ...SHARED,
     slug: 'type-03',
     name: 'Type 03',
-    planType: 'C',
-    tagline: 'The largest first floor in the collection.',
+    planType: 'T3',
+    tagline: 'Generous lower and upper ground living.',
     summary:
-      'Type 03 is built on the brochure Type C plan, the most generous of the three. Its first floor runs to 1,840 sq. ft. - the largest upper level offered here - giving noticeably more room across the second master suite, the two en-suite bedrooms and the shared family room. The lower ground level keeps the sheltered entrance and domestic yard arrangement, and the upper ground floor opens directly onto the plunge pool and garden.',
+      'Type 03 follows the T3 layout used for Units 3 and 5, with 5,543 sq. ft. across three levels. It has the largest lower and upper ground floors in the collection, at 1,733 and 2,074 sq. ft., with a 1,736 sq. ft. first floor.',
     gallery: [
       { src: '/images/ovv/plunge-pool.webp', alt: 'Private plunge pool opening into Type 03' },
       { src: '/images/ovv/family-room.webp', alt: 'Family room in Type 03' },
@@ -189,10 +208,10 @@ export const villas = [
     ...SHARED,
     slug: 'type-04',
     name: 'Type 04',
-    planType: 'C',
-    tagline: 'Type C layout with a west-facing outlook.',
+    planType: 'T4',
+    tagline: 'The largest first floor in the collection.',
     summary:
-      'Type 04 is offered on the same Type C plan as Type 03, carrying the collection’s largest first floor at 1,840 sq. ft. Three levels connect a secure lower ground arrival through to an upper ground living volume that opens onto the plunge pool, jacuzzi and private garden, with the bedroom floor and family room set above.',
+      'Type 04 follows the distinct T4 layout for Unit 6, with 5,553 sq. ft. across three levels. Its 1,842 sq. ft. first floor is the largest in the collection, above a 2,027 sq. ft. upper ground floor and a 1,684 sq. ft. lower ground floor.',
     gallery: [
       { src: '/images/ovv/sea-kitchen.webp', alt: 'Kitchen looking through Type 04 to the sea' },
       { src: '/images/ovv/bath-stone.webp', alt: 'Stone-clad bathroom in Type 04' },

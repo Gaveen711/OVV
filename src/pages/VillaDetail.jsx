@@ -229,7 +229,7 @@ export default function VillaDetail() {
             <section className='villa-detail__block'>
               <h2>Floor plans</h2>
               <p className='villa-detail__block-note'>
-                {villa.name} is built on the brochure Type {villa.planType} layout.
+                {villa.name} follows the {villa.planType} floor plan.
               </p>
 
               <div className='villa-detail__plan-tabs' role='tablist' aria-label='Floor plans'>
@@ -281,11 +281,11 @@ export default function VillaDetail() {
                   </span>
                 </button>
 
-                <ul className='villa-detail__plan-features'>
+                {plan.features.length > 0 && <ul className='villa-detail__plan-features'>
                   {plan.features.map((feature) => (
                     <li key={feature}>{feature}</li>
                   ))}
-                </ul>
+                </ul>}
               </div>
             </section>
 
@@ -314,7 +314,7 @@ export default function VillaDetail() {
                 </div>
                 <div>
                   <dt>Plan type</dt>
-                  <dd>Type {villa.planType}</dd>
+                  <dd>{villa.planType}</dd>
                 </div>
                 <div>
                   <dt>Bedrooms</dt>
