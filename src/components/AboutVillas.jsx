@@ -28,7 +28,7 @@ export default function AboutVillas() {
             home and the ease of life beside the Indian Ocean.
           </Reveal>
           <Reveal as='p' delay={0.26}>
-            Across 5,500 square feet, every villa unfolds over three generous
+            Ranging from 5,447 to 5,553 square feet, every villa unfolds over three generous
             levels with four en-suite bedrooms, open living spaces, a private
             plunge pool, garden, balcony, and secure parking.
           </Reveal>

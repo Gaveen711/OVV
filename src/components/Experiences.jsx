@@ -9,10 +9,8 @@ import './Experiences.css';
    the lagoon and the marsh are the immediate surroundings, the market and
    the churches are the town, the coast is the day out.
 
-   Every photograph is a Wikimedia Commons file of the actual named place,
-   under a licence that permits commercial reuse with attribution - hence the
-   `credit` on each entry, which the card renders. Swap these for owned
-   photography and the credit can go with them. */
+   Wikimedia photographs carry their licence and attribution below.
+   The restaurant photograph links to its source listing. */
 const EXPERIENCES = [
   {
     name: 'Negombo Lagoon',
@@ -39,16 +37,15 @@ const EXPERIENCES = [
     },
   },
   {
-    name: 'The Dutch Canal',
-    kind: 'Heritage',
-    copy: 'A colonial waterway running the length of the corridor, cut to move cinnamon toward Colombo. It still traces the back of the coast road, quiet and shaded.',
-    image: '/images/experiences/canal.webp',
-    alt: 'The Dutch canal at Negombo, lined with palms',
+    name: 'Club Ceylon Restaurant',
+    kind: 'Dining out',
+    image: '/images/experiences/club-ceylon.jpg',
+    alt: 'Arched dining room with wooden tables and pendant lights at Club Ceylon Restaurant in Negombo',
     credit: {
-      author: 'Steffen Schmitz',
-      license: 'CC BY-SA 4.0',
-      href: 'https://commons.wikimedia.org/wiki/File:Negombo,_Dutch_Canal,_2025-08_CN-03.jpg',
+      author: 'Photo source',
+      href: 'https://clubceylonseafood.restaurants-info.com/',
     },
+    copy: 'Seafood dining in the heart of Negombo’s old town. Set in a colonial building, Club Ceylon is a place to slow down over lunch or dinner.',
   },
   {
     name: 'Lellama Fish Market',
@@ -123,7 +120,7 @@ export default function Experiences() {
         {EXPERIENCES.map((item, i) => (
           <motion.li
             key={item.name}
-            className={openIndex === i ? 'experiences__card is-open' : 'experiences__card'}
+            className={`experiences__card${openIndex === i ? ' is-open' : ''}`}
             variants={revealChild}
             tabIndex={0}
             onClick={() => toggle(i)}
@@ -155,7 +152,7 @@ export default function Experiences() {
               <p className='experiences__copy'>
                 <span>{item.copy}</span>
               </p>
-              <p className='experiences__credit'>
+              {item.credit && <p className='experiences__credit'>
                 <span>
                   <a
                     href={item.credit.href}
@@ -165,10 +162,9 @@ export default function Experiences() {
                   >
                     {item.credit.author}
                   </a>
-                  <span aria-hidden='true'> / </span>
-                  {item.credit.license}
+                  {item.credit.license && <><span aria-hidden='true'> / </span>{item.credit.license}</>}
                 </span>
-              </p>
+              </p>}
             </div>
           </motion.li>
         ))}
