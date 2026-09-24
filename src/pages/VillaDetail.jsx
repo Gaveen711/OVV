@@ -370,7 +370,7 @@ export default function VillaDetail() {
             <div className='villa-detail__help'>
               <h2>Need help with this listing?</h2>
               <a href='mailto:sales@ovvlanka.com'>sales@ovvlanka.com</a>
-              <a href='tel:+94114335444'>+94 11 4 335 444</a>
+              <a href='tel:+94770183334'>+94 77 018 3334</a>
             </div>
 
             <div className='villa-detail__others'>

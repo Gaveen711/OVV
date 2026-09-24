@@ -187,7 +187,7 @@ export default function VillaScrollJourney() {
           <ArrowUpRight aria-hidden='true' />
         </Reveal>
         <Reveal as='span' delay={0.3} y={14} duration={0.7}>
-          +94 11 4 335 444
+          +94 77 018 3334
         </Reveal>
       </section>
     </main>

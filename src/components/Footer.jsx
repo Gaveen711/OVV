@@ -58,7 +58,7 @@ export default function Footer() {
           <ul>
             <li>Uswetakeiyawa, Sri Lanka</li>
             <li>
-              <a href='tel:+94114335444'>+94 11 4 335 444</a>
+              <a href='tel:+94770183334'>+94 77 018 3334</a>
             </li>
             <li>
               <a href='mailto:sales@ovvlanka.com'>
