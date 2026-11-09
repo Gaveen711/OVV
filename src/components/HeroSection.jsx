@@ -100,7 +100,7 @@ export default function HeroSection({ videoSrc }) {
         preload='auto'
         aria-label='Ocean View Villas, filmed on the beachfront in Uswetakeiyawa'
         tabIndex={-1}
-        className='absolute inset-0 w-full h-full object-cover object-center scale-105'
+        className='absolute inset-0 w-full h-full object-cover object-center scale-105 brightness-110'
       />
 
       <div className='absolute inset-0 bg-black/25' />

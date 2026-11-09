@@ -7,6 +7,7 @@ import BrandLogo from './BrandLogo';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [galleryActive, setGalleryActive] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Reading progress hairline. Spring-smoothed so it trails the scroll
@@ -26,6 +27,19 @@ export default function Navbar() {
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const gallery = document.getElementById('villas');
+    if (!gallery) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setGalleryActive(entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    observer.observe(gallery);
+    return () => observer.disconnect();
   }, []);
 
   const scrollToSection = (id) => {
@@ -52,7 +66,10 @@ export default function Navbar() {
 
   return (
     <header
+      aria-hidden={galleryActive && !mobileMenuOpen}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-none ${
+        galleryActive && !mobileMenuOpen ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
+      } ${
         scrolled
           ? 'bg-[#FAF8F5]/95 backdrop-blur-md py-4 shadow-sm border-b border-stone-200/50'
           : 'bg-gradient-to-b from-black/80 via-black/30 to-transparent py-6'
