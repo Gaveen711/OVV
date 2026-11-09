@@ -182,7 +182,7 @@ export default function VillaScrollJourney() {
         <RevealText delay={0.08} stagger={0.07}>
           Own one of six.
         </RevealText>
-        <Reveal as='a' href='#register' delay={0.22}>
+        <Reveal as='a' href='/contact#register' delay={0.22}>
           Request the private presentation
           <ArrowUpRight aria-hidden='true' />
         </Reveal>

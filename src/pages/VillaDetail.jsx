@@ -18,6 +18,7 @@ import BrandLogo from '../components/BrandLogo';
 import Footer from '../components/Footer';
 import { getVilla, villas } from '../data/villas';
 import './VillaDetail.css';
+import useScrollUpVisibility from '../hooks/useScrollUpVisibility';
 
 const numberFormat = new Intl.NumberFormat('en-US');
 
@@ -28,6 +29,7 @@ export default function VillaDetail() {
   const [activeImage, setActiveImage] = useState(0);
   const [activePlan, setActivePlan] = useState(0);
   const [lightbox, setLightbox] = useState(null);
+  const scrollVisible = useScrollUpVisibility();
 
   useEffect(() => {
     setActiveImage(0);
@@ -70,7 +72,7 @@ export default function VillaDetail() {
 
   return (
     <div className='villa-detail'>
-      <header className='villa-detail__bar'>
+      <header className={`villa-detail__bar${scrollVisible ? '' : ' villa-detail__bar--hidden'}`} aria-hidden={!scrollVisible} inert={!scrollVisible}>
         <Link to='/' className='villa-detail__brand flex items-center' aria-label='Ocean View Villas'>
           <BrandLogo
             theme='light'
@@ -305,10 +307,6 @@ export default function VillaDetail() {
                   <dd>USD {numberFormat.format(villa.priceUsd)}</dd>
                 </div>
                 <div>
-                  <dt>LKR price</dt>
-                  <dd>LKR {numberFormat.format(villa.priceLkr)}</dd>
-                </div>
-                <div>
                   <dt>Location</dt>
                   <dd>{villa.location}</dd>
                 </div>
@@ -355,16 +353,10 @@ export default function VillaDetail() {
           <aside className='villa-detail__aside'>
             <div className='villa-detail__price-card'>
               <p className='villa-detail__price'>USD {numberFormat.format(villa.priceUsd)}</p>
-              <p className='villa-detail__price-alt'>
-                LKR {numberFormat.format(villa.priceLkr)}
-              </p>
-              <a className='villa-detail__cta' href='/#register'>
+              <a className='villa-detail__cta' href='/contact#register'>
                 Enquire about this villa
                 <ArrowUpRight aria-hidden='true' />
               </a>
-              <p className='villa-detail__price-note'>
-                Every residence in the collection is offered at the same price.
-              </p>
             </div>
 
             <div className='villa-detail__help'>

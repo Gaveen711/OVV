@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 /**
  * Honours a `#section` in the URL when the landing page is opened directly -
- * for example `/#register` from a villa detail page.
+ * for example `/contact#register` from a villa detail page.
  *
  * The browser's own hash restore fires before React has mounted the sections,
  * so it lands on nothing. Lenis then owns the scroll position from its first

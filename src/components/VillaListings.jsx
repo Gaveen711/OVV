@@ -22,7 +22,7 @@ export default function VillaListings() {
             Explore the villa collection.
           </Reveal>
           <Reveal as='p' className='villa-listings__copy' y={14} delay={0.12} duration={0.6}>
-            Four considered layouts. One beachfront address. Every residence is offered at the same price.
+            Four considered layouts. One beachfront address. Explore the details and pricing for each villa type.
           </Reveal>
         </div>
 

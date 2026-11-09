@@ -5,7 +5,6 @@ import SmoothScroll from './components/SmoothScroll';
 import HashScroll from './components/HashScroll';
 import HeroSection from './components/HeroSection';
 import VillaScrollJourney from './components/VillaScrollJourney';
-import RegisterInterest from './components/RegisterInterest';
 import Footer from './components/Footer';
 
 export default function App() {
@@ -14,7 +13,7 @@ export default function App() {
       {/* Site-wide inertial smooth scrolling */}
       <SmoothScroll />
 
-      {/* Lands on #register when arriving from a villa detail page */}
+      {/* Lands on a home section when arriving from another page */}
       <HashScroll />
 
       {/* Top Glass Navbar */}
@@ -28,9 +27,6 @@ export default function App() {
 
       {/* Villas gallery and private inquiry */}
       <VillaScrollJourney />
-
-      {/* Register Interest Form Section */}
-      <RegisterInterest />
 
       {/* Site Footer */}
       <Footer />

@@ -140,8 +140,6 @@ const SHARED = {
   category: 'Villa',
   listedBy: 'Partner',
   location: 'Uswetakeiyawa, Sri Lanka',
-  priceUsd: 2200000,
-  priceLkr: 750000000,
   bedrooms: 4,
   bathrooms: 5,
   parking: 2,
@@ -157,6 +155,7 @@ export const villas = [
     ...SHARED,
     slug: 'type-01',
     name: 'Type 01',
+    priceUsd: 1634100,
     planType: 'T1',
     tagline: 'Corner residence with a side walkway approach.',
     summary:
@@ -174,6 +173,7 @@ export const villas = [
     ...SHARED,
     slug: 'type-02',
     name: 'Type 02',
+    priceUsd: 1641000,
     planType: 'T2',
     tagline: 'Sheltered entrance with a full domestic yard.',
     summary:
@@ -191,6 +191,7 @@ export const villas = [
     ...SHARED,
     slug: 'type-03',
     name: 'Type 03',
+    priceUsd: 1662900,
     planType: 'T3',
     tagline: 'Generous lower and upper ground living.',
     summary:
@@ -208,6 +209,7 @@ export const villas = [
     ...SHARED,
     slug: 'type-04',
     name: 'Type 04',
+    priceUsd: 1665900,
     planType: 'T4',
     tagline: 'The largest first floor in the collection.',
     summary:

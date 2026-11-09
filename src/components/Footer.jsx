@@ -45,7 +45,7 @@ export default function Footer() {
               <a href={`${home}#experiences`}>Experiences</a>
             </li>
             <li>
-              <a href={`${home}#register`}>Register Interest</a>
+              <a href='/contact'>Contact Us</a>
             </li>
             <li>
               <a href='/privacy-policy.html'>Privacy Policy</a>
