@@ -139,6 +139,10 @@ export default function RegisterInterest() {
         throw new Error(errData.message || 'Submission failed.');
       }
 
+      if (typeof window.gtag_report_conversion === 'function') {
+        window.gtag_report_conversion();
+      }
+
       setStatus({ loading: false, success: true, error: null });
     } catch (err) {
       if (demoModeIfUnconfigured) {
@@ -146,6 +150,9 @@ export default function RegisterInterest() {
           'HubSpot submission fell back to demo mode (configure portalId/formGuid in src/config/hubspot.js):',
           err
         );
+        if (typeof window.gtag_report_conversion === 'function') {
+          window.gtag_report_conversion();
+        }
         setStatus({ loading: false, success: true, error: null });
         return;
       }
